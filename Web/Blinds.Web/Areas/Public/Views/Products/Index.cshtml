@@ -1,10 +1,10 @@
 ﻿@model Blinds.Web.Areas.Public.Models.ProductsModel
 
-@{
-    ViewBag.Title = "Products";
-}
+<div class="well text-center">
+    <h3>@Model.Name</h3>
+    <p>@Model.Info</p>
 
-<h2>Products</h2>
-
-Name - @Model.Name
-Price - @Model.Price
+    <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Content,
+          Base64FormattingOptions.None)"
+         alt="Image" /> 
+</div>

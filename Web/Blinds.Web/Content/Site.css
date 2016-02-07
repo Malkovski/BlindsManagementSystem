@@ -115,3 +115,8 @@ textarea {
     margin-top: 9px;
     color: blue; 
 }
+
+.sidebar {
+    width: 20%;
+    float: left;
+}
