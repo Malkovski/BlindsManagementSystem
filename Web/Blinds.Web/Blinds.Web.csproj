@@ -243,10 +243,12 @@
     <Compile Include="Areas\Administration\Controllers\BlindTypesController.cs" />
     <Compile Include="Areas\Administration\Controllers\MenuController.cs" />
     <Compile Include="Areas\Administration\Controllers\FabricAndLamelsController.cs" />
+    <Compile Include="Areas\Administration\Controllers\ComponentsController.cs" />
     <Compile Include="Areas\Administration\Controllers\RailsController.cs" />
     <Compile Include="Areas\Administration\Models\Base\AdminBaseModel.cs" />
     <Compile Include="Areas\Administration\Models\FabricAndLamelsModel.cs" />
     <Compile Include="Areas\Administration\Models\BlindTypesModel.cs" />
+    <Compile Include="Areas\Administration\Models\ComponentsModel.cs" />
     <Compile Include="Areas\Administration\Models\RailsModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -430,7 +432,6 @@
     <Content Include="Areas\Administration\Views\Menu\Index.cshtml" />
     <Content Include="Areas\Administration\Views\Shared\EditorTemplates\SingleLineTemplate.cshtml" />
     <Content Include="Libraries\README.md" />
-    <Content Include="Areas\Administration\Views\Menu\BlindTypes.cshtml" />
     <Content Include="Areas\Administration\Views\Shared\EditorTemplates\MultiLineTemplate.cshtml" />
     <Content Include="Areas\Administration\Views\Shared\EditorTemplates\BlindTypesTemplate.cshtml" />
     <Content Include="Areas\Administration\Views\Shared\EditorTemplates\DecimalTemplate.cshtml" />
@@ -440,11 +441,14 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Areas\Administration\Views\Shared\EditorTemplates\LongTemplate.cshtml" />
     <Content Include="Areas\Administration\Views\Shared\EditorTemplates\RailsTemplate.cshtml" />
-    <Content Include="Areas\Administration\Views\Menu\Rails.cshtml" />
+    <Content Include="Areas\Administration\Views\Rails\Index.cshtml" />
     <Content Include="Areas\Administration\Views\Shared\EditorTemplates\EnumTemplate.cshtml" />
     <Content Include="Areas\Administration\Views\Shared\EditorTemplates\DropDownTemplate.cshtml" />
-    <Content Include="Areas\Administration\Views\Menu\FabricAndLamels.cshtml" />
+    <Content Include="Areas\Administration\Views\FabricAndLamels\Index.cshtml" />
     <Content Include="Areas\Administration\Views\Shared\EditorTemplates\FabricAndLamelsTemplate.cshtml" />
+    <Content Include="Areas\Administration\Views\Components\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\ComponentsTemplate.cshtml" />
+    <Content Include="Areas\Administration\Views\BlindTypes\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -863,9 +867,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Administration\Views\BlindTypes\" />
-    <Folder Include="Areas\Administration\Views\Rails\" />
-    <Folder Include="Areas\Administration\Views\Rail\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

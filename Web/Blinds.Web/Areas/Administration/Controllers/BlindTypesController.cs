@@ -9,7 +9,6 @@
 
     public class BlindTypesController : AdminController
     {
-        // GET: Administration/BlindTypes
         public ActionResult Index()
         {
             return this.View();

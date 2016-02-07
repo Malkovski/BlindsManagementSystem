@@ -7,14 +7,12 @@
     using Kendo.Mvc.UI;
     using Models;
 
-    public class FabricAndLamelsController : AdminController
+    public class ComponentsController : AdminController
     {
         public ActionResult Index()
         {
-            var model = LoadModel<FabricAndLamelsModel, bool>(true);
-            ViewBag.Colors = model.Colors;
+            var model = LoadModel<ComponentsModel, bool>(true);
             ViewBag.BlindTypes = model.BlindTypes;
-            ViewBag.Materials = model.Materials;
             return this.View();
         }
 
@@ -22,18 +20,18 @@
         public ActionResult Read([DataSourceRequest]
                                  DataSourceRequest request)
         {
-            var result = LoadModel<FabricAndLamelsModel, bool>(false).Get();
+            var result = LoadModel<ComponentsModel, bool>(false).Get();
             return this.Json(result.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Save([DataSourceRequest]
-                                   DataSourceRequest request, FabricAndLamelsModel viewModel)
+                                   DataSourceRequest request, ComponentsModel viewModel)
         {
             if (viewModel != null && this.ModelState.IsValid)
             {
-                LoadModel<FabricAndLamelsModel, bool>(false).Save(viewModel);
+                LoadModel<ComponentsModel, bool>(false).Save(viewModel);
                 return this.GridOperation(viewModel, request);
             }
 
@@ -43,11 +41,11 @@
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Destroy([DataSourceRequest]
-                                    DataSourceRequest request, FabricAndLamelsModel viewModel)
+                                    DataSourceRequest request, ComponentsModel viewModel)
         {
             if (viewModel != null && this.ModelState.IsValid)
             {
-                LoadModel<FabricAndLamelsModel, bool>(false).Delete(viewModel);
+                LoadModel<ComponentsModel, bool>(false).Delete(viewModel);
                 return this.GridOperation(viewModel, request);
             }
 

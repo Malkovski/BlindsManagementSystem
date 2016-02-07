@@ -9,7 +9,6 @@
 
     public class RailsController : AdminController
     {
-        // GET: Administration/Rail
         public ActionResult Index()
         {
             var model = LoadModel<RailsModel, bool>(true);

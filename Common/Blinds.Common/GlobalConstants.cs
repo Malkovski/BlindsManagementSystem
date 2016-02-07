@@ -44,6 +44,10 @@
         public const string QuantityDisplay = "Количество";
         public const string QuantityRequireText = "Количеството е задължително";
 
+        // Components
+        public const string NameDislply = "Име";
+        public const string NameRequireText = "Името е задължително";
+
         // Enum
         public const string Red = "Червен";
         public const string Green = "Зелен";
