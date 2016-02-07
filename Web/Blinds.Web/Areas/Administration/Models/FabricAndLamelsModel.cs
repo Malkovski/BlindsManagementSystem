@@ -9,7 +9,6 @@
 
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
-    using Blinds.Web.Areas.Administration.Models.Base;
     using Common;
     using Contracts;
     using Data.Models;
@@ -17,9 +16,8 @@
     using Data.Repositories;
     using Infrastructure.Mapping;
     using Web.Models;
-    
 
-    public class FabricAndLamelsModel : AdminBaseModel, IMapFrom<FabricAndLamel>, IHaveCustomMappings, IModel<bool>, IDeletableEntity
+    public class FabricAndLamelsModel : MenuModel, IMapFrom<FabricAndLamel>, IHaveCustomMappings, IModel<bool>, IDeletableEntity
     {
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }
@@ -82,6 +80,8 @@
 
         public void Init(bool init)
         {
+            base.Init();
+
             if (init)
             {
                 this.BlindTypes = this.RepoFactory.Get<BlindTypeRepository>().GetAll()

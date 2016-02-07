@@ -5,6 +5,15 @@
         public const string AdministratorRoleName = "Admin";
         public const string InitialPassword = "123456";
 
+        // Areas
+        public const string AdminAreaName = "Administration";
+        public const string AdminControllerName = "Menu";
+        public const string AdminActionName = "Index";
+
+        public const string PublicAreaName = "Public";
+        public const string ProductsControllerName = "Products";
+        public const string ProductsActionName = "Index";
+
         // Controllers
         public const string ProjectTitle = "BMS";
         public const string AdministrationControllerTitle = "Администрация";

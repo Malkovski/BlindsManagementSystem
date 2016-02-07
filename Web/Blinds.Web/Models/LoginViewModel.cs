@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Blinds.Web.Models
 {
-    public class LoginViewModel
+    public class LoginViewModel : MenuModel
     {
         [Required]
         [Display(Name = "Потребител")]

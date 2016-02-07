@@ -2,7 +2,7 @@
 
 namespace Blinds.Web.Models
 {
-    public class ManageUserViewModel
+    public class ManageUserViewModel : MenuModel
     {
         [Required]
         [DataType(DataType.Password)]

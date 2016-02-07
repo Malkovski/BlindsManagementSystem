@@ -59,8 +59,9 @@
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            var model = LoadModel<LoginViewModel>();
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return View(model);
         }
 
         //
@@ -141,7 +142,8 @@
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            var model = LoadModel<RegisterViewModel>();
+            return View(model);
         }
 
         public enum ManageMessageId
@@ -172,7 +174,9 @@
                                               : "";
             this.ViewBag.HasLocalPassword = this.HasPassword();
             this.ViewBag.ReturnUrl = this.Url.Action("Manage");
-            return this.View();
+
+            var model = LoadModel<ManageUserViewModel>();
+            return this.View(model);
         }
 
         [HttpPost]

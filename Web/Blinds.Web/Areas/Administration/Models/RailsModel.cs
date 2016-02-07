@@ -9,7 +9,6 @@
 
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
-    using Base;
     using Blinds.Web.Models;
     using Common;
     using Contracts;
@@ -18,7 +17,7 @@
     using Data.Repositories;
     using Infrastructure.Mapping;
 
-    public class RailsModel : AdminBaseModel, IModel<bool>, IMapFrom<Rail>, IHaveCustomMappings, IDeletableEntity
+    public class RailsModel : MenuModel, IModel<bool>, IMapFrom<Rail>, IHaveCustomMappings, IDeletableEntity
     {
         public int Id { get; set; }
 
@@ -64,6 +63,8 @@
 
         public void Init(bool init)
         {
+            base.Init();
+
             if (init)
             {
                 this.BlindTypes = this.RepoFactory.Get<BlindTypeRepository>().GetAll()

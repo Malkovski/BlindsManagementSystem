@@ -245,11 +245,14 @@
     <Compile Include="Areas\Administration\Controllers\FabricAndLamelsController.cs" />
     <Compile Include="Areas\Administration\Controllers\ComponentsController.cs" />
     <Compile Include="Areas\Administration\Controllers\RailsController.cs" />
-    <Compile Include="Areas\Administration\Models\Base\AdminBaseModel.cs" />
+    <Compile Include="Areas\Public\Controllers\ProductsController.cs" />
+    <Compile Include="Areas\Public\Models\ProductsModel.cs" />
+    <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Areas\Administration\Models\FabricAndLamelsModel.cs" />
     <Compile Include="Areas\Administration\Models\BlindTypesModel.cs" />
     <Compile Include="Areas\Administration\Models\ComponentsModel.cs" />
     <Compile Include="Areas\Administration\Models\RailsModel.cs" />
+    <Compile Include="Areas\Public\PublicAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -268,6 +271,7 @@
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\ManageUserViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MenuModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\ResetPasswordViewModel.cs" />
     <Compile Include="Models\SendCodeViewModel.cs" />
@@ -450,6 +454,10 @@
     <Content Include="Areas\Administration\Views\Shared\EditorTemplates\ComponentsTemplate.cshtml" />
     <Content Include="Areas\Administration\Views\BlindTypes\Index.cshtml" />
     <Content Include="Areas\Administration\Views\Shared\EditorTemplates\UploadTemplate.cshtml" />
+    <Content Include="Areas\Public\Views\web.config" />
+    <Content Include="Areas\Public\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Public\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Public\Views\Products\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -840,8 +848,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -865,6 +871,7 @@
     <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
     <Content Include="Views\Account\_RemoveAccountPartial.cshtml" />
     <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
+    <Content Include="Views\Shared\_MenuPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -6,20 +6,20 @@
     using System.ComponentModel.DataAnnotations;
     using System.IO;
     using System.Linq;
-    using System.Web; 
+    using System.Web;
     using System.Web.Mvc;
 
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
-    using Blinds.Web.Areas.Administration.Models.Base;
     using Common;
     using Contracts;
     using Data.Models;
     using Data.Repositories;
     using Infrastructure.Mapping;
     using Web.Models;
-    
-    public class BlindTypesModel : AdminBaseModel, IMapFrom<BlindType>, IModel, IDeletableEntity
+    using Web.Models.Base;
+
+    public class BlindTypesModel : MenuModel, IMapFrom<BlindType>, IDeletableEntity
     {
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }
@@ -51,10 +51,6 @@
         public bool Deleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
-
-        public void Init()
-        {
-        }
 
         public IEnumerable<BlindTypesModel> Get()
         {

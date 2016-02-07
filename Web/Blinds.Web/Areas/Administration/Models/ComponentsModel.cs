@@ -9,16 +9,13 @@
 
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
-    using Base;
-    using Blinds.Web.Models;
+    using Web.Models;
     using Common;
     using Contracts;
-    using Data.Models;
-    using Data.Models.Enumerations;
     using Data.Repositories;
     using Infrastructure.Mapping;
 
-    public class ComponentsModel : AdminBaseModel, IModel<bool>, IMapFrom<Data.Models.Component>, IHaveCustomMappings, IDeletableEntity
+    public class ComponentsModel : MenuModel, IModel<bool>, IMapFrom<Data.Models.Component>, IHaveCustomMappings, IDeletableEntity
     {
         public int Id { get; set; }
 
@@ -53,6 +50,8 @@
 
         public void Init(bool init)
         {
+            base.Init();
+
             if (init)
             {
                 this.BlindTypes = this.RepoFactory.Get<BlindTypeRepository>().GetAll()
