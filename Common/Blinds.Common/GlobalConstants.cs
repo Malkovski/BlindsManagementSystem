@@ -24,6 +24,7 @@
         public const string LoggedInAs = "Логнали сте се като ";
         public const string ChangePassword = "Смяна на парола";
         public const string InvalidLoginAttempt = "Грешно потребителско име или парола";
+        public const string CreateNewAccount = "Нов потребител";
 
         // ViewModels
 
