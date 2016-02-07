@@ -7,6 +7,10 @@
     const string Controller = "Rails";
 }
 
+@section scripts {
+    <script type="text/javascript" src="@Url.Content("~/Areas/Administration/Scripts/KendoGridHelpers.js")"></script>
+}
+
 <h2>@GlobalConstants.RailsControllerTitle</h2>
 
 @Html.AntiForgeryToken()
@@ -52,13 +56,3 @@
     .Resizable(resize => resize.Columns(true))
     .Selectable()
 )
-
-<script type="text/javascript">
-    function sendAntiForgery() {
-        return { "__RequestVerificationToken": $('input[name=__RequestVerificationToken]').val() }
-    }
-
-    function sync_handler(e) {
-        this.read();
-    }
-</script>

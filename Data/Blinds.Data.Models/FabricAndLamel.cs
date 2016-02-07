@@ -15,6 +15,9 @@
         public Color Color { get; set; }
 
         [Required]
+        public Material Material { get; set; }
+
+        [Required]
         public long Quantity { get; set; }
 
         [Required]

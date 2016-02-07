@@ -1,0 +1,20 @@
+﻿@model Blinds.Web.Areas.Administration.Models.FabricAndLamelsModel
+
+<div class="kendo-form">
+    @using (Html.BeginForm())
+    {
+        <div class="form-horizontal">
+            <fieldset>
+                @Html.EditorFor(m => m.BlindTypeId, new { ListItems = ViewBag.BlindTypes })
+                @Html.EditorFor(m => m.Color, new { ListItems = ViewBag.Colors })
+                @Html.EditorFor(m => m.Material, new { ListItems = ViewBag.Materials })
+                @Html.EditorFor(m => m.Quantity)
+                @Html.EditorFor(m => m.Price)
+            </fieldset>
+        </div>
+    }
+</div>
+
+
+
+

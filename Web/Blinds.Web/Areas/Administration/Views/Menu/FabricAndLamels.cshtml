@@ -1,27 +1,29 @@
-﻿@model BlindTypesModel
+﻿@model FabricAndLamelsModel
 @using Blinds.Web.Areas.Administration.Models;
 @using Blinds.Common
 @using Kendo.Mvc.UI
 
 @{
-    const string Controller = "BlindTypes";
+    const string Controller = "FabricAndLamels";
 }
 
 @section scripts {
     <script type="text/javascript" src="@Url.Content("~/Areas/Administration/Scripts/KendoGridHelpers.js")"></script>
 }
 
-<h2>@GlobalConstants.BlindTypesControllerTitle</h2>
+<h2>@GlobalConstants.FabricAndLamensControllerTitle</h2>
 
 @Html.AntiForgeryToken()
 
-@(Html.Kendo().Grid<BlindTypesModel>()
-    .Name("grid-blindTypes")
+@(Html.Kendo().Grid<FabricAndLamelsModel>()
+    .Name("grid-fabric-and-lamels")
     .Columns(columns =>
     {
-        columns.Bound(model => model.Name);
+        columns.Bound(model => model.BlindTypeName);
+        columns.Bound(model => model.ColorName);
+        columns.Bound(model => model.MaterialName);
+        columns.Bound(model => model.Quantity);
         columns.Bound(model => model.Price);
-        columns.Bound(model => model.Info);
         columns.Command(command =>
         {
             command.Edit()
@@ -49,7 +51,7 @@
     .Pageable(page => page.Refresh(true))
     .ToolBar(toolbar => toolbar.Create().Text(GlobalConstants.Create))
     .Editable(
-                e => e.Mode(GridEditMode.PopUp).TemplateName("BlindTypesTemplate").Window(w => w.Title(GlobalConstants.AddEditLabel).Width(450))
+                e => e.Mode(GridEditMode.PopUp).TemplateName("FabricAndLamelsTemplate").Window(w => w.Title(GlobalConstants.AddEditLabel).Width(450))
             )
     .Filterable()
     .Resizable(resize => resize.Columns(true))

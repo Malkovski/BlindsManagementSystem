@@ -242,8 +242,10 @@
     <Compile Include="Areas\Administration\Controllers\Base\AdminController.cs" />
     <Compile Include="Areas\Administration\Controllers\BlindTypesController.cs" />
     <Compile Include="Areas\Administration\Controllers\MenuController.cs" />
+    <Compile Include="Areas\Administration\Controllers\FabricAndLamelsController.cs" />
     <Compile Include="Areas\Administration\Controllers\RailsController.cs" />
     <Compile Include="Areas\Administration\Models\Base\AdminBaseModel.cs" />
+    <Compile Include="Areas\Administration\Models\FabricAndLamelsModel.cs" />
     <Compile Include="Areas\Administration\Models\BlindTypesModel.cs" />
     <Compile Include="Areas\Administration\Models\RailsModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -272,6 +274,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Administration\Scripts\KendoGridHelpers.js" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -440,6 +443,8 @@
     <Content Include="Areas\Administration\Views\Menu\Rails.cshtml" />
     <Content Include="Areas\Administration\Views\Shared\EditorTemplates\EnumTemplate.cshtml" />
     <Content Include="Areas\Administration\Views\Shared\EditorTemplates\DropDownTemplate.cshtml" />
+    <Content Include="Areas\Administration\Views\Menu\FabricAndLamels.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\FabricAndLamelsTemplate.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

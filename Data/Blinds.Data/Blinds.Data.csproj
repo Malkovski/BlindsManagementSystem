@@ -129,6 +129,7 @@
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\BlindRepository.cs" />
     <Compile Include="Repositories\BlindTypeRepository.cs" />
+    <Compile Include="Repositories\FabricAndLamelRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\RailRepository.cs" />
   </ItemGroup>

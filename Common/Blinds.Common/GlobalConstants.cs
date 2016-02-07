@@ -39,6 +39,8 @@
         // Rails
         public const string ColorDisplay = "Цвят";
         public const string ColorRequireText = "Цветът е задължителен";
+        public const string MaterialDisplay = "Материал";
+        public const string MaterialRequireText = "Материалът е задължителен";
         public const string QuantityDisplay = "Количество";
         public const string QuantityRequireText = "Количеството е задължително";
 
@@ -46,6 +48,13 @@
         public const string Red = "Червен";
         public const string Green = "Зелен";
         public const string Blue = "Син";
+
+        public const string Plastic = "Пластмаса";
+        public const string Aluminium = "Алуминий";
+        public const string Wood = "Дърво";
+        public const string Screen = "Screen";
+        public const string Blackout = "Blackout";
+        public const string Transparent = "Полу-прозрачен";
 
         // Grid
         public const string Send = "Изпрати";
