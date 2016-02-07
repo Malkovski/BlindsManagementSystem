@@ -14,7 +14,8 @@
     {
         public ActionResult Index()
         {
-            return this.View();
+            var model = LoadModel<BlindTypesModel>();
+            return this.View(model);
         }
 
         [HttpPost]
@@ -30,18 +31,19 @@
         public ActionResult Save([DataSourceRequest]
                                    DataSourceRequest request, BlindTypesModel viewModel)
         {
-            if (viewModel != null && this.ModelState.IsValid)
+            if (viewModel.HasImage)
             {
-                if (viewModel.HasImage)
-                {
-                    viewModel.File = (HttpPostedFileBase)TempData["UploadedFile"];
-                }
-
-                LoadModel<BlindTypesModel>().Save(viewModel);
-                return this.GridOperation(viewModel, request);
+                viewModel.File = (HttpPostedFileBase)TempData["UploadedFile"];
             }
 
-            return null;
+            var error = LoadModel<BlindTypesModel>().Save(viewModel, this.ModelState);
+
+            if (error != null)
+            {
+                return this.Json(error);
+            }
+
+            return this.GridOperation(viewModel, request);
         }
 
         public JsonResult UploadImage(IEnumerable<HttpPostedFileBase> files)
@@ -59,13 +61,14 @@
         public ActionResult Destroy([DataSourceRequest]
                                     DataSourceRequest request, BlindTypesModel viewModel)
         {
-            if (viewModel != null && this.ModelState.IsValid)
+            var error = LoadModel<BlindTypesModel>().Delete(viewModel, this.ModelState);
+
+            if (error != null)
             {
-                LoadModel<BlindTypesModel>().Delete(viewModel);
-                return this.GridOperation(viewModel, request);
+                return this.Json(error);
             }
 
-            return null;
+            return this.GridOperation(viewModel, request);
         }
     }
 }

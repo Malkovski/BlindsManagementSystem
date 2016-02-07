@@ -9,6 +9,12 @@ function sync_handler(e) {
 function onUpload(e) {
 }
 
+function onError(error) {
+    var popupNotification = $("#errorNotification").data("kendoNotification");
+    popupNotification.show(error.errors, "error");
+}
+
+
 function onSuccess(result) {
     if (result) {
         $('#HasImage').val(true);

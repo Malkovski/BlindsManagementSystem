@@ -14,7 +14,7 @@
             var model = LoadModel<RailsModel, bool>(true);
             ViewBag.Colors = model.Colors;
             ViewBag.BlindTypes = model.BlindTypes;
-            return this.View();
+            return this.View(model);
         }
 
         [HttpPost]

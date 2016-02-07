@@ -21,5 +21,10 @@
         {
             return this.All().Where(bt => bt.Deleted == false);
         }
+
+        public bool GetIfExists(string name, int id)
+        {
+            return this.All().Where(bt => bt.Name == name && bt.Id != id).Any();
+        }
     }
 }

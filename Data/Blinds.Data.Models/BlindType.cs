@@ -4,13 +4,13 @@
     using System.ComponentModel.DataAnnotations;
 
     using Contracts;
-
+    using System.ComponentModel.DataAnnotations.Schema;
     public class BlindType : IDeletableEntity
     {
         [Key]
         public int Id { get; set; }
 
-        [Required, MinLength(5)]
+        [Required, Index(IsUnique = true), MinLength(5), MaxLength(100)]
         public string Name { get; set; }
 
         public string Price { get; set; }

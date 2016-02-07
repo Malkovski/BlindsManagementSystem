@@ -18,7 +18,7 @@
     using Infrastructure.Mapping;
     using Web.Models;
     using Web.Models.Base;
-
+    using Kendo.Mvc.UI;
     public class BlindTypesModel : MenuModel, IMapFrom<BlindType>, IDeletableEntity
     {
         [HiddenInput(DisplayValue = false)]
@@ -27,7 +27,7 @@
         public bool HasImage { get; set; }
 
         [Required(ErrorMessage = GlobalConstants.BlindTypeRequireText)]
-        [MinLength(5)]
+        [MinLength(5, ErrorMessage = "Минимум 5 символа")]
         [DisplayName(GlobalConstants.BlindTypeDisplay)]
         [UIHint("SingleLineTemplate")]
         public string Name { get; set; }
@@ -60,41 +60,86 @@
                 .ToList();
         }
 
-        public void Save(BlindTypesModel viewModel)
+        public DataSourceResult Save(BlindTypesModel viewModel, ModelStateDictionary modelState)
         {
-            var repo = this.RepoFactory.Get<BlindTypeRepository>();
-            var entity = repo.GetById(viewModel.Id);
-
-            if (entity == null)
+            if (viewModel != null && modelState.IsValid)
             {
-                entity = new BlindType();
-                repo.Add(entity);
+                var repo = this.RepoFactory.Get<BlindTypeRepository>();
+                var entity = repo.GetById(viewModel.Id);
+
+                var exists = repo.GetIfExists(viewModel.Name, viewModel.Id);
+
+                if (exists)
+                {
+                    return new DataSourceResult
+                    {
+                        Errors = "Типът щора вече съществува!"
+                    };
+                }
+
+                if (entity == null)
+                {
+                    entity = new BlindType();
+                    repo.Add(entity);
+                }
+
+                Mapper.Map(viewModel, entity);
+
+                if (viewModel.File != null)
+                {
+                    int fileSizeInBytes = viewModel.File.ContentLength;
+                    MemoryStream target = new MemoryStream();
+                    viewModel.File.InputStream.CopyTo(target);
+                    entity.Content = target.ToArray();
+                }
+
+                repo.SaveChanges();
+                viewModel.Id = entity.Id;
+                viewModel.File = null;
+                return null;
             }
-
-            Mapper.Map(viewModel, entity);
-
-            if (viewModel.File != null)
+            else
             {
-                int fileSizeInBytes = viewModel.File.ContentLength;
-                MemoryStream target = new MemoryStream();
-                viewModel.File.InputStream.CopyTo(target);
-                entity.Content = target.ToArray();
+                return this.HandleErrors(modelState);
             }
-
-            repo.SaveChanges();
-            viewModel.Id = entity.Id;
-            viewModel.File = null;
         }
 
-        public void Delete(BlindTypesModel viewModel)
+        public DataSourceResult Delete(BlindTypesModel viewModel, ModelStateDictionary modelState)
         {
-            var repo = this.RepoFactory.Get<BlindTypeRepository>();
-            var entity = repo.GetById(viewModel.Id);
+            if (viewModel != null && modelState.IsValid)
+            {
+                var repo = this.RepoFactory.Get<BlindTypeRepository>();
+                var entity = repo.GetById(viewModel.Id);
 
-            entity.Deleted = true;
-            entity.DeletedOn = DateTime.Now;
+                entity.Deleted = true;
+                entity.DeletedOn = DateTime.Now;
 
-            repo.SaveChanges();
+                repo.SaveChanges();
+                return null;
+            }
+            else
+            {
+                return this.HandleErrors(modelState);
+            }
+        }
+
+        private DataSourceResult HandleErrors(ModelStateDictionary modelState)
+        {
+            var error = "Грешка с данните";
+
+            foreach (var value in modelState.Values)
+            {
+                if (value.Errors.Count > 0)
+                {
+                    error = value.Errors.FirstOrDefault().ErrorMessage;
+                    break;
+                }
+            }
+
+            return new DataSourceResult
+            {
+                Errors = error
+            };
         }
     }
 }

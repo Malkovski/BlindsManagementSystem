@@ -15,7 +15,7 @@
             ViewBag.Colors = model.Colors;
             ViewBag.BlindTypes = model.BlindTypes;
             ViewBag.Materials = model.Materials;
-            return this.View();
+            return this.View(model);
         }
 
         [HttpPost]

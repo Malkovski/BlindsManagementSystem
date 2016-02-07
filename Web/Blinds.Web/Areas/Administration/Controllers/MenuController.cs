@@ -3,13 +3,14 @@
     using System.Web.Mvc;
 
     using Blinds.Web.Areas.Administration.Controllers.Base;
-    using Models;
+    using Web.Models;
 
     public class MenuController : AdminController
     {
         public ActionResult Index()
         {
-            return this.View();
+            var model = LoadModel<MenuModel>();
+            return this.View(model);
         }
     }
 }

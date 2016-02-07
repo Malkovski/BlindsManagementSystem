@@ -4,7 +4,8 @@
 
     using Blinds.Data.Models;
     using Microsoft.Practices.Unity;
-    
+    using Models.Enumerations;
+
     public class RailRepository : BaseRepository<Rail>
     {
         [InjectionConstructor]
@@ -20,6 +21,11 @@
         public IQueryable<Rail> GetActive()
         {
             return this.All().Where(r => r.Deleted == false);
+        }
+
+        public bool GetIfExists(int blindTypeId, Color color, int railId)
+        {
+            return this.All().Where(r => r.BlindTypeId == blindTypeId && r.Color == color && r.Id != railId).Any();
         }
     }
 }

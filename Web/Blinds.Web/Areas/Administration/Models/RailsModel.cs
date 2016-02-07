@@ -16,7 +16,7 @@
     using Data.Models.Enumerations;
     using Data.Repositories;
     using Infrastructure.Mapping;
-
+    using Kendo.Mvc.UI;
     public class RailsModel : MenuModel, IModel<bool>, IMapFrom<Rail>, IHaveCustomMappings, IDeletableEntity
     {
         public int Id { get; set; }
@@ -90,10 +90,20 @@
                 .ToList();
         }
 
-        public void Save(RailsModel viewModel)
+        public DataSourceResult Save(RailsModel viewModel)
         {
             var repo = this.RepoFactory.Get<RailRepository>();
             var entity = repo.GetById(viewModel.Id);
+
+            var exists = repo.GetIfExists(viewModel.BlindTypeId, viewModel.Color, viewModel.Id);
+
+            if (exists)
+            {
+                return new DataSourceResult
+                {
+                    Errors = "Вече съществува релса за този вид щори с този цвят!"
+                };
+            }
 
             if (entity == null)
             {
@@ -105,6 +115,7 @@
 
             repo.SaveChanges();
             viewModel.Id = entity.Id;
+            return null;
         }
 
         public void Delete(RailsModel viewModel)
