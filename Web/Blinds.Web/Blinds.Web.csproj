@@ -449,6 +449,7 @@
     <Content Include="Areas\Administration\Views\Components\Index.cshtml" />
     <Content Include="Areas\Administration\Views\Shared\EditorTemplates\ComponentsTemplate.cshtml" />
     <Content Include="Areas\Administration\Views\BlindTypes\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\UploadTemplate.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

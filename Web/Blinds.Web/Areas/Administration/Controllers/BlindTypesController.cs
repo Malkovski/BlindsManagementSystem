@@ -6,6 +6,9 @@
     using Kendo.Mvc.Extensions;
     using Kendo.Mvc.UI;
     using Models;
+    using System.Collections.Generic;
+    using System.Web;
+    using System.Linq;
 
     public class BlindTypesController : AdminController
     {
@@ -29,11 +32,26 @@
         {
             if (viewModel != null && this.ModelState.IsValid)
             {
+                if (viewModel.HasImage)
+                {
+                    viewModel.File = (HttpPostedFileBase)TempData["UploadedFile"];
+                }
+
                 LoadModel<BlindTypesModel>().Save(viewModel);
                 return this.GridOperation(viewModel, request);
             }
 
             return null;
+        }
+
+        public JsonResult UploadImage(IEnumerable<HttpPostedFileBase> files)
+        {
+            if (files != null)
+            {
+                TempData["UploadedFile"] = files.First();
+            }
+
+            return this.Json(true);
         }
 
         [HttpPost]

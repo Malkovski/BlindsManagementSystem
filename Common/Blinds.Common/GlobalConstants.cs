@@ -35,6 +35,7 @@
         public const string InfoRequireText = "Информацията е задължителна";
         public const string PriceDisplay = "Цена";
         public const string PriceRequireText = "Цената е задължителна";
+        public const string ContentDisplay = "Изображение";
 
         // Rails
         public const string ColorDisplay = "Цвят";
@@ -69,6 +70,6 @@
         public const string Delete = "Изтрий";
         public const string Cancel = "Отказ";
         public const string GroupMessage = "Провлачете заглавие на колона тук, за да групирате по нея";
-        public const string GetLocation = "Локация";
+        public const string FileUploadText = "Избери изображение...";
     }
 }

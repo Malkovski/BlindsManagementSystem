@@ -18,7 +18,7 @@
     using Data.Repositories;
     using Infrastructure.Mapping;
 
-    public class ComponentsModel : AdminBaseModel, IModel<bool>, IMapFrom<Rail>, IHaveCustomMappings, IDeletableEntity
+    public class ComponentsModel : AdminBaseModel, IModel<bool>, IMapFrom<Data.Models.Component>, IHaveCustomMappings, IDeletableEntity
     {
         public int Id { get; set; }
 
