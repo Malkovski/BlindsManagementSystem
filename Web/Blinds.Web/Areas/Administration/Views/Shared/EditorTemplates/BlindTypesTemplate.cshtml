@@ -1,0 +1,19 @@
+﻿@model Blinds.Web.Areas.Administration.Models.BlindTypesModel
+@using Blinds.Common
+
+<div class="kendo-form">
+    @using (Html.BeginForm())
+    {
+        <div class="form-horizontal">
+            <fieldset>
+                @Html.EditorFor(m => m.Name)
+                @Html.EditorFor(m => m.Price)
+                @Html.EditorFor(m => m.Info)
+            </fieldset>
+        </div>
+    }
+</div>
+
+
+
+

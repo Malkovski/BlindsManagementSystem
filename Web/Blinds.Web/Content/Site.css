@@ -1,0 +1,117 @@
+﻿body {
+    padding-top: 70px;
+}
+textarea {
+    resize: vertical;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.logo, .menu-logo, .login-logo {
+    margin: 0;
+    height: 100%;
+}
+
+.menu-logo img {
+    height: 100px;
+}
+
+.login-logo img {
+    height: 400px;
+}
+
+.logo img {
+    margin-top: 30px;
+    height: 450px;
+}
+
+.down {
+    margin-top: 15px;
+}
+
+.menu a.image {
+    margin-top: 20px;
+    display: block;
+    height: 130px;
+    text-indent: -9999px;
+}
+
+.menu a.rail-types {
+    background: url(Images/railTypes.jpg) no-repeat top;
+}
+
+.menu a.rail {
+    background: url(Images/rail.jpg) no-repeat top;
+}
+
+.menu a.fabric {
+    background: url(Images/fabric.jpg) no-repeat top;
+}
+
+.menu a.components {
+    background: url(Images/components.jpg) no-repeat top;
+}
+
+.menu a.specialties {
+    background: url(Images/specialties.png) no-repeat top;
+}
+
+.menu a.new-consultation {
+    background: url(Images/new-consultation.png) no-repeat top;
+}
+
+.menu a.sent-consultations {
+    background: url(Images/sent-consultations.png) no-repeat top;
+}
+
+.menu a.recieved-consultations {
+    background: url(Images/recieved-consultations.png) no-repeat top;
+}
+
+.menu a.link {
+    text-decoration: none;
+    color: black;
+}
+
+.vertical {
+    display: table;
+    height: 170px;
+}
+
+.vertical p {
+    display: table-cell; 
+    vertical-align: middle; 
+}
+
+.k-edit-form-container .form-control {
+    height: 20px;
+}
+
+.k-edit-form-container .large {
+    height: 200px;
+}
+
+.kendo-form {
+    margin-left: 20px;
+}
+
+.field-validation-error {
+    color: #ff0000;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.actionLink {
+    width : 200px;
+}
+
+.view {
+    margin-top: 9px;
+    color: blue; 
+}

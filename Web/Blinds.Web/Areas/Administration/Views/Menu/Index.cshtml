@@ -1,0 +1,37 @@
+﻿@using Blinds.Common;
+@{
+    ViewBag.Title = "Администрация";
+}
+
+<div class="well down menu">
+    <div class="row">
+        <div class="col-md-10">
+            <h2>@GlobalConstants.AdministrationControllerTitle</h2>
+        </div>
+        <div class="col-md-2">
+            <div class="menu-logo pull-right">
+                @Html.Partial("_LogoPartial")
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-3 text-center">
+            @Html.ActionLink(GlobalConstants.BlindTypesControllerTitle, "BlindTypes", null, new { @class = "rail-types image" })
+            @Html.ActionLink(GlobalConstants.BlindTypesControllerTitle, "BlindTypes", null, new { @class = "link" })
+        </div>
+        <div class="col-md-3 text-center">
+            @Html.ActionLink(GlobalConstants.RailsControllerTitle, "Rails", null, new { @class = "rail image" })
+            @Html.ActionLink(GlobalConstants.RailsControllerTitle, "Rails", null, new { @class = "link" })
+        </div>
+        <div class="col-md-3 text-center">
+            @Html.ActionLink(GlobalConstants.FabricAndLamensControllerTitle, "Specialties", null, new { @class = "fabric image" })
+            @Html.ActionLink(GlobalConstants.FabricAndLamensControllerTitle, "Specialties", null, new { @class = "link" })
+        </div>
+        <div class="col-md-3 text-center">
+            @Html.ActionLink(GlobalConstants.ComponentsControllerTitle, "Schedules", null, new { @class = "components image" })
+            @Html.ActionLink(GlobalConstants.ComponentsControllerTitle, "Schedules", null, new { @class = "link" })
+        </div>
+    </div>
+</div>
+
