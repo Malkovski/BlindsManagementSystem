@@ -27,17 +27,18 @@
         public bool HasImage { get; set; }
 
         [Required(ErrorMessage = GlobalConstants.BlindTypeRequireText)]
-        [MinLength(5, ErrorMessage = "Минимум 5 символа")]
+        [MinLength(5, ErrorMessage = GlobalConstants.NameMinLength)]
         [DisplayName(GlobalConstants.BlindTypeDisplay)]
         [UIHint("SingleLineTemplate")]
         public string Name { get; set; }
 
         [DisplayName(GlobalConstants.PriceDisplay)]
+        [Range(0, int.MaxValue, ErrorMessage = GlobalConstants.PriceMinValue)]
         [UIHint("SingleLineTemplate")]
         public string Price { get; set; }
 
         [Required(ErrorMessage = GlobalConstants.InfoRequireText)]
-        [MinLength(20, ErrorMessage = "Информацията за продукта трябва да е минимум 20 символа!")]
+        [MinLength(10, ErrorMessage = GlobalConstants.InfoMinLength)]
         [DisplayName(GlobalConstants.InfoDisplay)]
         [UIHint("MultiLineTemplate")]
         public string Info { get; set; }
@@ -73,7 +74,7 @@
                 {
                     return new DataSourceResult
                     {
-                        Errors = "Типът щора вече съществува!"
+                        Errors = GlobalConstants.BlindTypeExistsMessage
                     };
                 }
 

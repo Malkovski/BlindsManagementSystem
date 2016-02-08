@@ -17,6 +17,7 @@
     using Infrastructure.Mapping;
     using Web.Models;
     using Kendo.Mvc.UI;
+
     public class FabricAndLamelsModel : MenuModel, IMapFrom<FabricAndLamel>, IHaveCustomMappings, IModel<bool>, IDeletableEntity
     {
         [HiddenInput(DisplayValue = false)]
@@ -39,6 +40,7 @@
 
         [Required(ErrorMessage = GlobalConstants.PriceRequireText)]
         [DisplayName(GlobalConstants.PriceDisplay)]
+        [Range(0, int.MaxValue, ErrorMessage = GlobalConstants.PriceMinValue)]
         [UIHint("DecimalTemplate")]
         public decimal Price { get; set; }
 
@@ -126,7 +128,7 @@
                 {
                     return new DataSourceResult
                     {
-                        Errors = "Вече съществува текстил/ламели за този вид щори с този цвят!"
+                        Errors = GlobalConstants.FabricAndLamelsExistsMessage
                     };
                 }
 
@@ -147,36 +149,26 @@
             }
         }
 
-        //private DataSourceResult HandleErrors(ModelStateDictionary modelState)
-        //{
-        //    var error = "Грешка с данните";
-
-        //    foreach (var value in modelState.Values)
-        //    {
-        //        if (value.Errors.Count > 0)
-        //        {
-        //            error = value.Errors.FirstOrDefault().ErrorMessage;
-        //            break;
-        //        }
-        //    }
-
-        //    return new DataSourceResult
-        //    {
-        //        Errors = error
-        //    };
-        //}
-
-        public void Delete(FabricAndLamelsModel viewModel)
+        public DataSourceResult Delete(FabricAndLamelsModel viewModel, ModelStateDictionary modelState)
         {
-            var repo = this.RepoFactory.Get<FabricAndLamelRepository>();
-            var entity = repo.GetById(viewModel.Id);
+            if (viewModel != null && modelState.IsValid)
+            {
+                var repo = this.RepoFactory.Get<FabricAndLamelRepository>();
+                var entity = repo.GetById(viewModel.Id);
 
-            entity.Deleted = true;
-            entity.DeletedOn = DateTime.Now;
+                entity.Deleted = true;
+                entity.DeletedOn = DateTime.Now;
 
-            repo.SaveChanges();
+                repo.SaveChanges();
+                return null;
+            }
+            else
+            {
+                return base.HandleErrors(modelState);
+            }
         }
 
+        // Mappings
         public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<FabricAndLamel, FabricAndLamelsModel>();

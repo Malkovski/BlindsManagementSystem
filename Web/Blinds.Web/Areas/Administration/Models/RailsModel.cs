@@ -32,6 +32,7 @@
         public long Quantity { get; set; }
 
         [Required(ErrorMessage = GlobalConstants.PriceRequireText)]
+        [Range(0, int.MaxValue, ErrorMessage = GlobalConstants.PriceMinValue)]
         [DisplayName(GlobalConstants.PriceDisplay)]
         [UIHint("DecimalTemplate")]
         public decimal Price { get; set; }
@@ -103,7 +104,7 @@
                 {
                     return new DataSourceResult
                     {
-                        Errors = "Вече съществува релса за този вид щори с този цвят!"
+                        Errors = GlobalConstants.RailExistsMessage
                     };
                 }
 
@@ -124,17 +125,26 @@
             }
         }
 
-        public void Delete(RailsModel viewModel)
+        public DataSourceResult Delete(RailsModel viewModel, ModelStateDictionary modelState)
         {
-            var repo = this.RepoFactory.Get<RailRepository>();
-            var entity = repo.GetById(viewModel.Id);
+            if (viewModel != null && modelState.IsValid)
+            {
+                var repo = this.RepoFactory.Get<RailRepository>();
+                var entity = repo.GetById(viewModel.Id);
 
-            entity.Deleted = true;
-            entity.DeletedOn = DateTime.Now;
+                entity.Deleted = true;
+                entity.DeletedOn = DateTime.Now;
 
-            repo.SaveChanges();
+                repo.SaveChanges();
+                return null;
+            }
+            else
+            {
+                return base.HandleErrors(modelState);
+            }
         }
 
+        // Mappings
         public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<Rail, RailsModel>();

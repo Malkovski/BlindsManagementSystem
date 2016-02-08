@@ -5,6 +5,7 @@
 
     using Blinds.Data.Models.Enumerations;
     using Contracts;
+    using Common;
 
     public class Rail : IDeletableEntity
     {
@@ -18,6 +19,7 @@
         public long Quantity { get; set; }
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = GlobalConstants.PriceMinValue)]
         public decimal Price { get; set; }
 
         public virtual BlindType BlindType { get; set; }

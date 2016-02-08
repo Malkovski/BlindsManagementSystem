@@ -5,22 +5,24 @@
 
     using Contracts;
     using System.ComponentModel.DataAnnotations.Schema;
+    using Common;
+
     public class BlindType : IDeletableEntity
     {
         [Key]
         public int Id { get; set; }
 
         [Required, Index(IsUnique = true)]
-        [MinLength(5, ErrorMessage = "Името трябва да е поне 5 символа!")]
-        [MaxLength(100, ErrorMessage = "Името не може да е повече от 100 символа!")]
+        [MinLength(5, ErrorMessage = GlobalConstants.NameMinLength)]
+        [MaxLength(100, ErrorMessage = GlobalConstants.NameMaxLength)]
         public string Name { get; set; }
 
-        [Range(0, int.MaxValue, ErrorMessage = "Цената не може да бъде отрицателна!")]
+        [Range(0, int.MaxValue, ErrorMessage = GlobalConstants.PriceMinValue)]
         public string Price { get; set; }
 
         [Required]
-        [MinLength(5, ErrorMessage = "Описанието трябва да е поне 5 символа!")]
-        [MaxLength(1500, ErrorMessage = "Името не може да е повече от 1500 символа!")]
+        [MinLength(10, ErrorMessage = GlobalConstants.InfoMinLength)]
+        [MaxLength(1500, ErrorMessage = GlobalConstants.InfoMaxLength)]
         public string Info { get; set; }
 
         public byte[] Content { get; set; }

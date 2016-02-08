@@ -46,13 +46,14 @@
         public ActionResult Destroy([DataSourceRequest]
                                     DataSourceRequest request, FabricAndLamelsModel viewModel)
         {
-            if (viewModel != null && this.ModelState.IsValid)
+            var error = LoadModel<FabricAndLamelsModel, bool>(false).Delete(viewModel, this.ModelState);
+
+            if (error != null)
             {
-                LoadModel<FabricAndLamelsModel, bool>(false).Delete(viewModel);
-                return this.GridOperation(viewModel, request);
+                return Json(error);
             }
 
-            return null;
+            return this.GridOperation(viewModel, request);
         }
     }
 }

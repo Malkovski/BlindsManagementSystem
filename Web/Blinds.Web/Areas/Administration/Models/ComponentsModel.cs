@@ -84,7 +84,7 @@
                 {
                     return new DataSourceResult
                     {
-                        Errors = "Компонент с това име, за този модел щори, вече съществува!"
+                        Errors = GlobalConstants.ComponentExistsMessage
                     };
                 }
 
@@ -105,17 +105,26 @@
             }
         }
 
-        public void Delete(ComponentsModel viewModel)
+        public DataSourceResult Delete(ComponentsModel viewModel, ModelStateDictionary modelState)
         {
-            var repo = this.RepoFactory.Get<ComponentRepository>();
-            var entity = repo.GetById(viewModel.Id);
+            if (viewModel != null && modelState.IsValid)
+            {
+                var repo = this.RepoFactory.Get<ComponentRepository>();
+                var entity = repo.GetById(viewModel.Id);
 
-            entity.Deleted = true;
-            entity.DeletedOn = DateTime.Now;
+                entity.Deleted = true;
+                entity.DeletedOn = DateTime.Now;
 
-            repo.SaveChanges();
+                repo.SaveChanges();
+                return null;
+            }
+            else
+            {
+                return base.HandleErrors(modelState);
+            }
         }
 
+        // Mappings
         public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<Data.Models.Component, ComponentsModel>();

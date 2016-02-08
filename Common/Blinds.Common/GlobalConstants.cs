@@ -80,5 +80,21 @@
         public const string Cancel = "Отказ";
         public const string GroupMessage = "Провлачете заглавие на колона тук, за да групирате по нея";
         public const string FileUploadText = "Избери изображение...";
+
+        //Database constraints
+        public const string NameMinLength = "Името трябва да е поне 5 символа!";
+        public const string NameMaxLength = "Името не може да е повече от 100 символа!";
+        public const string ComponentNameMinLength = "Името трябва да е поне 3 символа!";
+        public const string ComponentNameMaxLength = "Името не може да е повече от 150 символа!";
+        public const string InfoMinLength = "Описанието трябва да е поне 10 символа!";
+        public const string InfoMaxLength = "Описанието не може да е повече от 1500 символа!";
+        public const string PriceMinValue = "Цената не може да бъде отрицателна!";
+
+        //Administration error messages
+
+        public const string BlindTypeExistsMessage = "Типът щора вече съществува!";
+        public const string ComponentExistsMessage = "Компонент с това име, за този модел щори, вече съществува!";
+        public const string RailExistsMessage = "Вече съществува релса за този вид щори с този цвят!";
+        public const string FabricAndLamelsExistsMessage = "Вече съществува текстил/ламели за този вид щори, с този цвят!";
     }
 }

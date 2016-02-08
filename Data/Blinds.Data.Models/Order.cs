@@ -5,6 +5,7 @@
     using System.ComponentModel.DataAnnotations;
 
     using Contracts;
+    using Common;
 
     public class Order : IDeletableEntity
     {
@@ -20,6 +21,7 @@
         public DateTime OrderDate { get; set; }
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = GlobalConstants.PriceMinValue)]
         public decimal Price { get; set; }
 
         public virtual ICollection<Blind> Blinds { get; set; }

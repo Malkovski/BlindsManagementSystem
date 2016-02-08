@@ -44,13 +44,13 @@
         public ActionResult Destroy([DataSourceRequest]
                                     DataSourceRequest request, ComponentsModel viewModel)
         {
-            if (viewModel != null && this.ModelState.IsValid)
-            {
-                LoadModel<ComponentsModel, bool>(false).Delete(viewModel);
-                return this.GridOperation(viewModel, request);
-            }
+            var error = LoadModel<ComponentsModel, bool>(false).Delete(viewModel, this.ModelState);
 
-            return null;
+            if (error != null)
+            {
+                return Json(error);
+            }
+            return this.GridOperation(viewModel, request);
         }
     }
 }
