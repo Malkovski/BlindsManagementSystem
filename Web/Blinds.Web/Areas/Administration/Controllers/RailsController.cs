@@ -55,5 +55,4 @@
             return this.GridOperation(viewModel, request);
         }
     }
-
 }

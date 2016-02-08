@@ -17,6 +17,7 @@
     using Data.Repositories;
     using Infrastructure.Mapping;
     using Kendo.Mvc.UI;
+
     public class RailsModel : MenuModel, IModel<bool>, IMapFrom<Rail>, IHaveCustomMappings, IDeletableEntity
     {
         public int Id { get; set; }

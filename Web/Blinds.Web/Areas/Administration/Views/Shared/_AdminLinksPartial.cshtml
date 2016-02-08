@@ -1,0 +1,11 @@
+﻿@using Blinds.Common
+@using Kendo.Mvc.UI
+
+@(Html.Kendo().Menu().Name("administration-links").Items(items =>
+{
+    items.Add().Text(GlobalConstants.BlindTypeDisplay).Action("Index", "BlindTypes");
+    items.Add().Text(GlobalConstants.RailsControllerTitle).Action("Index", "Rails");
+    items.Add().Text(GlobalConstants.FabricAndLamensControllerTitle).Action("Index", "FabricAndLamels");
+    items.Add().Text(GlobalConstants.ComponentsControllerTitle).Action("Index", "Components");
+})
+.Direction(MenuDirection.Top).Orientation(MenuOrientation.Horizontal))

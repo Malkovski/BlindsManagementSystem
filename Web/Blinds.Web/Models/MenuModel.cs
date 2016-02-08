@@ -7,7 +7,7 @@
     using AutoMapper.QueryableExtensions;
     using Areas.Public.Models;
 
-    public class MenuModel : BaseModel, IModel
+    public class MenuModel : ManuModel, IModel
     {
         public ICollection<ProductsModel> BlindCategories { get; set; }
 

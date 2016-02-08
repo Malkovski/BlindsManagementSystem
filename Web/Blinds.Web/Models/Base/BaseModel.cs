@@ -6,7 +6,7 @@
     using System.Linq;
     using System.Web.Mvc;
 
-    public abstract class BaseModel
+    public abstract class ManuModel
     {
         [Dependency]
         public IRepoFactory RepoFactory { get; set; }

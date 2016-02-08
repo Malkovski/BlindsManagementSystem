@@ -63,6 +63,11 @@
         public const string Green = "Зелен";
         public const string Blue = "Син";
 
+        public const string GTypeInstall = "Г-образен";
+        public const string CTypeInstall = "Таванен";
+        public const string SideGuidedTypeInstall = "Стрнично водене";
+        public const string BottomFixedTypeInstall = "Фиксатор";
+
         public const string Plastic = "Пластмаса";
         public const string Aluminium = "Алуминий";
         public const string Wood = "Дърво";

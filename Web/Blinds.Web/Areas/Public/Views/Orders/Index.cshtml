@@ -1,0 +1,73 @@
+﻿@using Blinds.Web.Areas.Public.Models
+
+@model BlindsModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Поръчка</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.LabelFor(m => m.BlindTypes, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                @Html.DropDownListFor(m => m.BlindTypes, (IEnumerable<SelectListItem>)ViewBag.ListItems, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Color, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                @Html.DropDownListFor(m => m.Colors, (IEnumerable<SelectListItem>)ViewBag.ListItems, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.InstalationTypes, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-5">
+                @Html.DropDownListFor(m => m.InstalationTypes, (IEnumerable<SelectListItem>)ViewBag.ListItems, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <h4>Въведете размер</h4>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-2">Управление</div>
+            <div class="col-md-3">Хоризонтален размер</div>
+            <div class="col-md-3">Вертикален размер</div>
+            <div class="col-md-2">Посока на събиране</div>
+            <div class="col-md-1">Брой</div>
+        </div>
+        @for (int i = 0; i < 1; i++)
+        {
+            @Html.EditorFor(x => x, "NewBlindRow", "row" + i)
+        }
+
+        <div id="newBlinds"></div>
+        <button id="addBlindRow">Add row</button>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Преглед на поръчката" class="btn btn-default pull-right" />
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+
+    $("#addBlindRow").on('click', function () {
+        console.log("ffff");
+        $.ajax({
+            async: true,
+            url: '/Orders/NewBlindRow'
+        }).success(function (partialView) {
+
+            $('#newBlinds').append(partialView);
+        });
+    });
+
+</script>
+

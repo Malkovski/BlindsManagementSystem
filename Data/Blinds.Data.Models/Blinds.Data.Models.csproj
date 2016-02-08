@@ -70,6 +70,8 @@
     <Compile Include="BlindType.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="Enumerations\Color.cs" />
+    <Compile Include="Enumerations\Control.cs" />
+    <Compile Include="Enumerations\InstalationType.cs" />
     <Compile Include="Enumerations\Material.cs" />
     <Compile Include="FabricAndLamel.cs" />
     <Compile Include="Order.cs" />

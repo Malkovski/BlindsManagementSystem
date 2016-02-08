@@ -1,10 +1,8 @@
 ﻿namespace Blinds.Web.Areas.Public.Models
 {
-    using System;
     using Data.Models;
     using Infrastructure.Mapping;
     using Web.Models;
-    using Web.Models.Base;
     using Data.Repositories;
     using AutoMapper;
 

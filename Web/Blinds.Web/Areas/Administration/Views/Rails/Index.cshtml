@@ -1,7 +1,8 @@
-﻿@model RailsModel
-@using Blinds.Web.Areas.Administration.Models;
+﻿@using Blinds.Web.Areas.Administration.Models;
 @using Blinds.Common
 @using Kendo.Mvc.UI
+
+@model RailsModel
 
 @{
     const string Controller = "Rails";
@@ -10,6 +11,8 @@
 @section scripts {
     <script type="text/javascript" src="@Url.Content("~/Areas/Administration/Scripts/KendoGridHelpers.js")"></script>
 }
+
+@Html.Partial("_AdminLinksPartial")
 
 <h2>@GlobalConstants.RailsControllerTitle</h2>
 

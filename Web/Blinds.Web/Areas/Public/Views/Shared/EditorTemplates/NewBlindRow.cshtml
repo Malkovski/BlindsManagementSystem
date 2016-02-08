@@ -1,0 +1,21 @@
+﻿@using Blinds.Web.Areas.Public.Models
+
+@model BlindsModel
+
+<div class="form-group">
+    <div class="col-md-2">
+        @Html.EnumDropDownListFor(x => x.Control, new { @class = "form-control" })
+    </div>
+    <div class="col-md-3">
+        @Html.TextBoxFor(x => x.Width, new { @class = "form-control" })
+    </div>
+    <div class="col-md-3">
+        @Html.TextBoxFor(x => x.Height, new { @class = "form-control" })
+    </div>
+    <div class="col-md-2">
+        @Html.EnumDropDownListFor(x => x.Control, new { @class = "form-control" })
+    </div>
+    <div class="col-md-1">
+        @Html.TextBox("брой", "", new { @class = "form-control" })
+    </div>
+</div>

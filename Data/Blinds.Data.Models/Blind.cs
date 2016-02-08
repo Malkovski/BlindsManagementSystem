@@ -5,7 +5,7 @@
     using System.ComponentModel.DataAnnotations;
 
     using Contracts;
-
+    using Enumerations;
     public class Blind : IDeletableEntity
     {
         public Blind()
@@ -22,6 +22,12 @@
         [Required, Range(1, 6000)]
         public decimal Height { get; set; }
 
+        [Required]
+        public Control Control { get; set; }
+
+        [Required]
+        public Color Color { get; set; }
+
         public virtual BlindType BlindType { get; set; }
 
         [Required]
@@ -36,6 +42,11 @@
 
         [Required]
         public int FabricAndLamelId { get; set; }
+
+        [Required]
+        public int OrderId { get; set; }
+
+        public virtual Order Order { get; set; }
 
         public virtual ICollection<Component> Components { get; set; }
 

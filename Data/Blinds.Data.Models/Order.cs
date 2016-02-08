@@ -6,7 +6,7 @@
 
     using Contracts;
     using Common;
-
+    using Enumerations;
     public class Order : IDeletableEntity
     {
         public Order()
@@ -18,7 +18,14 @@
         public int Id { get; set; }
 
         [Required]
+        public string Number { get; set; }
+
+        [Required]
         public DateTime OrderDate { get; set; }
+
+        public Color Color { get; set; }
+
+        public InstalationType InstalationType { get; set; }
 
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = GlobalConstants.PriceMinValue)]
@@ -26,10 +33,10 @@
 
         public virtual ICollection<Blind> Blinds { get; set; }
 
-        public virtual User User { get; set; }
-
         [Required]
         public int UserId { get; set; }
+
+        public virtual User User { get; set; }
 
         public bool Deleted { get; set; }
 

@@ -242,7 +242,11 @@
     <Compile Include="Areas\Administration\Controllers\FabricAndLamelsController.cs" />
     <Compile Include="Areas\Administration\Controllers\ComponentsController.cs" />
     <Compile Include="Areas\Administration\Controllers\RailsController.cs" />
+    <Compile Include="Areas\Public\Controllers\BlindsController.cs" />
+    <Compile Include="Areas\Public\Controllers\OrdersController.cs" />
     <Compile Include="Areas\Public\Controllers\ProductsController.cs" />
+    <Compile Include="Areas\Public\Models\BlindsModel.cs" />
+    <Compile Include="Areas\Public\Models\OrdersModel.cs" />
     <Compile Include="Areas\Public\Models\ProductsModel.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Areas\Administration\Models\FabricAndLamelsModel.cs" />
@@ -452,6 +456,12 @@
     <Content Include="Areas\Public\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Public\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Public\Views\Products\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\_AdminLinksPartial.cshtml" />
+    <Content Include="Areas\Public\Views\Orders\Index.cshtml" />
+    <Content Include="Areas\Public\Views\Shared\_OrdersPartial.cshtml" />
+    <Content Include="Areas\Public\Views\Blinds\Index.cshtml" />
+    <Content Include="Areas\Public\Views\Shared\EditorTemplates\NewBlindRow.cshtml" />
+    <Content Include="Views\Shared\_NewRowPartial.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

@@ -1,14 +1,13 @@
-﻿using Blinds.Web.Models;
-using Microsoft.Practices.Unity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Mvc.Async;
-
-namespace Blinds.Web.Infrastructure.Unity
+﻿namespace Blinds.Web.Infrastructure.Unity
 {
+    using Models;
+    using Microsoft.Practices.Unity;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Mvc;
+    using System.Web.Mvc.Async;
+
     public class MvcUnityDependencyResolver : IDependencyResolver, IDisposable
     {
         public readonly IUnityContainer unity;
