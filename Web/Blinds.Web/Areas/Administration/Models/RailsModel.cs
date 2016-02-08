@@ -90,32 +90,38 @@
                 .ToList();
         }
 
-        public DataSourceResult Save(RailsModel viewModel)
+        public DataSourceResult Save(RailsModel viewModel, ModelStateDictionary modelState)
         {
-            var repo = this.RepoFactory.Get<RailRepository>();
-            var entity = repo.GetById(viewModel.Id);
-
-            var exists = repo.GetIfExists(viewModel.BlindTypeId, viewModel.Color, viewModel.Id);
-
-            if (exists)
+            if (viewModel != null && modelState.IsValid)
             {
-                return new DataSourceResult
+                var repo = this.RepoFactory.Get<RailRepository>();
+                var entity = repo.GetById(viewModel.Id);
+
+                var exists = repo.GetIfExists(viewModel.BlindTypeId, viewModel.Color, viewModel.Id);
+
+                if (exists)
                 {
-                    Errors = "Вече съществува релса за този вид щори с този цвят!"
-                };
-            }
+                    return new DataSourceResult
+                    {
+                        Errors = "Вече съществува релса за този вид щори с този цвят!"
+                    };
+                }
 
-            if (entity == null)
+                if (entity == null)
+                {
+                    entity = new Rail();
+                    repo.Add(entity);
+                }
+
+                Mapper.Map(viewModel, entity);
+                repo.SaveChanges();
+                viewModel.Id = entity.Id;
+                return null;
+            }
+            else
             {
-                entity = new Rail();
-                repo.Add(entity);
+                return base.HandleErrors(modelState);
             }
-
-            Mapper.Map(viewModel, entity);
-
-            repo.SaveChanges();
-            viewModel.Id = entity.Id;
-            return null;
         }
 
         public void Delete(RailsModel viewModel)

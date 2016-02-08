@@ -30,13 +30,14 @@
         public ActionResult Save([DataSourceRequest]
                                    DataSourceRequest request, RailsModel viewModel)
         {
-            if (viewModel != null && this.ModelState.IsValid)
+            var error = LoadModel<RailsModel, bool>(false).Save(viewModel, this.ModelState);
+
+            if (error != null)
             {
-                LoadModel<RailsModel, bool>(false).Save(viewModel);
-                return this.GridOperation(viewModel, request);
+                return Json(error);
             }
 
-            return null;
+            return this.GridOperation(viewModel, request);
         }
 
         [HttpPost]

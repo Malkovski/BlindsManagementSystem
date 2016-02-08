@@ -29,13 +29,14 @@
         public ActionResult Save([DataSourceRequest]
                                    DataSourceRequest request, ComponentsModel viewModel)
         {
-            if (viewModel != null && this.ModelState.IsValid)
+            var error = LoadModel<ComponentsModel, bool>(false).Save(viewModel, this.ModelState);
+
+            if (error != null)
             {
-                LoadModel<ComponentsModel, bool>(false).Save(viewModel);
-                return this.GridOperation(viewModel, request);
+                return Json(error);
             }
 
-            return null;
+            return this.GridOperation(viewModel, request);
         }
 
         [HttpPost]

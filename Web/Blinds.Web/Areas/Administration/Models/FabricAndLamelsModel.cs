@@ -16,7 +16,7 @@
     using Data.Repositories;
     using Infrastructure.Mapping;
     using Web.Models;
-
+    using Kendo.Mvc.UI;
     public class FabricAndLamelsModel : MenuModel, IMapFrom<FabricAndLamel>, IHaveCustomMappings, IModel<bool>, IDeletableEntity
     {
         [HiddenInput(DisplayValue = false)]
@@ -113,21 +113,58 @@
                 .ToList();
         }
 
-        public void Save(FabricAndLamelsModel viewModel)
+        public DataSourceResult Save(FabricAndLamelsModel viewModel, ModelStateDictionary modelState)
         {
-            var repo = this.RepoFactory.Get<FabricAndLamelRepository>();
-            var entity = repo.GetById(viewModel.Id);
-
-            if (entity == null)
+            if (viewModel != null && modelState.IsValid)
             {
-                entity = new FabricAndLamel();
-                repo.Add(entity);
-            }
+                var repo = this.RepoFactory.Get<FabricAndLamelRepository>();
+                var entity = repo.GetById(viewModel.Id);
 
-            Mapper.Map(viewModel, entity);
-            repo.SaveChanges();
-            viewModel.Id = entity.Id;
+                var exists = repo.GetIfExists(viewModel.BlindTypeId, viewModel.Color, viewModel.Id);
+
+                if (exists)
+                {
+                    return new DataSourceResult
+                    {
+                        Errors = "Вече съществува текстил/ламели за този вид щори с този цвят!"
+                    };
+                }
+
+                if (entity == null)
+                {
+                    entity = new FabricAndLamel();
+                    repo.Add(entity);
+                }
+
+                Mapper.Map(viewModel, entity);
+                repo.SaveChanges();
+                viewModel.Id = entity.Id;
+                return null;
+            }
+            else
+            {
+                return base.HandleErrors(modelState);
+            }
         }
+
+        //private DataSourceResult HandleErrors(ModelStateDictionary modelState)
+        //{
+        //    var error = "Грешка с данните";
+
+        //    foreach (var value in modelState.Values)
+        //    {
+        //        if (value.Errors.Count > 0)
+        //        {
+        //            error = value.Errors.FirstOrDefault().ErrorMessage;
+        //            break;
+        //        }
+        //    }
+
+        //    return new DataSourceResult
+        //    {
+        //        Errors = error
+        //    };
+        //}
 
         public void Delete(FabricAndLamelsModel viewModel)
         {

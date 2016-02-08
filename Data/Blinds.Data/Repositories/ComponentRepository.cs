@@ -21,5 +21,10 @@
         {
             return this.All().Where(r => r.Deleted == false);
         }
+
+        public bool GetIfExists(int blindTypeId, string componentName, int componentId)
+        {
+             return this.All().Where(x => x.BlindTypeId == blindTypeId && x.Name == componentName && x.Id != componentId).Any();
+        }
     }
 }

@@ -17,8 +17,8 @@
     using Data.Repositories;
     using Infrastructure.Mapping;
     using Web.Models;
-    using Web.Models.Base;
     using Kendo.Mvc.UI;
+
     public class BlindTypesModel : MenuModel, IMapFrom<BlindType>, IDeletableEntity
     {
         [HiddenInput(DisplayValue = false)]
@@ -37,7 +37,7 @@
         public string Price { get; set; }
 
         [Required(ErrorMessage = GlobalConstants.InfoRequireText)]
-        [MinLength(100)]
+        [MinLength(20, ErrorMessage = "Информацията за продукта трябва да е минимум 20 символа!")]
         [DisplayName(GlobalConstants.InfoDisplay)]
         [UIHint("MultiLineTemplate")]
         public string Info { get; set; }
@@ -100,7 +100,7 @@
             }
             else
             {
-                return this.HandleErrors(modelState);
+                return base.HandleErrors(modelState);
             }
         }
 
@@ -119,27 +119,8 @@
             }
             else
             {
-                return this.HandleErrors(modelState);
+                return base.HandleErrors(modelState);
             }
-        }
-
-        private DataSourceResult HandleErrors(ModelStateDictionary modelState)
-        {
-            var error = "Грешка с данните";
-
-            foreach (var value in modelState.Values)
-            {
-                if (value.Errors.Count > 0)
-                {
-                    error = value.Errors.FirstOrDefault().ErrorMessage;
-                    break;
-                }
-            }
-
-            return new DataSourceResult
-            {
-                Errors = error
-            };
         }
     }
 }

@@ -43,7 +43,7 @@
             .Update(up => up.Action("Save", Controller).Data("sendAntiForgery"))
             .Destroy(del => del.Action("Destroy", Controller).Data("sendAntiForgery"))
             .Create(create => create.Action("Save", Controller).Data("sendAntiForgery"))
-            .Events(events => events.Sync("sync_handler"));
+            .Events(events => events.Sync("sync_handler").Error("onError"));
     }
     )
     .Sortable()
@@ -55,4 +55,8 @@
     .Filterable()
     .Resizable(resize => resize.Columns(true))
     .Selectable()
+)
+
+@(Html.Kendo().Notification()
+    .Name("errorNotification")
 )

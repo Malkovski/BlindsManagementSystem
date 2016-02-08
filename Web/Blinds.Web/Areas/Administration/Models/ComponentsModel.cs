@@ -14,7 +14,7 @@
     using Contracts;
     using Data.Repositories;
     using Infrastructure.Mapping;
-
+    using Kendo.Mvc.UI;
     public class ComponentsModel : MenuModel, IModel<bool>, IMapFrom<Data.Models.Component>, IHaveCustomMappings, IDeletableEntity
     {
         public int Id { get; set; }
@@ -71,21 +71,38 @@
                 .ToList();
         }
 
-        public void Save(ComponentsModel viewModel)
+        public DataSourceResult Save(ComponentsModel viewModel, ModelStateDictionary modelState)
         {
-            var repo = this.RepoFactory.Get<ComponentRepository>();
-            var entity = repo.GetById(viewModel.Id);
-
-            if (entity == null)
+            if (viewModel != null && modelState.IsValid)
             {
-                entity = new Data.Models.Component();
-                repo.Add(entity);
+                var repo = this.RepoFactory.Get<ComponentRepository>();
+                var entity = repo.GetById(viewModel.Id);
+
+                var exists = repo.GetIfExists(viewModel.BlindTypeId, viewModel.Name, viewModel.Id);
+
+                if (exists)
+                {
+                    return new DataSourceResult
+                    {
+                        Errors = "Компонент с това име, за този модел щори, вече съществува!"
+                    };
+                }
+
+                if (entity == null)
+                {
+                    entity = new Data.Models.Component();
+                    repo.Add(entity);
+                }
+
+                Mapper.Map(viewModel, entity);
+                repo.SaveChanges();
+                viewModel.Id = entity.Id;
+                return null;
             }
-
-            Mapper.Map(viewModel, entity);
-
-            repo.SaveChanges();
-            viewModel.Id = entity.Id;
+            else
+            {
+                return base.HandleErrors(modelState);
+            }
         }
 
         public void Delete(ComponentsModel viewModel)

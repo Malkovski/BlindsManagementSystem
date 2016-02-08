@@ -10,12 +10,17 @@
         [Key]
         public int Id { get; set; }
 
-        [Required, Index(IsUnique = true), MinLength(5), MaxLength(100)]
+        [Required, Index(IsUnique = true)]
+        [MinLength(5, ErrorMessage = "Името трябва да е поне 5 символа!")]
+        [MaxLength(100, ErrorMessage = "Името не може да е повече от 100 символа!")]
         public string Name { get; set; }
 
+        [Range(0, int.MaxValue, ErrorMessage = "Цената не може да бъде отрицателна!")]
         public string Price { get; set; }
 
-        [Required, MinLength(100)]
+        [Required]
+        [MinLength(5, ErrorMessage = "Описанието трябва да е поне 5 символа!")]
+        [MaxLength(1500, ErrorMessage = "Името не може да е повече от 1500 символа!")]
         public string Info { get; set; }
 
         public byte[] Content { get; set; }
