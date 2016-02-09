@@ -13,7 +13,7 @@
             }
         </ul>      
     </li>
-
+    <li>@Html.ActionLink("Поръчки", "Index", "Orders", new { area = "Public" }, null)</li>
     @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
     {
         <li>@Html.ActionLink(GlobalConstants.AdministrationControllerTitle, GlobalConstants.AdminActionName , GlobalConstants.AdminControllerName, new { area = GlobalConstants.AdminAreaName }, null)</li>

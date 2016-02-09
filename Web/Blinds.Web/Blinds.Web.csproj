@@ -462,6 +462,9 @@
     <Content Include="Areas\Public\Views\Blinds\Index.cshtml" />
     <Content Include="Areas\Public\Views\Shared\EditorTemplates\NewBlindRow.cshtml" />
     <Content Include="Views\Shared\_NewRowPartial.cshtml" />
+    <Content Include="Areas\Public\Views\Shared\EditorTemplates\PublicEnumTemplate.cshtml" />
+    <Content Include="Areas\Public\Views\Shared\EditorTemplates\PublicDropDownTemplate.cshtml" />
+    <Content Include="Areas\Public\Views\Orders\Details.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

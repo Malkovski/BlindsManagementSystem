@@ -1,6 +1,6 @@
 ﻿@using Blinds.Web.Areas.Public.Models
 
-@model BlindsModel
+@model OrdersModel
 
 <div class="form-group">
     <div class="col-md-2">
@@ -16,6 +16,6 @@
         @Html.EnumDropDownListFor(x => x.Control, new { @class = "form-control" })
     </div>
     <div class="col-md-1">
-        @Html.TextBox("брой", "", new { @class = "form-control" })
+        @Html.TextBoxFor(x => x.BlindsCount, new { @class = "form-control" })
     </div>
 </div>

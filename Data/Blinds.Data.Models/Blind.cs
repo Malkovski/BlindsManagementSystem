@@ -6,6 +6,7 @@
 
     using Contracts;
     using Enumerations;
+
     public class Blind : IDeletableEntity
     {
         public Blind()
@@ -28,20 +29,20 @@
         [Required]
         public Color Color { get; set; }
 
-        public virtual BlindType BlindType { get; set; }
-
         [Required]
         public int BlindTypeId { get; set; }
 
-        public virtual Rail Rail { get; set; }
+        public virtual BlindType BlindType { get; set; }
 
         [Required]
         public int RailId { get; set; }
 
-        public virtual FabricAndLamel FabricAndLamel { get; set; }
+        public virtual Rail Rail { get; set; }
 
         [Required]
         public int FabricAndLamelId { get; set; }
+
+        public virtual FabricAndLamel FabricAndLamel { get; set; }
 
         [Required]
         public int OrderId { get; set; }

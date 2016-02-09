@@ -1,8 +1,8 @@
 ﻿@using Blinds.Web.Areas.Public.Models
 
-@model BlindsModel
+@model OrdersModel
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Orders"))
 {
     @Html.AntiForgeryToken()
 
@@ -10,24 +10,25 @@
         <h4>Поръчка</h4>
         <hr />
         @Html.ValidationSummary(true)
+
         <div class="form-group">
-            @Html.LabelFor(m => m.BlindTypes, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-5">
-                @Html.DropDownListFor(m => m.BlindTypes, (IEnumerable<SelectListItem>)ViewBag.ListItems, new { @class = "form-control" })
+            @Html.LabelFor(m => m.BlindType, "Model", new { @class = "control-label col-md-3" })
+            <div class="col-md-7">
+                @Html.DropDownListFor(m => m.BlindTypeId, Model.BlindTypes, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(m => m.Color, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-5">
-                @Html.DropDownListFor(m => m.Colors, (IEnumerable<SelectListItem>)ViewBag.ListItems, new { @class = "form-control" })
+            @Html.LabelFor(m => m.Color, "Color", new { @class = "control-label col-md-3" })
+            <div class="col-md-7">
+                @Html.DropDownListFor(m => m.Color, Model.Colors, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(m => m.InstalationTypes, htmlAttributes: new { @class = "control-label col-md-3" })
-            <div class="col-md-5">
-                @Html.DropDownListFor(m => m.InstalationTypes, (IEnumerable<SelectListItem>)ViewBag.ListItems, new { @class = "form-control" })
+            @Html.LabelFor(m => m.InstalationType, "Instalation", new { @class = "control-label col-md-3" })
+            <div class="col-md-7">
+                @Html.DropDownListFor(m => m.InstalationType, Model.InstalationTypes, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -40,11 +41,7 @@
             <div class="col-md-2">Посока на събиране</div>
             <div class="col-md-1">Брой</div>
         </div>
-        @for (int i = 0; i < 1; i++)
-        {
-            @Html.EditorFor(x => x, "NewBlindRow", "row" + i)
-        }
-
+        @Html.EditorFor(x => x, "NewBlindRow")
         <div id="newBlinds"></div>
         <button id="addBlindRow">Add row</button>
 

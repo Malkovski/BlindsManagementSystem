@@ -5,22 +5,21 @@
     using Blinds.Data.Models;
     using Microsoft.Practices.Unity;
 
-    public class BlindRepository : BaseRepository<Blind>
+    public class OrderRepository : BaseRepository<Order>
     {
         [InjectionConstructor]
-        public BlindRepository(IBlindsDbContext context) : base(context)
+        public OrderRepository(IBlindsDbContext context) : base(context)
         {
         }
 
-        public IQueryable<Blind> GetAll()
+        public IQueryable<Order> GetAll()
         {
             return this.All();
         }
 
-        public IQueryable<Blind> GetActive()
+        public IQueryable<Order> GetActive()
         {
             return this.All().Where(r => r.Deleted == false);
-
         }
     }
 }
