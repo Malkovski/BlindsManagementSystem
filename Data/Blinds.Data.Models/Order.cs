@@ -27,6 +27,8 @@
         [Required]
         public DateTime OrderDate { get; set; }
 
+        public DateTime ExpeditionDate { get; set; }
+
         public Color Color { get; set; }
 
         public InstalationType InstalationType { get; set; }

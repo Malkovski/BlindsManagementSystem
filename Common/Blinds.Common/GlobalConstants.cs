@@ -37,6 +37,17 @@
 
         // ViewModels
 
+        // Orders
+
+        public const string OrdersDetailsTitle = "ПОРЪЧКА №";
+        public const string OrdersDetailsDate = "Заявена на";
+        public const string OrdersDetailsOwner = "Контрагент";
+        public const string OrdersDetailsInstalation = "Тип монтаж";
+        public const string OrdersDetailsShowBlindsButton = "Покажи размерите";
+        public const string OrdersDetailsHideBlindsButton = "Скрий  размерите";
+        public const string OrdersDetailsExpeditionDate = "Дата на експедиция";
+
+
         // BlindType
         public const string BlindTypeDisplay = "Вид";
         public const string BlindTypeRequireText = "Видът е задължителен";
@@ -100,8 +111,8 @@
         public const string PriceMinValue = "Цената не може да бъде отрицателна!";
         public const string OrderNumberMaxLength = "Номерът не може да е повече от 40 символа!";
         public const string OrderNumberRegex = "Номерът трябва да съдържа само арабски цифри!";
-        //Administration error messages
 
+        //Administration error messages
         public const string BlindTypeExistsMessage = "Типът щора вече съществува!";
         public const string ComponentExistsMessage = "Компонент с това име, за този модел щори, вече съществува!";
         public const string RailExistsMessage = "Вече съществува релса за този вид щори с този цвят!";

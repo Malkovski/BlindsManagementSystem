@@ -18,6 +18,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.Data.Entity.Validation;
     using System.Text;
+
     public class OrdersModel : MenuModel, IModel<bool>, IMapFrom<Order>
     {
         public OrdersModel()
@@ -53,6 +54,16 @@
         public string InstalationName { get { return this.InstalationType.GetDescription(); } }
 
         public DateTime OrderDate { get; set; }
+
+        public int ManufactureDays { get; set; }
+
+        public DateTime ExpeditionDate { get; set; }
+
+        public bool RailInStock { get; set; }
+
+        public bool FabricAndLamelInStock { get; set; }
+
+        public bool ComponentsInStock { get; set; }
 
         public decimal Price { get; set; }
 
@@ -97,8 +108,10 @@
         public OrdersModel GetById(int id)
         {
             var repo = this.RepoFactory.Get<OrderRepository>();
-           
-            return repo.GetActive().Project().To<OrdersModel>().FirstOrDefault(x => x.Id == id);
+            var model = repo.GetActive().Project().To<OrdersModel>().FirstOrDefault(x => x.Id == id);
+            model.BlindCategories = this.RepoFactory.Get<BlindTypeRepository>().GetActive()
+                     .Project().To<ProductsModel>().ToList();
+            return model;
         }
 
         public DataSourceResult Save(OrdersModel viewModel, ModelStateDictionary modelState)
@@ -127,15 +140,24 @@
                     Mapper.Map(viewModel, entity);
                     entity.Number = viewModel.Number + numberPostfix;
                     entity.OrderDate = DateTime.UtcNow;
+                    entity.ExpeditionDate = DateTime.UtcNow;
                     entity.UserId = loggedUserId;
                     entity.Price = 0;
+
                     repo.SaveChanges();
+
                     viewModel.Id = entity.Id;
+                    viewModel.RailInStock = true;
+                    viewModel.FabricAndLamelInStock = true;
+                    viewModel.ComponentsInStock = true;
 
                     //create the blinds needed
                     ICollection<Blind> blinds = this.AssembleBlinds(viewModel);
 
+                    this.CalculateManufactireDays(viewModel);
+
                     decimal blindsPrice = this.DefineOrderPrice(blinds);
+                    entity.ExpeditionDate = DateTime.UtcNow.AddDays(viewModel.ManufactureDays);
                     // Here is where you get rich!!!!!!!!!!!!!!
                     // + 100% + 200% - CHOOSEE!!!!!!!!!
                     entity.Price = blindsPrice;
@@ -229,6 +251,12 @@
             var railRepo = this.RepoFactory.Get<RailRepository>();
             var currentRail = railRepo.All().Where(x => x.Color == viewModel.Color && x.BlindTypeId == viewModel.BlindTypeId).FirstOrDefault();
             decimal expence = (viewModel.Width * viewModel.BlindsCount) / 1000;
+
+            if (currentRail.Quantity < expence)
+            {
+                viewModel.RailInStock = false;
+            }
+
             currentRail.Quantity -= expence;
             railRepo.SaveChanges();
             railRepo.Detach(currentRail);
@@ -246,6 +274,12 @@
             var fabricAndLamelsRepo = this.RepoFactory.Get<FabricAndLamelRepository>();
             var currentFabricAndLamels = fabricAndLamelsRepo.All().Where(x => x.Color == viewModel.Color && x.BlindTypeId == viewModel.BlindTypeId).FirstOrDefault();
             decimal expence = ((viewModel.Width * viewModel.Height) * viewModel.BlindsCount) / 1000000;
+
+            if (currentFabricAndLamels.Quantity < expence)
+            {
+                viewModel.FabricAndLamelInStock = false;
+            }
+
             currentFabricAndLamels.Quantity -= expence;
             fabricAndLamelsRepo.SaveChanges();
             fabricAndLamelsRepo.Detach(currentFabricAndLamels);
@@ -278,6 +312,11 @@
                     expence = (viewModel.Height * (part.DefaultAmount * wide)) / 1000;
                     part.Quantity -= expence;
 
+                    if (part.Quantity < expence)
+                    {
+                        viewModel.ComponentsInStock = false;
+                    }
+
                     current.Name = part.Name;
                     current.Expence = expence;
                     current.Price = expence * part.Price;
@@ -289,6 +328,11 @@
                 {
                     expence = (part.DefaultAmount * viewModel.Height) / 1000;
                     part.Quantity -= expence;
+
+                    if (part.Quantity < expence)
+                    {
+                        viewModel.ComponentsInStock = false;
+                    }
 
                     current.Name = part.Name;
                     current.Expence = expence;
@@ -302,6 +346,11 @@
                     expence = (part.DefaultAmount * viewModel.Width) / 1000;
                     part.Quantity -= expence;
 
+                    if (part.Quantity < expence)
+                    {
+                        viewModel.ComponentsInStock = false;
+                    }
+
                     current.Name = part.Name;
                     current.Expence = expence;
                     current.Price = expence * part.Price;
@@ -313,6 +362,11 @@
                 {
                     expence = part.DefaultAmount;
                     part.Quantity -= expence;
+
+                    if (part.Quantity < expence)
+                    {
+                        viewModel.ComponentsInStock = false;
+                    }
 
                     current.Name = part.Name;
                     current.Expence = expence;
@@ -350,6 +404,27 @@
                 totalCost += blind.Price;
             }
             return totalCost;
+        }
+
+        private void CalculateManufactireDays(OrdersModel viewModel)
+        {
+            var squareMeters = ((int)(viewModel.BlindsCount * (viewModel.Height * viewModel.Width) / 1000000));
+            viewModel.ManufactureDays = 2 + 2 + squareMeters / 50;
+
+            if (!viewModel.ComponentsInStock)
+            {
+                viewModel.ManufactureDays += 3;
+            }
+
+            if (!viewModel.RailInStock)
+            {
+                viewModel.ManufactureDays += 5;
+            }
+
+            if (!viewModel.FabricAndLamelInStock)
+            {
+                viewModel.ManufactureDays += 7;
+            }
         }
     }
 }

@@ -1,0 +1,26 @@
+﻿@using Blinds.Web.Areas.Public.Models
+
+@model HashSet<BlindsModel>
+
+
+<table class="table table-bordered table-condensed">
+    @foreach (var blind in Model)
+    {
+        <tr class="form-group">
+            <td class="col-md-2">
+                @Html.DisplayFor(x => blind.Control)
+            </td>
+            <td class="col-md-3">
+                @Html.DisplayFor(x => blind.Width)
+            </td>
+            <td class="col-md-3">
+                @Html.DisplayFor(x => blind.Height)
+            </td>
+            <td class="col-md-2">
+                @Html.DisplayFor(x => blind.Control)
+            </td>
+        </tr>
+    }
+</table>
+
+
