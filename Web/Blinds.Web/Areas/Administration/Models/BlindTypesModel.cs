@@ -33,7 +33,6 @@
         public string Name { get; set; }
 
         [DisplayName(GlobalConstants.PriceDisplay)]
-        [Range(0, int.MaxValue, ErrorMessage = GlobalConstants.PriceMinValue)]
         [UIHint("SingleLineTemplate")]
         public string Price { get; set; }
 

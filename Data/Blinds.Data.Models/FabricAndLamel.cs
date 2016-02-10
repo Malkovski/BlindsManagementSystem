@@ -18,7 +18,7 @@
         public Material Material { get; set; }
 
         [Required]
-        public long Quantity { get; set; }
+        public decimal Quantity { get; set; }
 
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = GlobalConstants.PriceMinValue)]

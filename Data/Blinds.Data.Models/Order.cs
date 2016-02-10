@@ -7,6 +7,7 @@
     using Contracts;
     using Common;
     using Enumerations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public class Order : IDeletableEntity
     {
@@ -19,6 +20,8 @@
         public int Id { get; set; }
 
         [Required]
+        [Index(IsUnique = true)]
+        [MaxLength(40, ErrorMessage = GlobalConstants.OrderNumberMaxLength)]
         public string Number { get; set; }
 
         [Required]

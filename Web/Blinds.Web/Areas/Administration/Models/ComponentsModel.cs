@@ -15,6 +15,7 @@
     using Data.Repositories;
     using Infrastructure.Mapping;
     using Kendo.Mvc.UI;
+
     public class ComponentsModel : MenuModel, IModel<bool>, IMapFrom<Data.Models.Component>, IHaveCustomMappings, IDeletableEntity
     {
         public int Id { get; set; }
@@ -26,13 +27,26 @@
 
         [Required(ErrorMessage = GlobalConstants.QuantityRequireText)]
         [DisplayName(GlobalConstants.QuantityDisplay)]
-        [UIHint("LongTemplate")]
-        public long Quantity { get; set; }
+        [UIHint("DecimalTemplate")]
+        public decimal Quantity { get; set; }
 
         [Required(ErrorMessage = GlobalConstants.PriceRequireText)]
         [DisplayName(GlobalConstants.PriceDisplay)]
         [UIHint("DecimalTemplate")]
         public decimal Price { get; set; }
+
+        [Required(ErrorMessage = GlobalConstants.DefaultAmountRequireText)]
+        [DisplayName(GlobalConstants.DefaultAmountName)]
+        [UIHint("DecimalTemplate")]
+        public decimal DefaultAmount { get; set; }
+
+        [DisplayName(GlobalConstants.DefaultAmoutHeigthBasedName)]
+        [UIHint("BoolTemplate")]
+        public bool HeigthBased { get; set; }
+
+        [DisplayName(GlobalConstants.DefaultAmoutWidthBasedName)]
+        [UIHint("BoolTemplate")]
+        public bool WidthBased { get; set; }
 
         [Required(ErrorMessage = GlobalConstants.BlindTypeRequireText)]
         [DisplayName(GlobalConstants.BlindTypeDisplay)]

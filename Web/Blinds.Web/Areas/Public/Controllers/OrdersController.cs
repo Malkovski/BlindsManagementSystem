@@ -27,13 +27,12 @@
                 return Json(error);
             }
 
-            return RedirectToAction("Details", new { id = viewModel.Id });
+            return RedirectToAction("Details", viewModel);
         }
 
-        public ActionResult Details(int id)
+        public ActionResult Details(OrdersModel viewModel)
         {
-            var model = LoadModel<OrdersModel, bool>(true);
-            return View(model);
+            return View(viewModel);
         }
     }
 }

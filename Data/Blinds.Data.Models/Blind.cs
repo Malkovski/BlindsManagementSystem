@@ -1,20 +1,17 @@
 ﻿namespace Blinds.Data.Models
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using Contracts;
     using Enumerations;
+    using Common;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public class Blind : IDeletableEntity
     {
-        public Blind()
-        {
-            this.Components = new HashSet<Component>();
-        }
-
         [Key]
+        [ForeignKey("ConsumedMaterials")]
         public int Id { get; set; }
 
         [Required, Range(1, 5000)]
@@ -45,11 +42,15 @@
         public virtual FabricAndLamel FabricAndLamel { get; set; }
 
         [Required]
+        [Range(0, int.MaxValue, ErrorMessage = GlobalConstants.PriceMinValue)]
+        public decimal Price { get; set; }
+
+        [Required]
         public int OrderId { get; set; }
 
         public virtual Order Order { get; set; }
 
-        public virtual ICollection<Component> Components { get; set; }
+        public virtual ConsumedMaterials ConsumedMaterials { get; set; }
 
         public bool Deleted { get; set; }
 

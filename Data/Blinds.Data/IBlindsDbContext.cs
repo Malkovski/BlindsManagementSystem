@@ -13,6 +13,10 @@
 
         IDbSet<Component> Components { get; set; }
 
+        IDbSet<ConsumedMaterials> ConsumedMaterials { get; set; }
+
+        IDbSet<ConsumedComponent> ConsumedComponent { get; set; }
+
         IDbSet<FabricAndLamel> FabricAndLamels { get; set; }
 
         IDbSet<Order> Orders { get; set; }

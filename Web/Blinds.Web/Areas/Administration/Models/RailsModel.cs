@@ -29,8 +29,8 @@
 
         [Required(ErrorMessage = GlobalConstants.QuantityRequireText)]
         [DisplayName(GlobalConstants.QuantityDisplay)]
-        [UIHint("LongTemplate")]
-        public long Quantity { get; set; }
+        [UIHint("DecimalTemplate")]
+        public decimal Quantity { get; set; }
 
         [Required(ErrorMessage = GlobalConstants.PriceRequireText)]
         [Range(0, int.MaxValue, ErrorMessage = GlobalConstants.PriceMinValue)]

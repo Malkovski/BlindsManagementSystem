@@ -458,13 +458,15 @@
     <Content Include="Areas\Public\Views\Products\Index.cshtml" />
     <Content Include="Areas\Administration\Views\Shared\_AdminLinksPartial.cshtml" />
     <Content Include="Areas\Public\Views\Orders\Index.cshtml" />
-    <Content Include="Areas\Public\Views\Shared\_OrdersPartial.cshtml" />
+    <Content Include="Areas\Public\Views\Shared\_BlindRowsPartial.cshtml" />
     <Content Include="Areas\Public\Views\Blinds\Index.cshtml" />
     <Content Include="Areas\Public\Views\Shared\EditorTemplates\NewBlindRow.cshtml" />
     <Content Include="Views\Shared\_NewRowPartial.cshtml" />
     <Content Include="Areas\Public\Views\Shared\EditorTemplates\PublicEnumTemplate.cshtml" />
     <Content Include="Areas\Public\Views\Shared\EditorTemplates\PublicDropDownTemplate.cshtml" />
     <Content Include="Areas\Public\Views\Orders\Details.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\BoolTemplate.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\DisplayTemplates\BoolTemplate.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

@@ -17,7 +17,6 @@
         [MaxLength(100, ErrorMessage = GlobalConstants.NameMaxLength)]
         public string Name { get; set; }
 
-        [Range(0, int.MaxValue, ErrorMessage = GlobalConstants.PriceMinValue)]
         public string Price { get; set; }
 
         [Required]

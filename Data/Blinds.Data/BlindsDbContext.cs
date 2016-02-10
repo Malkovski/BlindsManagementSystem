@@ -21,6 +21,10 @@
 
         public IDbSet<Component> Components { get; set; }
 
+        public IDbSet<ConsumedMaterials> ConsumedMaterials { get; set; }
+
+        public IDbSet<ConsumedComponent> ConsumedComponent { get; set; }
+
         public IDbSet<FabricAndLamel> FabricAndLamels { get; set; }
 
         public IDbSet<Order> Orders { get; set; }
@@ -46,6 +50,13 @@
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+
+            //modelBuilder.Entity<Blind>()
+            //    .HasKey(t => t.Id);
+
+            //modelBuilder.Entity<ConsumedMaterials>()
+            //    .HasRequired(t => t.Blind)
+            //    .WithRequiredPrincipal(t => t.ConsumedMaterials);
         }
     }
 }

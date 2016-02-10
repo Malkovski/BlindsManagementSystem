@@ -69,6 +69,8 @@
     <Compile Include="Blind.cs" />
     <Compile Include="BlindType.cs" />
     <Compile Include="Component.cs" />
+    <Compile Include="ConsumedComponent.cs" />
+    <Compile Include="ConsumedMaterials.cs" />
     <Compile Include="Enumerations\Color.cs" />
     <Compile Include="Enumerations\Control.cs" />
     <Compile Include="Enumerations\InstalationType.cs" />

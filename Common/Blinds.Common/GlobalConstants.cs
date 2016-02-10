@@ -57,6 +57,10 @@
         // Components
         public const string NameDislply = "Име";
         public const string NameRequireText = "Името е задължително";
+        public const string DefaultAmountRequireText = "Базовото количество за единица щора е задължително!";
+        public const string DefaultAmountName = "Базов разход";
+        public const string DefaultAmoutWidthBasedName = "W";
+        public const string DefaultAmoutHeigthBasedName = "H";
 
         // Enum
         public const string Red = "Червен";
@@ -89,17 +93,19 @@
         //Database constraints
         public const string NameMinLength = "Името трябва да е поне 5 символа!";
         public const string NameMaxLength = "Името не може да е повече от 100 символа!";
-        public const string ComponentNameMinLength = "Името трябва да е поне 3 символа!";
+        public const string ComponentNameMinLength = "Името трябва да е поне 2 символа!";
         public const string ComponentNameMaxLength = "Името не може да е повече от 150 символа!";
         public const string InfoMinLength = "Описанието трябва да е поне 10 символа!";
         public const string InfoMaxLength = "Описанието не може да е повече от 1500 символа!";
         public const string PriceMinValue = "Цената не може да бъде отрицателна!";
-
+        public const string OrderNumberMaxLength = "Номерът не може да е повече от 40 символа!";
+        public const string OrderNumberRegex = "Номерът трябва да съдържа само арабски цифри!";
         //Administration error messages
 
         public const string BlindTypeExistsMessage = "Типът щора вече съществува!";
         public const string ComponentExistsMessage = "Компонент с това име, за този модел щори, вече съществува!";
         public const string RailExistsMessage = "Вече съществува релса за този вид щори с този цвят!";
         public const string FabricAndLamelsExistsMessage = "Вече съществува текстил/ламели за този вид щори, с този цвят!";
+        public const string OrderNumberExistsMessage = "Вече съществува Ваша поръчка с този номер!";
     }
 }
