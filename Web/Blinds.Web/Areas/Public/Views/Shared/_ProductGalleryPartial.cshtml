@@ -1,0 +1,8 @@
+﻿@model IEnumerable<Blinds.Web.Areas.Administration.Models.PicturesModel>
+
+<div>
+    @foreach (var model in Model)
+    {
+        <img src="data:image/jpeg; base64, @Convert.ToBase64String(model.Content, Base64FormattingOptions.None)" alt="Image" width="50"/>
+    }
+</div>

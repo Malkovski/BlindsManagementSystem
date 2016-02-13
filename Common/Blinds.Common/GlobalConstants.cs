@@ -20,6 +20,7 @@
         public const string RailsControllerTitle = "Релси";
         public const string FabricAndLamensControllerTitle = "Текстил / Ламели";
         public const string ComponentsControllerTitle = "Компоненти";
+        public const string PicturesControllerTitle = "Галерия";
         public const string BlindTypesControllerTitle = "Видове щори";
 
         // User
@@ -50,24 +51,33 @@
 
         // BlindType
         public const string BlindTypeDisplay = "Вид";
-        public const string BlindTypeRequireText = "Видът е задължителен";
+        public const string BlindTypeRequireText = "Видът е задължителен!";
         public const string InfoDisplay = "Информация";
-        public const string InfoRequireText = "Информацията е задължителна";
+        public const string InfoRequireText = "Информацията е задължителна!";
         public const string PriceDisplay = "Цена";
-        public const string PriceRequireText = "Цената е задължителна";
+        public const string PriceRequireText = "Цената е задължителна!";
         public const string ContentDisplay = "Изображение";
+
+        // Gallery
+
+        public const string PictureTitleDisplay = "Заглавие";
+        public const string PictureTitleRequireText = "Заглавието е задължително!";
+        public const string PictureOriginalFileNameDisplay = "Име на файл";
+        public const string PictureOriginalSizeDisplay = "Размер";
+        public const string PictureExtensionDisplay = "Разширение";
+
 
         // Rails
         public const string ColorDisplay = "Цвят";
-        public const string ColorRequireText = "Цветът е задължителен";
+        public const string ColorRequireText = "Цветът е задължителен!";
         public const string MaterialDisplay = "Материал";
-        public const string MaterialRequireText = "Материалът е задължителен";
+        public const string MaterialRequireText = "Материалът е задължителен!";
         public const string QuantityDisplay = "Количество";
-        public const string QuantityRequireText = "Количеството е задължително";
+        public const string QuantityRequireText = "Количеството е задължително!";
 
         // Components
         public const string NameDislply = "Име";
-        public const string NameRequireText = "Името е задължително";
+        public const string NameRequireText = "Името е задължително!";
         public const string DefaultAmountRequireText = "Базовото количество за единица щора е задължително!";
         public const string DefaultAmountName = "Базов разход";
         public const string DefaultAmoutWidthBasedName = "W";

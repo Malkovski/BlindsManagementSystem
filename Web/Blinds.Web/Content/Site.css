@@ -56,20 +56,8 @@ textarea {
     background: url(Images/components.jpg) no-repeat top;
 }
 
-.menu a.specialties {
-    background: url(Images/specialties.png) no-repeat top;
-}
-
-.menu a.new-consultation {
-    background: url(Images/new-consultation.png) no-repeat top;
-}
-
-.menu a.sent-consultations {
-    background: url(Images/sent-consultations.png) no-repeat top;
-}
-
-.menu a.recieved-consultations {
-    background: url(Images/recieved-consultations.png) no-repeat top;
+.menu a.galleryIcon {
+    background: url(Images/GalleryIcon.jpg) no-repeat top;
 }
 
 .menu a.link {

@@ -31,6 +31,8 @@
 
         public IDbSet<Rail> Rails { get; set; }
 
+        public IDbSet<Picture> Pictures { get; set; }
+
         public static BlindsDbContext Create()
         {
             return new BlindsDbContext();

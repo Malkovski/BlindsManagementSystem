@@ -6,10 +6,10 @@
     @Html.LabelFor(m => m, htmlAttributes: new { @class = "control-label col-md-3" })
     <div class="col-md-7">
         @(Html.Kendo().Upload()
-              .Name("files")
+              .Name("pictures")
               .Messages(m => m.Select(GlobalConstants.FileUploadText))
               .Multiple(false)
-              .Async(async => async.Save("UploadImage", "BlindTypes")
+              .Async(async => async.Save("UploadPicture", "Pictures")
               .AutoUpload(true))
               .Events(e => e
                     .Upload("onUpload")

@@ -1,11 +1,11 @@
-using System;
-using Microsoft.Practices.Unity;
-using Microsoft.Practices.Unity.Configuration;
-using Blinds.Data.RepoFactory;
-using Blinds.Data;
-
 namespace Blinds.Web.App_Start
 {
+    using System;
+    using Microsoft.Practices.Unity;
+    using Microsoft.Practices.Unity.Configuration;
+    using Blinds.Data.RepoFactory;
+    using Blinds.Data;
+
     /// <summary>
     /// Specifies the Unity configuration for the main container.
     /// </summary>

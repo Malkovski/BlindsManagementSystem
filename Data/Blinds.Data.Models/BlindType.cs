@@ -1,6 +1,7 @@
 ﻿namespace Blinds.Data.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using Contracts;
@@ -9,6 +10,11 @@
 
     public class BlindType : IDeletableEntity
     {
+        public BlindType()
+        {
+            this.Picures = new HashSet<Picture>();
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -25,6 +31,8 @@
         public string Info { get; set; }
 
         public byte[] Content { get; set; }
+
+        public virtual ICollection<Picture> Picures { get; set; }
 
         public bool Deleted { get; set; }
 

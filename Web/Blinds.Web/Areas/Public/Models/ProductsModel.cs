@@ -5,6 +5,7 @@
     using Web.Models;
     using Data.Repositories;
     using AutoMapper;
+    using System.Collections.Generic;
 
     public class ProductsModel : MenuModel, IMapFrom<BlindType>, IModel<int>
     {
@@ -17,6 +18,8 @@
         public string Info { get; set; }
 
         public byte[] Content { get; set; }
+
+        public ICollection<Picture> Picures { get; set; }
 
         public void Init(int id)
         {
