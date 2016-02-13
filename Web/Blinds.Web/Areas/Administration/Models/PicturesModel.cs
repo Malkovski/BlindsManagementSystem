@@ -13,12 +13,12 @@
     using Data.Repositories;
     using System.Linq;
     using System.Web;
-    using AutoMapper.QueryableExtensions;
     using Kendo.Mvc.UI;
     using AutoMapper;
     using System.IO;
-
-    public class PicturesModel : MenuModel, IModel<bool>, IMapFrom<Picture>, IHaveCustomMappings, IDeletableEntity
+    using System.Data.Entity.Validation;
+    using System.Text;
+    public class PicturesModel : MenuModel, IModel<bool>, IMapFrom<Picture>, IMapTo<Picture>, IHaveCustomMappings, IDeletableEntity
     {
         public int Id { get; set; }
 
@@ -78,7 +78,6 @@
         {
             return this.RepoFactory.Get<PictureRepository>()
                 .All()
-                .Project()
                 .To<PicturesModel>()
                 .ToList();
         }
@@ -88,7 +87,6 @@
             return this.RepoFactory.Get<PictureRepository>()
                 .All()
                 .Where(x => x.BlindTypeId == id)
-                .Project()
                 .To<PicturesModel>()
                 .ToList();
         }
@@ -98,7 +96,6 @@
             return this.RepoFactory.Get<PictureRepository>()
                 .All()
                 .Where(x => x.Id == id)
-                .Project()
                 .To<PicturesModel>()
                 .FirstOrDefault();
         }
@@ -123,10 +120,16 @@
                 if (entity == null)
                 {
                     entity = new Picture();
-                    repo.Add(entity);
+                    //repo.Add(entity);
                 }
 
-                Mapper.Map(viewModel, entity);
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<PicturesModel, Picture>();
+                });
+                var mapper = config.CreateMapper();
+                entity = mapper.Map<PicturesModel, Picture>(viewModel);
+
 
                 if (viewModel.File != null)
                 {
@@ -140,10 +143,33 @@
                     entity.Content = target.ToArray();
                 }
 
-                repo.SaveChanges();
-                viewModel.Id = entity.Id;
-                viewModel.File = null;
-                return null;
+                try
+                {
+                    repo.Add(entity);
+                    repo.SaveChanges();
+                    viewModel.Id = entity.Id;
+                    viewModel.File = null;
+                    return null;
+                }
+                catch (DbEntityValidationException e)
+                {
+                    StringBuilder builder = new StringBuilder();
+
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        builder.AppendLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State));
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            builder.AppendLine(string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage));
+                        }
+                    }
+
+                    return new DataSourceResult
+                    {
+                        Errors = builder
+                    };
+                }
             }
             else
             {
@@ -171,11 +197,9 @@
         }
 
         // Mappings
-        public void CreateMappings(IConfiguration configuration)
+        public void CreateMappings(IMapperConfiguration configuration)
         {
-            configuration.CreateMap<Picture, PicturesModel>();
-
-            configuration.CreateMap<PicturesModel, Picture>().ReverseMap()
+            configuration.CreateMap<Picture, PicturesModel>()
                 .ForMember(s => s.BlindTypeName, opt => opt.MapFrom(u => u.BlindType.Name));
         }
     }

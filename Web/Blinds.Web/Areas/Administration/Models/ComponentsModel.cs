@@ -8,15 +8,16 @@
     using System.Web.Mvc;
 
     using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using Web.Models;
     using Common;
     using Contracts;
     using Data.Repositories;
     using Infrastructure.Mapping;
     using Kendo.Mvc.UI;
+    using System.Data.Entity.Validation;
+    using System.Text;
 
-    public class ComponentsModel : MenuModel, IModel<bool>, IMapFrom<Data.Models.Component>, IHaveCustomMappings, IDeletableEntity
+    public class ComponentsModel : MenuModel, IModel<bool>, IMapFrom<Component>, IMapTo<Component>,  IHaveCustomMappings, IDeletableEntity
     {
         public int Id { get; set; }
 
@@ -80,7 +81,6 @@
         public IEnumerable<ComponentsModel> Get()
         {
             return this.RepoFactory.Get<ComponentRepository>().GetActive()
-                .Project()
                 .To<ComponentsModel>()
                 .ToList();
         }
@@ -105,13 +105,42 @@
                 if (entity == null)
                 {
                     entity = new Data.Models.Component();
-                    repo.Add(entity);
+                   // repo.Add(entity);
                 }
 
-                Mapper.Map(viewModel, entity);
-                repo.SaveChanges();
-                viewModel.Id = entity.Id;
-                return null;
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<ComponentsModel, Data.Models.Component>();
+                });
+                var mapper = config.CreateMapper();
+                entity = mapper.Map<ComponentsModel, Data.Models.Component>(viewModel);
+
+                try
+                {
+                    repo.Add(entity);
+                    repo.SaveChanges();
+                    viewModel.Id = entity.Id;
+                    return null;
+                }
+                catch (DbEntityValidationException e)
+                {
+                    StringBuilder builder = new StringBuilder();
+
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        builder.AppendLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State));
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            builder.AppendLine(string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage));
+                        }
+                    }
+
+                    return new DataSourceResult
+                    {
+                        Errors = builder
+                    };
+                }
             }
             else
             {
@@ -139,11 +168,9 @@
         }
 
         // Mappings
-        public void CreateMappings(IConfiguration configuration)
+        public void CreateMappings(IMapperConfiguration configuration)
         {
-            configuration.CreateMap<Data.Models.Component, ComponentsModel>();
-
-            configuration.CreateMap<ComponentsModel, Data.Models.Component>().ReverseMap()
+            configuration.CreateMap<Data.Models.Component, ComponentsModel>()
                 .ForMember(s => s.BlindTypeName, opt => opt.MapFrom(u => u.BlindType.Name));
         }
     }

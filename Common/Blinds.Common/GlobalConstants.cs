@@ -12,6 +12,9 @@
 
         public const string PublicAreaName = "Public";
         public const string ProductsControllerName = "Products";
+        public const string OrdersControllerName = "Orders";
+        public const string OrdersActionName = "Index";
+        public const string MyOrdersActionName = "MyOrders";
         public const string ProductsActionName = "Index";
 
         // Controllers
@@ -40,6 +43,7 @@
 
         // Orders
 
+        public const string OrdersName = "Поръчки";
         public const string OrdersDetailsTitle = "ПОРЪЧКА №";
         public const string OrdersDetailsDate = "Заявена на";
         public const string OrdersDetailsOwner = "Контрагент";
@@ -47,6 +51,11 @@
         public const string OrdersDetailsShowBlindsButton = "Покажи размерите";
         public const string OrdersDetailsHideBlindsButton = "Скрий  размерите";
         public const string OrdersDetailsExpeditionDate = "Дата на експедиция";
+        public const string OrderNumberRequireText = "Номер е задължителен!";
+        public const string OrderNumberExistsMessage = "Вече съществува Ваша поръчка с този номер!";
+        public const string OrderAvailableMaterialsErrorMessage = "В момента този продукт не се поддържа!";
+        public const string OrderBlindCountErrorMessage = "Броя щори не може да бъде 0 или отрицателен!";
+
 
 
         // BlindType
@@ -127,6 +136,5 @@
         public const string ComponentExistsMessage = "Компонент с това име, за този модел щори, вече съществува!";
         public const string RailExistsMessage = "Вече съществува релса за този вид щори с този цвят!";
         public const string FabricAndLamelsExistsMessage = "Вече съществува текстил/ламели за този вид щори, с този цвят!";
-        public const string OrderNumberExistsMessage = "Вече съществува Ваша поръчка с този номер!";
     }
 }

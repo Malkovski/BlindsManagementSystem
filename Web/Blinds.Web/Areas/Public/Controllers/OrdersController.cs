@@ -35,5 +35,11 @@
             var model = this.LoadModel<OrdersModel, bool>(true).GetById(id);
             return View(model);
         }
+
+        public ActionResult MyOrders(string userId)
+        {
+            var result = this.LoadModel<OrdersModel, bool>(true).GetByUserId(userId);
+            return this.View(result);
+        }
     }
 }

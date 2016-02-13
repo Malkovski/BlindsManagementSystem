@@ -13,7 +13,17 @@
             }
         </ul>      
     </li>
-    <li>@Html.ActionLink("Поръчки", "Index", "Orders", new { area = "Public" }, null)</li>
+    <li>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">@GlobalConstants.OrdersName<span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li>@Html.ActionLink("Нова поръчка", GlobalConstants.OrdersActionName, GlobalConstants.OrdersControllerName, new { area = GlobalConstants.PublicAreaName }, null)</li>
+                <li>@Html.ActionLink("Моите поръчки", GlobalConstants.MyOrdersActionName, GlobalConstants.OrdersControllerName, new { area = GlobalConstants.PublicAreaName }, null)</li>
+            }
+        </ul>
+    </li>
+    
     @if (User.IsInRole(GlobalConstants.AdministratorRoleName))
     {
         <li>@Html.ActionLink(GlobalConstants.AdministrationControllerTitle, GlobalConstants.AdminActionName , GlobalConstants.AdminControllerName, new { area = GlobalConstants.AdminAreaName }, null)</li>

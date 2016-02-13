@@ -12,14 +12,13 @@
     using Common;
     using Kendo.Mvc.UI;
     using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using Microsoft.AspNet.Identity;
     using System.Web;
     using System.ComponentModel.DataAnnotations;
     using System.Data.Entity.Validation;
     using System.Text;
 
-    public class OrdersModel : MenuModel, IModel<bool>, IMapFrom<Order>
+    public class OrdersModel : MenuModel, IModel<bool>, IMapFrom<Order>, IMapTo<Order>
     {
         public OrdersModel()
         {
@@ -32,7 +31,7 @@
 
         public virtual BlindType BlindType { get; set; }
 
-        [Required]
+        [Required( ErrorMessage = GlobalConstants.OrderNumberRequireText)]
         [RegularExpression("^[0-9]+$", ErrorMessage = GlobalConstants.OrderNumberRegex)]
         [MaxLength(40, ErrorMessage = GlobalConstants.OrderNumberMaxLength)]
         public string Number { get; set; }
@@ -49,7 +48,7 @@
 
         public InstalationType InstalationType { get; set; }
 
-        public string ColorName{ get { return this.Color.GetDescription(); } }
+        public string ColorName { get { return this.Color.GetDescription(); } }
 
         public string InstalationName { get { return this.InstalationType.GetDescription(); } }
 
@@ -108,14 +107,51 @@
         public OrdersModel GetById(int id)
         {
             var repo = this.RepoFactory.Get<OrderRepository>();
-            var model = repo.GetActive().Project().To<OrdersModel>().FirstOrDefault(x => x.Id == id);
-            model.BlindCategories = this.RepoFactory.Get<BlindTypeRepository>().GetActive()
-                     .Project().To<ProductsModel>().ToList();
+            var model = repo.GetActive()
+                .To<OrdersModel>()
+                .FirstOrDefault(x => x.Id == id);
+
+            model.BlindCategories = this.RepoFactory.Get<BlindTypeRepository>()
+                .GetActive()
+                .To<ProductsModel>()
+                .ToList();
+
             return model;
+        }
+
+        public IEnumerable<OrdersModel> GetByUserId(string userId)
+        {
+            if (userId == null)
+            {
+                userId = HttpContext.Current.User.Identity.GetUserId();
+            }
+
+            var repo = this.RepoFactory.Get<OrderRepository>();
+            return repo.GetActive()
+                .Where(x => x.UserId == userId)
+                .To<OrdersModel>()
+                .ToList();
         }
 
         public DataSourceResult Save(OrdersModel viewModel, ModelStateDictionary modelState)
         {
+            var available = this.SupplyCheck(viewModel.BlindTypeId);
+            if (!available)
+            {
+                return new DataSourceResult
+                {
+                    Errors = GlobalConstants.OrderAvailableMaterialsErrorMessage
+                };
+            }
+
+            if (viewModel.BlindsCount < 1)
+            {
+                return new DataSourceResult
+                {
+                    Errors = GlobalConstants.OrderBlindCountErrorMessage
+                };
+            }
+
             var loggedUserId = HttpContext.Current.User.Identity.GetUserId();
             var numberPostfix = "__" + loggedUserId.Substring(0, 12);
 
@@ -130,14 +166,13 @@
                     {
                         return new DataSourceResult
                         {
-                            Errors = GlobalConstants.FabricAndLamelsExistsMessage
+                            Errors = GlobalConstants.OrderNumberExistsMessage
                         };
                     }
 
                     var entity = new Order();
                     repo.Add(entity);
 
-                    Mapper.Map(viewModel, entity);
                     entity.Number = viewModel.Number + numberPostfix;
                     entity.OrderDate = DateTime.UtcNow;
                     entity.ExpeditionDate = DateTime.UtcNow;
@@ -181,7 +216,7 @@
 
                     return new DataSourceResult
                     {
-                        Errors = builder
+                        Errors = builder.ToString()
                     };
                 }
                 return null;
@@ -190,6 +225,18 @@
             {
                 return base.HandleErrors(modelState);
             }
+        }
+
+        private bool SupplyCheck(int blindTypeId)
+        {
+            var railRepo = this.RepoFactory.Get<RailRepository>();
+            var hasRail = railRepo.All().Any(x => x.BlindTypeId == blindTypeId);
+            var componentRepo = this.RepoFactory.Get<ComponentRepository>();
+            var hasComponent = componentRepo.All().Any(x => x.BlindTypeId == blindTypeId);
+            var fabricAndLamelsRepo = this.RepoFactory.Get<FabricAndLamelRepository>();
+            var hasMaterial = fabricAndLamelsRepo.All().Any(x => x.BlindTypeId == blindTypeId);
+
+            return hasRail && hasComponent && hasMaterial;
         }
 
         private ICollection<Blind> AssembleBlinds(OrdersModel viewModel)
@@ -230,26 +277,27 @@
         private ConsumedMaterials Supply(OrdersModel viewModel)
         {
             var blindExpenceRepo = this.RepoFactory.Get<ConsumedMaterialsRepository>();
-            ConsumedMaterials blindPartsExpence = new ConsumedMaterials();
-          
+            ConsumedMaterials consumedMaterials = new ConsumedMaterials();
 
-            var currentRailId = this.RailSupply(viewModel, blindPartsExpence);
-            var currentFabricAndLamelsId = this.FabricAndLamelSupply(viewModel, blindPartsExpence);
 
-            blindExpenceRepo.Add(blindPartsExpence);
+            var currentRailId = this.RailSupply(viewModel, consumedMaterials);
+            var currentFabricAndLamelsId = this.FabricAndLamelSupply(viewModel, consumedMaterials);
+
+            blindExpenceRepo.Add(consumedMaterials);
             blindExpenceRepo.SaveChanges();
 
-            var currentComponents = this.ComponentSupply(viewModel, blindPartsExpence);
-            blindPartsExpence.ComponentsExpence = currentComponents;
+            var currentComponents = this.ComponentSupply(viewModel, consumedMaterials);
+            consumedMaterials.ComponentsExpence = currentComponents;
 
             blindExpenceRepo.SaveChanges();
-            return blindPartsExpence;
+            return consumedMaterials;
         }
 
-        private int RailSupply(OrdersModel viewModel, ConsumedMaterials blindPartsExpence)
+        private int RailSupply(OrdersModel viewModel, ConsumedMaterials consumedMaterials)
         {
             var railRepo = this.RepoFactory.Get<RailRepository>();
             var currentRail = railRepo.All().Where(x => x.Color == viewModel.Color && x.BlindTypeId == viewModel.BlindTypeId).FirstOrDefault();
+
             decimal expence = (viewModel.Width * viewModel.BlindsCount) / 1000;
 
             if (currentRail.Quantity < expence)
@@ -261,15 +309,15 @@
             railRepo.SaveChanges();
             railRepo.Detach(currentRail);
 
-            blindPartsExpence.RailId = currentRail.Id;
-            blindPartsExpence.RailColor = currentRail.Color;
-            blindPartsExpence.RailExpence = expence;
-            blindPartsExpence.RailCost = (viewModel.Width * currentRail.Price) / 1000;
+            consumedMaterials.RailId = currentRail.Id;
+            consumedMaterials.RailColor = currentRail.Color;
+            consumedMaterials.RailExpence = expence;
+            consumedMaterials.RailCost = (viewModel.Width * currentRail.Price) / 1000;
 
             return currentRail.Id;
         }
 
-        private int FabricAndLamelSupply(OrdersModel viewModel, ConsumedMaterials blindPartsExpence)
+        private int FabricAndLamelSupply(OrdersModel viewModel, ConsumedMaterials consumedMaterials)
         {
             var fabricAndLamelsRepo = this.RepoFactory.Get<FabricAndLamelRepository>();
             var currentFabricAndLamels = fabricAndLamelsRepo.All().Where(x => x.Color == viewModel.Color && x.BlindTypeId == viewModel.BlindTypeId).FirstOrDefault();
@@ -284,15 +332,15 @@
             fabricAndLamelsRepo.SaveChanges();
             fabricAndLamelsRepo.Detach(currentFabricAndLamels);
 
-            blindPartsExpence.FabricAndLamelId = currentFabricAndLamels.Id;
-            blindPartsExpence.FabricAndLamelColor = currentFabricAndLamels.Color;
-            blindPartsExpence.FabricAndLamelExpence = expence;
-            blindPartsExpence.FabricAndLamelCost = (viewModel.Width * viewModel.Height * currentFabricAndLamels.Price) / 1000000;
+            consumedMaterials.FabricAndLamelId = currentFabricAndLamels.Id;
+            consumedMaterials.FabricAndLamelColor = currentFabricAndLamels.Color;
+            consumedMaterials.FabricAndLamelExpence = expence;
+            consumedMaterials.FabricAndLamelCost = (viewModel.Width * viewModel.Height * currentFabricAndLamels.Price) / 1000000;
 
             return currentFabricAndLamels.Id;
         }
 
-        private ICollection<ConsumedComponent> ComponentSupply(OrdersModel viewModel, ConsumedMaterials blindPartsExpence)
+        private ICollection<ConsumedComponent> ComponentSupply(OrdersModel viewModel, ConsumedMaterials consumedMaterials)
         {
             ICollection<ConsumedComponent> components = new List<ConsumedComponent>();
 
@@ -304,6 +352,8 @@
             foreach (var part in parts)
             {
                 ConsumedComponent current = new ConsumedComponent();
+                current.ConsumedMaterialsId = consumedMaterials.Id;
+                current.Name = part.Name;
 
                 decimal expence = 0;
                 if (part.HeigthBased && part.WidthBased)
@@ -316,11 +366,9 @@
                     {
                         viewModel.ComponentsInStock = false;
                     }
-
-                    current.Name = part.Name;
+                    
                     current.Expence = expence;
                     current.Price = expence * part.Price;
-                    current.ConsumedMaterialsId = blindPartsExpence.Id;
                     components.Add(current);
                     consumedRepo.Add(current);
                 }
@@ -333,11 +381,9 @@
                     {
                         viewModel.ComponentsInStock = false;
                     }
-
-                    current.Name = part.Name;
+                    
                     current.Expence = expence;
                     current.Price = expence * part.Price;
-                    current.ConsumedMaterialsId = blindPartsExpence.Id;
                     components.Add(current);
                     consumedRepo.Add(current);
                 }
@@ -350,11 +396,9 @@
                     {
                         viewModel.ComponentsInStock = false;
                     }
-
-                    current.Name = part.Name;
+                    
                     current.Expence = expence;
                     current.Price = expence * part.Price;
-                    current.ConsumedMaterialsId = blindPartsExpence.Id;
                     components.Add(current);
                     consumedRepo.Add(current);
                 }
@@ -367,11 +411,9 @@
                     {
                         viewModel.ComponentsInStock = false;
                     }
-
-                    current.Name = part.Name;
+                    
                     current.Expence = expence;
                     current.Price = expence * part.Price;
-                    current.ConsumedMaterialsId = blindPartsExpence.Id;
                     components.Add(current);
                     consumedRepo.Add(current);
                 }
@@ -379,16 +421,17 @@
                 repo.SaveChanges();
                 consumedRepo.SaveChanges();
             }
- 
+
             return components;
         }
+
 
         private decimal DefineBlindPrice(ConsumedMaterials blindPartsExpence)
         {
             var bodyCost = blindPartsExpence.FabricAndLamelCost + blindPartsExpence.RailCost;
             decimal componentsCost = 0;
 
-            foreach(var component in blindPartsExpence.ComponentsExpence)
+            foreach (var component in blindPartsExpence.ComponentsExpence)
             {
                 componentsCost += (component.Price * component.Expence);
             }

@@ -8,7 +8,7 @@ namespace Blinds.Data.Migrations
     using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<BlindsDbContext>
+    public sealed class Configuration : DbMigrationsConfiguration<BlindsDbContext>
     {
         public Configuration()
         {

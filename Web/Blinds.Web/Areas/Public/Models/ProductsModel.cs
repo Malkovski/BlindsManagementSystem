@@ -19,13 +19,18 @@
 
         public byte[] Content { get; set; }
 
-        public ICollection<Picture> Picures { get; set; }
+        public ICollection<Picture> Pictures { get; set; }
 
         public void Init(int id)
         {
             base.Init();
             var entity = this.RepoFactory.Get<BlindTypeRepository>().GetById(id);
-            Mapper.Map(entity, this);
+            // TODO........
+            this.Info = entity.Info;
+            this.Name = entity.Name;
+            this.Price = entity.Price;
+            this.Pictures = entity.Picures;
+            this.Content = entity.Content;
         }
     }
 }

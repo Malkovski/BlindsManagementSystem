@@ -7,15 +7,15 @@
         @Html.EnumDropDownListFor(x => x.Control, new { @class = "form-control" })
     </div>
     <div class="col-md-3">
-        @Html.TextBoxFor(x => x.Width, new { @class = "form-control" })
+        @Html.TextBoxFor(x => x.Width, new { @class = "form-control", @type = "number" })
     </div>
     <div class="col-md-3">
-        @Html.TextBoxFor(x => x.Height, new { @class = "form-control" })
+        @Html.TextBoxFor(x => x.Height, new { @class = "form-control", @type = "number" })
     </div>
     <div class="col-md-2">
         @Html.EnumDropDownListFor(x => x.Control, new { @class = "form-control" })
     </div>
     <div class="col-md-1">
-        @Html.TextBoxFor(x => x.BlindsCount, new { @class = "form-control" })
+        @Html.TextBoxFor(x => x.BlindsCount, new { @class = "form-control", @type = "number", @Value = 1 })
     </div>
 </div>

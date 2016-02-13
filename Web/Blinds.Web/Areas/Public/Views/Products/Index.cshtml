@@ -15,13 +15,13 @@
     </div>
 </div>
 <div id="gosho">
-    @foreach (var picture in Model.Picures)
+    @foreach (var picture in Model.Pictures)
     {
         <img src="data:image/jpeg; base64, @Convert.ToBase64String(picture.Content, Base64FormattingOptions.None)" alt="Image" width="120"/>
     }
 </div>
 <div id="pesho">
-    @foreach (var picture in Model.Picures)
+    @foreach (var picture in Model.Pictures)
     {
         @Html.ActionImage("Details", new { id = picture.Id, area = "Public" },
        "data:image/jpeg; base64," + Convert.ToBase64String(picture.Content, Base64FormattingOptions.None), "Image", "120")

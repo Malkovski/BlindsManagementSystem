@@ -8,7 +8,6 @@
     using System.Web.Mvc;
 
     using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using Blinds.Web.Models;
     using Common;
     using Contracts;
@@ -17,8 +16,9 @@
     using Data.Repositories;
     using Infrastructure.Mapping;
     using Kendo.Mvc.UI;
-
-    public class RailsModel : MenuModel, IModel<bool>, IMapFrom<Rail>, IHaveCustomMappings, IDeletableEntity
+    using System.Data.Entity.Validation;
+    using System.Text;
+    public class RailsModel : MenuModel, IModel<bool>, IMapFrom<Rail>, IMapTo<Rail>, IHaveCustomMappings, IDeletableEntity
     {
         public int Id { get; set; }
 
@@ -87,7 +87,6 @@
         public IEnumerable<RailsModel> Get()
         {
             return this.RepoFactory.Get<RailRepository>().GetActive()
-                .Project()
                 .To<RailsModel>()
                 .ToList();
         }
@@ -112,13 +111,42 @@
                 if (entity == null)
                 {
                     entity = new Rail();
-                    repo.Add(entity);
+                   // repo.Add(entity);
                 }
 
-                Mapper.Map(viewModel, entity);
-                repo.SaveChanges();
-                viewModel.Id = entity.Id;
-                return null;
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<RailsModel, Rail>();
+                });
+                var mapper = config.CreateMapper();
+                entity = mapper.Map<RailsModel, Rail>(viewModel);
+
+                try
+                {
+                    repo.Add(entity);
+                    repo.SaveChanges();
+                    viewModel.Id = entity.Id;
+                    return null;
+                }
+                catch (DbEntityValidationException e)
+                {
+                    StringBuilder builder = new StringBuilder();
+
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        builder.AppendLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State));
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            builder.AppendLine(string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage));
+                        }
+                    }
+
+                    return new DataSourceResult
+                    {
+                        Errors = builder
+                    };
+                }
             }
             else
             {
@@ -146,11 +174,9 @@
         }
 
         // Mappings
-        public void CreateMappings(IConfiguration configuration)
+        public void CreateMappings(IMapperConfiguration configuration)
         {
-            configuration.CreateMap<Rail, RailsModel>();
-
-            configuration.CreateMap<RailsModel, Rail>().ReverseMap()
+            configuration.CreateMap<Rail, RailsModel>()
                 .ForMember(s => s.BlindTypeName, opt => opt.MapFrom(u => u.BlindType.Name));
         }
     }

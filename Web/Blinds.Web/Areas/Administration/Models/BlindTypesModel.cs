@@ -10,7 +10,6 @@
     using System.Web.Mvc;
 
     using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using Common;
     using Contracts;
     using Data.Models;
@@ -18,8 +17,10 @@
     using Infrastructure.Mapping;
     using Web.Models;
     using Kendo.Mvc.UI;
+    using System.Data.Entity.Validation;
+    using System.Text;
 
-    public class BlindTypesModel : MenuModel, IMapFrom<BlindType>, IDeletableEntity
+    public class BlindTypesModel : MenuModel, IMapFrom<BlindType>, IMapTo<BlindType>, IDeletableEntity
     {
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }
@@ -55,10 +56,11 @@
         public IEnumerable<BlindTypesModel> Get()
         {
             return this.RepoFactory.Get<BlindTypeRepository>().GetActive()
-                .Project()
                 .To<BlindTypesModel>()
                 .ToList();
         }
+
+
 
         public DataSourceResult Save(BlindTypesModel viewModel, ModelStateDictionary modelState)
         {
@@ -80,10 +82,15 @@
                 if (entity == null)
                 {
                     entity = new BlindType();
-                    repo.Add(entity);
                 }
+                
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<BlindTypesModel, BlindType>();
+                });
+                var mapper = config.CreateMapper();
+                entity = mapper.Map<BlindTypesModel, BlindType>(viewModel);
 
-                Mapper.Map(viewModel, entity);
 
                 if (viewModel.File != null)
                 {
@@ -93,10 +100,33 @@
                     entity.Content = target.ToArray();
                 }
 
-                repo.SaveChanges();
-                viewModel.Id = entity.Id;
-                viewModel.File = null;
-                return null;
+                try
+                {
+                    repo.Add(entity);
+                    repo.SaveChanges();
+                    viewModel.Id = entity.Id;
+                    viewModel.File = null;
+                    return null;
+                }
+                catch (DbEntityValidationException e)
+                {
+                    StringBuilder builder = new StringBuilder();
+
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        builder.AppendLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State));
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            builder.AppendLine(string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage));
+                        }
+                    }
+
+                    return new DataSourceResult
+                    {
+                        Errors = builder
+                    };
+                }
             }
             else
             {
