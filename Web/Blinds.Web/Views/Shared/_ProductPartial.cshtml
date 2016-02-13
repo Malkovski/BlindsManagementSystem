@@ -1,0 +1,16 @@
+﻿@using Blinds.Web.Models;
+@model MenuModel
+
+<div class="panel panel-default">
+    @foreach (var product in Model.BlindCategories)
+    {
+        <div class="panel-body col-md-3 text-center">
+            <div class="panel-heading">@product.Name</div>
+            <img src="data:image/jpeg; base64, @Convert.ToBase64String(product.Content, Base64FormattingOptions.None)" alt="Image" width="99%" />
+        </div>
+    }
+</div>
+
+
+
+
