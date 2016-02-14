@@ -1,0 +1,29 @@
+﻿@using Blinds.Web.Areas.Public.Models
+
+@model OrdersModel
+
+
+<div class="form-group">
+    <div class="col-md-2">
+        @Html.EnumDropDownListFor(x => x.Control, new { @class = "form-control controls" })
+    </div>
+    <div class="col-md-3">
+        @{
+            var rand = new Random();
+            string name = "Width[" + rand.Next(0, int.MaxValue) + "]";
+            @Html.TextBox("Width", new { @class = "form-control widths", @type = "number", Name = name })
+        }     
+    </div>
+    <div class="col-md-3">
+        @{
+            name = "Height[" + rand.Next(0, int.MaxValue) + "]";
+            @Html.TextBox("Height", new { @class = "form-control heights", @type = "number", Name = name })
+        }
+    </div>
+    <div class="col-md-1">
+        @{
+            name = "BlindsCount[" + rand.Next(0, int.MaxValue) + "]";
+            @Html.TextBox("BlindsCount", new { @class = "form-control counts", @type = "number", @Value = 1, Name = name })
+        } 
+    </div>
+</div>
