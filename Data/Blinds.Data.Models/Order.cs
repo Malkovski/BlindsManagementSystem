@@ -29,13 +29,26 @@
 
         public DateTime ExpeditionDate { get; set; }
 
-        public Color Color { get; set; }
-
         public InstalationType InstalationType { get; set; }
+
+        public virtual BlindType BlindType { get; set; }
+
+        [Required]
+        public int BlindTypeId { get; set; }
+
+        public virtual Rail Rail { get; set; }
+
+        [Required]
+        public int RailId { get; set; }
+
+        public virtual FabricAndLamel FabricAndLamel { get; set; }
+
+        [Required]
+        public int FabricAndLamelId { get; set; }
 
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = GlobalConstants.PriceMinValue)]
-        public decimal Price { get; set; }
+        public decimal TotalPrice { get; set; }
 
         public virtual ICollection<Blind> Blinds { get; set; }
 

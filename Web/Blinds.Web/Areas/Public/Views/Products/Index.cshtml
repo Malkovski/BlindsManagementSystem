@@ -1,69 +1,40 @@
 ﻿@using Blinds.Web.Areas.Public.Models
-@using Blinds.Common
 
 @model ProductsModel
+
+@section scripts {
+    <script type="text/javascript" src="@Url.Content("~/Areas/Public/Scripts/Products/ProductsViewModel.js")"></script>
+}
 
 <div class="well text-center">
     <h3>@Model.Name</h3>
     <p>@Model.Info</p>
     <strong class="pull-left">@Model.Price</strong>
-    <div id="stefcho">
-        <img src="data:image/jpeg; base64, @Convert.ToBase64String(Model.Content, Base64FormattingOptions.None)" alt="Image" />
-    </div>
     <div>
-
+        @if (Model.Content != null)
+        {
+            <img src="data:image/jpeg; base64, @Convert.ToBase64String(Model.Content, Base64FormattingOptions.None)" alt="Image" />
+        }
     </div>
 </div>
-<div id="gosho">
+
+<div id="gallery">
     @foreach (var picture in Model.Pictures)
     {
-        <img src="data:image/jpeg; base64, @Convert.ToBase64String(picture.Content, Base64FormattingOptions.None)" alt="Image" width="120"/>
-    }
-</div>
-<div id="pesho">
-    @foreach (var picture in Model.Pictures)
-    {
-        @Html.ActionImage("Details", new { id = picture.Id, area = "Public" },
-       "data:image/jpeg; base64," + Convert.ToBase64String(picture.Content, Base64FormattingOptions.None), "Image", "120")
+        <img src="data:image/jpeg; base64, @Convert.ToBase64String(picture.Content, Base64FormattingOptions.None)" alt="Image" width="120" class="galleryItem"/>
     }
 </div>
 
-
-<script type="text/javascript">
-    $(function() {
-        $('#gosho').on('click', function () { 
-            var that = $(this),
-                current = that.children().next().clone();
-            $('#stefcho').html(current)
-        })
-    })
-</script>
-
-
-
-
-@*@Html.ActionLink("Gallery", "ReadByType", "Pictures", new { area = "Administration", id = Model.Id }, new { @id = "galleryByType" })*@
-@*@Ajax.ActionLink("Gallery", "ReadByType", "Pictures", new { area = "Administration", id = Model.Id },
-    new AjaxOptions() {
-        InsertionMode = InsertionMode.Replace,
-        UpdateTargetId = "pesho",
-        HttpMethod = "GET"
-    })*@
-
-@*<script type="text/javascript">
-        $(document).ready( function() {
-            $('#galleryByType').click();
-            $('#galleryByType').on('click', function(){
-                $.ajax({
-                    type: "POST",
-                    url: this.href + '?typeId=' + @Model.Id,
-                    contentType: "image/png",
-                    success: function(data){
-                        $(data).each(item, function(index, element){
-                            $('#pesho').append('<img src="data:image/png;base64,' + element.Content + '" />');
-                        })
-                    }
-                })
-            })
-        })
-    </script>*@
+<div id="previewImage" class="modal modal-pdf-viewer">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="modal-header-save">@Model.Name</h4>
+            </div>
+            <div class="modal-body">
+                <img class="img-responsive" />
+            </div>
+        </div>
+    </div>
+</div>

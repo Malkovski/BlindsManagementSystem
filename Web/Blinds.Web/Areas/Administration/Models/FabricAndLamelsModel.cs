@@ -121,7 +121,7 @@
                 var repo = this.RepoFactory.Get<FabricAndLamelRepository>();
                 var entity = repo.GetById(viewModel.Id);
 
-                var exists = repo.GetIfExists(viewModel.BlindTypeId, viewModel.Color, viewModel.Id);
+                var exists = repo.GetIfExists(viewModel.BlindTypeId, viewModel.Color, viewModel.Material, viewModel.Id);
 
                 if (exists)
                 {

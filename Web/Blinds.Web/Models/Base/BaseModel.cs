@@ -3,7 +3,7 @@
     using Data.RepoFactory;
     using Microsoft.Practices.Unity;
 
-    public abstract class ManuModel
+    public abstract class MainModel
     {
         [Dependency]
         public IRepoFactory RepoFactory { get; set; }

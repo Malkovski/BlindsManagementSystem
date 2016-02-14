@@ -26,5 +26,10 @@
         {
              return this.All().Where(x => x.BlindTypeId == blindTypeId && x.Name == componentName && x.Id != componentId).Any();
         }
+
+        public IQueryable<Component> GetByBlindType(int blindTypeId)
+        {
+            return this.All().Where(c => c.BlindTypeId == blindTypeId);
+        }
     }
 }

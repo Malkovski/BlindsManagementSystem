@@ -6,6 +6,7 @@
     using Data.Repositories;
     using AutoMapper;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class ProductsModel : MenuModel, IMapFrom<BlindType>, IModel<int>
     {
@@ -29,7 +30,7 @@
             this.Info = entity.Info;
             this.Name = entity.Name;
             this.Price = entity.Price;
-            this.Pictures = entity.Picures;
+            this.Pictures = entity.Picures.Where(p => !p.Deleted).ToList();
             this.Content = entity.Content;
         }
     }

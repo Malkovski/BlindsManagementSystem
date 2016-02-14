@@ -126,11 +126,9 @@
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\BlindRepository.cs" />
     <Compile Include="Repositories\BlindTypeRepository.cs" />
-    <Compile Include="Repositories\ConsumedComponentRepository.cs" />
     <Compile Include="Repositories\FabricAndLamelRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\ComponentRepository.cs" />
-    <Compile Include="Repositories\ConsumedMaterialsRepository.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />
     <Compile Include="Repositories\PictureRepository.cs" />
     <Compile Include="Repositories\RailRepository.cs" />

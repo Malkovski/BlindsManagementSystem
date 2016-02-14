@@ -27,5 +27,10 @@
         {
             return this.All().Where(r => r.BlindTypeId == blindTypeId && r.Color == color && r.Id != railId).Any();
         }
+
+        public Rail Get(int blindTypeId, Color color)
+        {
+            return this.All().Where(r => r.BlindTypeId == blindTypeId && r.Color == color).FirstOrDefault();
+        }
     }
 }

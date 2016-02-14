@@ -2,8 +2,16 @@
 
 @model OrdersModel
 
-@using (Html.BeginForm("Create", "Orders"))
-{
+@section scripts {
+    <script type="text/javascript" src="@Url.Content("~/Areas/Public/Scripts/Orders/OrdersViewModel.js")"></script>
+}
+
+@Html.Hidden("newRowUrl", @Url.Action("NewSizeRow", "Orders"))
+@Html.Hidden("getRailColors", @Url.Action("GetRailColors", "Orders"))
+@Html.Hidden("getFabricAndLamelColors", @Url.Action("GetFabricAndLamelColors", "Orders"))
+@Html.Hidden("getFabricAndLamelMaterials", @Url.Action("GetFabricAndLamelMaterials", "Orders"))
+
+<form id="orderForm" data-save-url="@Url.Action("Save", "Orders")">
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
@@ -11,23 +19,37 @@
         <hr />
         @Html.ValidationSummary(true)
         <div class="form-group">
-            @Html.LabelFor(m => m.Number, "Number", new { @class = "control-label col-md-3" })
+            @Html.LabelFor(m => m.Number, new { @class = "control-label col-md-3" })
             <div class="col-md-7">
                 @Html.TextBoxFor(m => m.Number, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(m => m.BlindType, "Model", new { @class = "control-label col-md-3" })
+            @Html.LabelFor(m => m.BlindTypeId, new { @class = "control-label col-md-3" })
             <div class="col-md-7">
                 @Html.DropDownListFor(m => m.BlindTypeId, Model.BlindTypes, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(m => m.Color, "Color", new { @class = "control-label col-md-3" })
+            @Html.LabelFor(m => m.RailColor, new { @class = "control-label col-md-3" })
             <div class="col-md-7">
-                @Html.DropDownListFor(m => m.Color, Model.Colors, new { @class = "form-control" })
+                @Html.DropDownListFor(m => m.RailColor, Model.RailColors, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.FabricAndLamelColor, new { @class = "control-label col-md-3" })
+            <div class="col-md-7">
+                @Html.DropDownListFor(m => m.FabricAndLamelColor, Model.FabricAndLamelColors, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.FabricAndLamelMaterial, new { @class = "control-label col-md-3" })
+            <div class="col-md-7">
+                @Html.DropDownListFor(m => m.FabricAndLamelMaterial, Model.FabricAndLamelMaterials, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -38,30 +60,17 @@
                 @Html.ValidationMessageFor(m => m, "", new { @class = "text-danger" })
             </div>
         </div>
-        @Html.Partial("_BlindRowsPartial")
 
-        <div id="newBlinds"></div>
-        <button id="addBlindRow">Add row</button>
+        <div id="sizesContainer">
+            @Html.Partial("_BlindRowsPartial")
+        </div>
+
+        <button id="addBlindRow" type="button" class="btn btn-primary">Add row</button>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Запиши поръчката" class="btn btn-default pull-right" />
+                <input type="button" value="Запиши поръчката" id="saveBtn" class="btn btn-default pull-right" />
             </div>
         </div>
     </div>
-}
-
-<script type="text/javascript">
-
-    $("#addBlindRow").on('click', function () {
-        $.ajax({
-            async: true,
-            url: '/Orders/NewBlindRow'
-        }).success(function (partialView) {
-
-            $('#newBlinds').append(partialView);
-        });
-    });
-
-</script>
-
+</form>

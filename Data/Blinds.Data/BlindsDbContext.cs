@@ -21,10 +21,6 @@
 
         public IDbSet<Component> Components { get; set; }
 
-        public IDbSet<ConsumedMaterials> ConsumedMaterials { get; set; }
-
-        public IDbSet<ConsumedComponent> ConsumedComponent { get; set; }
-
         public IDbSet<FabricAndLamel> FabricAndLamels { get; set; }
 
         public IDbSet<Order> Orders { get; set; }

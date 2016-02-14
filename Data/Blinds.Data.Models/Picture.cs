@@ -7,8 +7,6 @@
     {
         public int Id { get; set; }
 
-        public string Title { get; set; }
-
         public string OriginalFileName { get; set; }
 
         public int OriginalSize { get; set; }

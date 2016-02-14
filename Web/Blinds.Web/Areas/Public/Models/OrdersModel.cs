@@ -11,14 +11,15 @@
     using Data.Models.Enumerations;
     using Common;
     using Kendo.Mvc.UI;
-    using AutoMapper;
     using Microsoft.AspNet.Identity;
     using System.Web;
     using System.ComponentModel.DataAnnotations;
     using System.Data.Entity.Validation;
     using System.Text;
-
-    public class OrdersModel : MenuModel, IModel<bool>, IMapFrom<Order>, IMapTo<Order>
+    using Proxies;
+    using System.ComponentModel;
+    using System.Transactions;
+    public class OrdersModel : MenuModel, IModel<bool>
     {
         public OrdersModel()
         {
@@ -29,52 +30,33 @@
 
         public int BlindTypeId { get; set; }
 
-        public virtual BlindType BlindType { get; set; }
-
         [Required( ErrorMessage = GlobalConstants.OrderNumberRequireText)]
         [RegularExpression("^[0-9]+$", ErrorMessage = GlobalConstants.OrderNumberRegex)]
         [MaxLength(40, ErrorMessage = GlobalConstants.OrderNumberMaxLength)]
         public string Number { get; set; }
 
-        public decimal Width { get; set; }
-
-        public decimal Height { get; set; }
-
-        public int BlindsCount { get; set; }
-
-        public Color Color { get; set; }
-
         public Control Control { get; set; }
 
         public InstalationType InstalationType { get; set; }
 
-        public string ColorName { get { return this.Color.GetDescription(); } }
-
-        public string InstalationName { get { return this.InstalationType.GetDescription(); } }
-
-        public DateTime OrderDate { get; set; }
-
-        public int ManufactureDays { get; set; }
-
-        public DateTime ExpeditionDate { get; set; }
-
-        public bool RailInStock { get; set; }
-
-        public bool FabricAndLamelInStock { get; set; }
-
-        public bool ComponentsInStock { get; set; }
-
-        public decimal Price { get; set; }
-
         public virtual ICollection<BlindsModel> Blinds { get; set; }
-
-        public string UserId { get; set; }
-
-        public virtual User User { get; set; }
 
         public IEnumerable<SelectListItem> BlindTypes { get; set; }
 
-        public IEnumerable<SelectListItem> Colors { get; set; }
+        [DisplayName("Цвят на релсата")]
+        public Color RailColor { get; set; }
+
+        public IEnumerable<SelectListItem> RailColors { get; set; }
+
+        [DisplayName("Цвят на щората")]
+        public Color FabricAndLamelColor { get; set; }
+
+        public IEnumerable<SelectListItem> FabricAndLamelColors { get; set; }
+
+        [DisplayName("Материал")]
+        public Material FabricAndLamelMaterial { get; set; }
+
+        public IEnumerable<SelectListItem> FabricAndLamelMaterials { get; set; }
 
         public IEnumerable<SelectListItem> InstalationTypes { get; set; }
 
@@ -84,27 +66,80 @@
 
             if (init)
             {
-                this.BlindTypes = this.RepoFactory.Get<BlindTypeRepository>().GetAll().Select(c => new SelectListItem
+                var blindTypes = this.RepoFactory.Get<BlindTypeRepository>().GetAll().Select(c => new SelectListItem
                 {
                     Value = c.Id.ToString(),
                     Text = c.Name
                 }).ToList();
 
-                this.Colors = Enum.GetValues(typeof(Color)).Cast<Color>().Select(v => new SelectListItem
-                {
-                    Text = v.GetDescription(),
-                    Value = ((int)v).ToString()
-                }).ToList();
+                blindTypes.Insert(0, new SelectListItem { Value = "", Text = "Select one" });
+
+                this.BlindTypes = blindTypes;
 
                 this.InstalationTypes = Enum.GetValues(typeof(InstalationType)).Cast<InstalationType>().Select(v => new SelectListItem
                 {
                     Text = v.GetDescription(),
                     Value = ((int)v).ToString()
                 }).ToList();
+
+                this.RailColors = new List<SelectListItem>();
+                this.FabricAndLamelColors = new List<SelectListItem>();
+                this.FabricAndLamelMaterials = new List<SelectListItem>();
             }
         }
 
-        public OrdersModel GetById(int id)
+        public List<SelectListItem> GetRailColors(int blindTypeId)
+        {
+            var colors = this.RepoFactory.Get<RailRepository>().GetAll().Where(r => r.BlindTypeId == blindTypeId).Select(v => new ColorProxy
+            {
+                Color = v.Color,
+                Value = (int)v.Color
+            }).ToList();
+
+            return this.ColorToSelectedListItems(colors);
+        }
+
+        public List<SelectListItem> GetFabricAndLamelColors(int blindTypeId)
+        {
+            var colors = this.RepoFactory.Get<FabricAndLamelRepository>().GetAll().Where(r => r.BlindTypeId == blindTypeId).Select(v => new ColorProxy
+            {
+                Color = v.Color,
+                Value = (int)v.Color
+            })
+            .ToList();
+
+            return this.ColorToSelectedListItems(colors);
+        }
+
+        public List<SelectListItem> GetFabricAndLamelMaterials(int colorId, int blindTypeId)
+        {
+            var color = (Color)colorId;
+            var materials = this.RepoFactory.Get<FabricAndLamelRepository>().GetAll().Where(r => r.BlindTypeId == blindTypeId && r.Color == color).Select(v => new MaterialProxy
+            {
+                Material = v.Material,
+                Value = (int)v.Material
+            }).ToList();
+
+
+            var result = new List<SelectListItem>();
+
+            materials.ForEach(c =>
+            {
+                if (!result.Any(r => r.Text == c.MaterialName))
+                {
+                    result.Add(new SelectListItem
+                    {
+                        Text = c.MaterialName,
+                        Value = c.Value.ToString()
+                    });
+                }
+
+            });
+
+            return result;
+        }
+
+        public OrdersModel GetDetails(int id)
         {
             var repo = this.RepoFactory.Get<OrderRepository>();
             var model = repo.GetActive()
@@ -119,7 +154,7 @@
             return model;
         }
 
-        public IEnumerable<OrdersModel> GetByUserId(string userId)
+        public IEnumerable<OrdersModel> GetMyOrders(string userId)
         {
             if (userId == null)
             {
@@ -133,18 +168,9 @@
                 .ToList();
         }
 
-        public DataSourceResult Save(OrdersModel viewModel, ModelStateDictionary modelState)
+        public DataSourceResult Save(OrderProxy proxy, ModelStateDictionary modelState)
         {
-            var available = this.SupplyCheck(viewModel.BlindTypeId);
-            if (!available)
-            {
-                return new DataSourceResult
-                {
-                    Errors = GlobalConstants.OrderAvailableMaterialsErrorMessage
-                };
-            }
-
-            if (viewModel.BlindsCount < 1)
+            if (proxy.Blinds.Any(b => b.Count == 0))
             {
                 return new DataSourceResult
                 {
@@ -152,15 +178,16 @@
                 };
             }
 
-            var loggedUserId = HttpContext.Current.User.Identity.GetUserId();
-            var numberPostfix = "__" + loggedUserId.Substring(0, 12);
-
-            if (viewModel != null && modelState.IsValid)
+            if (proxy != null && modelState.IsValid)
             {
                 try
                 {
                     var repo = this.RepoFactory.Get<OrderRepository>();
-                    var numberExist = repo.GetActive().Where(x => x.Number == (viewModel.Number + numberPostfix) && x.UserId == loggedUserId).Any();
+                    var loggedUserId = HttpContext.Current.User.Identity.GetUserId();
+                    var numberPostfix = "__" + loggedUserId.Substring(0, 12);
+                    var orderNumber = proxy.OrderNumber + numberPostfix;
+
+                    var numberExist = repo.GetActive().Where(x => x.Number == (orderNumber) && x.UserId == loggedUserId).Any();
 
                     if (numberExist)
                     {
@@ -170,35 +197,89 @@
                         };
                     }
 
-                    var entity = new Order();
-                    repo.Add(entity);
+                    var rail = this.RepoFactory.Get<RailRepository>().Get(proxy.BlindTypeId, (Color)proxy.RailColorId);
 
-                    entity.Number = viewModel.Number + numberPostfix;
-                    entity.OrderDate = DateTime.UtcNow;
-                    entity.ExpeditionDate = DateTime.UtcNow;
-                    entity.UserId = loggedUserId;
-                    entity.Price = 0;
+                    if (rail == null)
+                    {
+                        return new DataSourceResult
+                        {
+                            Errors = "Rail error"
+                        };
+                    }
 
-                    repo.SaveChanges();
+                    var fabricAndLamel = this.RepoFactory.Get<FabricAndLamelRepository>().Get(proxy.BlindTypeId, (Color)proxy.FabricAndLamelColorId, (Material)proxy.FabricAndLamelMaterialId);
 
-                    viewModel.Id = entity.Id;
-                    viewModel.RailInStock = true;
-                    viewModel.FabricAndLamelInStock = true;
-                    viewModel.ComponentsInStock = true;
+                    if (fabricAndLamel == null)
+                    {
+                        return new DataSourceResult
+                        {
+                            Errors = "fabricAndLamels error"
+                        };
+                    }
 
-                    //create the blinds needed
-                    ICollection<Blind> blinds = this.AssembleBlinds(viewModel);
 
-                    this.CalculateManufactireDays(viewModel);
+                    Blind newBlind;
+                    List<Blind> blinds = new List<Blind>();
 
-                    decimal blindsPrice = this.DefineOrderPrice(blinds);
-                    entity.ExpeditionDate = DateTime.UtcNow.AddDays(viewModel.ManufactureDays);
-                    // Here is where you get rich!!!!!!!!!!!!!!
-                    // + 100% + 200% - CHOOSEE!!!!!!!!!
-                    entity.Price = blindsPrice;
+                    decimal totalWidth = 0;
+                    decimal totalArea = 0;
 
-                    repo.SaveChanges();
-                    viewModel.Id = entity.Id;
+                    using (var transaction = new TransactionScope())
+                    {
+                        var entity = new Order()
+                        {
+                            Number = orderNumber,
+                            BlindTypeId = proxy.BlindTypeId,
+                            RailId = rail.Id,
+                            FabricAndLamelId = fabricAndLamel.Id,
+                            InstalationType = (InstalationType)proxy.InstalationTypeId,
+                            UserId = loggedUserId,
+                            OrderDate = DateTime.Now,
+                            ExpeditionDate = DateTime.Now
+                        };
+
+                        repo.Add(entity);
+                        repo.SaveChanges();
+
+                        proxy.Id = entity.Id;
+
+                        var blindrepo = this.RepoFactory.Get<BlindRepository>();
+                        foreach (var blind in proxy.Blinds)
+                        {
+                            for (int i = 0; i < blind.Count; i++)
+                            {
+                                newBlind = new Blind
+                                {
+                                    Width = blind.Width,
+                                    Height = blind.Height,
+                                    Control = (Control)blind.Control,
+                                    OrderId = entity.Id
+                                };
+
+                                totalWidth += blind.Width / 1000;
+                                totalArea += blind.Width * blind.Height / 1000000;
+
+                                blinds.Add(newBlind);
+                                blindrepo.Add(newBlind);
+                                blindrepo.SaveChanges();
+                            }
+                        }
+
+                        var components = this.RepoFactory.Get<ComponentRepository>().GetByBlindType(proxy.BlindTypeId).ToList();
+
+                        fabricAndLamel.Quantity -= totalArea;
+                        rail.Quantity -= totalWidth;
+
+
+                        entity.TotalPrice = this.GetComponentPrice(proxy, components) + totalWidth * rail.Price + totalArea * fabricAndLamel.Price;
+                        entity.ExpeditionDate = this.CalculateManufactireDays(components, rail.Quantity, fabricAndLamel.Quantity, totalArea);
+                        entity.Blinds = blinds;
+
+                        repo.SaveChanges();
+
+                        transaction.Complete();
+                    }
+
                 }
                 catch (DbEntityValidationException e)
                 {
@@ -227,247 +308,86 @@
             }
         }
 
-        private bool SupplyCheck(int blindTypeId)
+        private DateTime CalculateManufactireDays(List<Data.Models.Component> components, decimal railQuantity, decimal fabricAndLamelQuantity, decimal totalArea)
         {
-            var railRepo = this.RepoFactory.Get<RailRepository>();
-            var hasRail = railRepo.All().Any(x => x.BlindTypeId == blindTypeId);
-            var componentRepo = this.RepoFactory.Get<ComponentRepository>();
-            var hasComponent = componentRepo.All().Any(x => x.BlindTypeId == blindTypeId);
-            var fabricAndLamelsRepo = this.RepoFactory.Get<FabricAndLamelRepository>();
-            var hasMaterial = fabricAndLamelsRepo.All().Any(x => x.BlindTypeId == blindTypeId);
+            int totalDays = (int)(2 + 2 + totalArea / 50);
 
-            return hasRail && hasComponent && hasMaterial;
-        }
-
-        private ICollection<Blind> AssembleBlinds(OrdersModel viewModel)
-        {
-            ICollection<Blind> blinds = new List<Blind>();
-            var blindRepo = this.RepoFactory.Get<BlindRepository>();
-            var blindExpenceRepo = this.RepoFactory.Get<ConsumedMaterialsRepository>();
-
-            for (int i = 0; i < viewModel.BlindsCount; i++)
+            if (components.Any(c => c.Quantity <= 0))
             {
-                Blind blind = new Blind();
-
-                var supply = Supply(viewModel);
-
-                blind.BlindTypeId = viewModel.BlindTypeId;
-                blind.Color = viewModel.Color;
-                blind.Height = viewModel.Height;
-                blind.Width = viewModel.Width;
-                blind.Control = viewModel.Control;
-                blind.RailId = supply.RailId;
-                blind.FabricAndLamelId = supply.FabricAndLamelId;
-                blind.ConsumedMaterials = supply;
-                blind.OrderId = viewModel.Id;
-                blind.Price = this.DefineBlindPrice(supply);
-                blind.Id = supply.Id;
-                supply.Blind = blind;
-
-                blindRepo.Add(blind);
-                blindRepo.SaveChanges();
-                blindExpenceRepo.SaveChanges();
-
-                blinds.Add(blind);
+                totalDays += 3;
             }
 
-            return blinds;
-        }
-
-        private ConsumedMaterials Supply(OrdersModel viewModel)
-        {
-            var blindExpenceRepo = this.RepoFactory.Get<ConsumedMaterialsRepository>();
-            ConsumedMaterials consumedMaterials = new ConsumedMaterials();
-
-
-            var currentRailId = this.RailSupply(viewModel, consumedMaterials);
-            var currentFabricAndLamelsId = this.FabricAndLamelSupply(viewModel, consumedMaterials);
-
-            blindExpenceRepo.Add(consumedMaterials);
-            blindExpenceRepo.SaveChanges();
-
-            var currentComponents = this.ComponentSupply(viewModel, consumedMaterials);
-            consumedMaterials.ComponentsExpence = currentComponents;
-
-            blindExpenceRepo.SaveChanges();
-            return consumedMaterials;
-        }
-
-        private int RailSupply(OrdersModel viewModel, ConsumedMaterials consumedMaterials)
-        {
-            var railRepo = this.RepoFactory.Get<RailRepository>();
-            var currentRail = railRepo.All().Where(x => x.Color == viewModel.Color && x.BlindTypeId == viewModel.BlindTypeId).FirstOrDefault();
-
-            decimal expence = (viewModel.Width * viewModel.BlindsCount) / 1000;
-
-            if (currentRail.Quantity < expence)
+            if (railQuantity <= 0)
             {
-                viewModel.RailInStock = false;
+                totalDays += 5;
             }
 
-            currentRail.Quantity -= expence;
-            railRepo.SaveChanges();
-            railRepo.Detach(currentRail);
-
-            consumedMaterials.RailId = currentRail.Id;
-            consumedMaterials.RailColor = currentRail.Color;
-            consumedMaterials.RailExpence = expence;
-            consumedMaterials.RailCost = (viewModel.Width * currentRail.Price) / 1000;
-
-            return currentRail.Id;
-        }
-
-        private int FabricAndLamelSupply(OrdersModel viewModel, ConsumedMaterials consumedMaterials)
-        {
-            var fabricAndLamelsRepo = this.RepoFactory.Get<FabricAndLamelRepository>();
-            var currentFabricAndLamels = fabricAndLamelsRepo.All().Where(x => x.Color == viewModel.Color && x.BlindTypeId == viewModel.BlindTypeId).FirstOrDefault();
-            decimal expence = ((viewModel.Width * viewModel.Height) * viewModel.BlindsCount) / 1000000;
-
-            if (currentFabricAndLamels.Quantity < expence)
+            if (fabricAndLamelQuantity <= 0)
             {
-                viewModel.FabricAndLamelInStock = false;
+                totalDays += 7;
             }
 
-            currentFabricAndLamels.Quantity -= expence;
-            fabricAndLamelsRepo.SaveChanges();
-            fabricAndLamelsRepo.Detach(currentFabricAndLamels);
-
-            consumedMaterials.FabricAndLamelId = currentFabricAndLamels.Id;
-            consumedMaterials.FabricAndLamelColor = currentFabricAndLamels.Color;
-            consumedMaterials.FabricAndLamelExpence = expence;
-            consumedMaterials.FabricAndLamelCost = (viewModel.Width * viewModel.Height * currentFabricAndLamels.Price) / 1000000;
-
-            return currentFabricAndLamels.Id;
+            return DateTime.Now.AddDays(totalDays);
         }
 
-        private ICollection<ConsumedComponent> ComponentSupply(OrdersModel viewModel, ConsumedMaterials consumedMaterials)
+        private decimal GetComponentPrice(OrderProxy proxy, List<Data.Models.Component> components)
         {
-            ICollection<ConsumedComponent> components = new List<ConsumedComponent>();
+            decimal totalPrice = 0;
+            decimal expence;
 
-            var repo = this.RepoFactory.Get<ComponentRepository>();
-            var consumedRepo = this.RepoFactory.Get<ConsumedComponentRepository>();
-
-            var parts = repo.SearchFor(x => x.BlindTypeId == viewModel.BlindTypeId).ToList();
-
-            foreach (var part in parts)
+            foreach (var blind in proxy.Blinds)
             {
-                ConsumedComponent current = new ConsumedComponent();
-                current.ConsumedMaterialsId = consumedMaterials.Id;
-                current.Name = part.Name;
-
-                decimal expence = 0;
-                if (part.HeigthBased && part.WidthBased)
+                for (int i = 0; i < blind.Count; i++)
                 {
-                    var wide = viewModel.Width < 1000 ? 1000 : (viewModel.Width / 1000);
-                    expence = (viewModel.Height * (part.DefaultAmount * wide)) / 1000;
-                    part.Quantity -= expence;
-
-                    if (part.Quantity < expence)
+                    foreach (var component in components)
                     {
-                        viewModel.ComponentsInStock = false;
+                        if (component.HeigthBased && component.WidthBased)
+                        {
+                            var wide = blind.Width < 1000 ? 1000 : (blind.Width / 1000);
+                            expence = (blind.Height * (component.DefaultAmount * wide)) / 1000;
+                        }
+                        else if (component.HeigthBased)
+                        {
+                            expence = (component.DefaultAmount * blind.Height) / 1000;
+
+                        }
+                        else if (component.WidthBased)
+                        {
+                            expence = (component.DefaultAmount * blind.Width) / 1000;
+                        }
+                        else
+                        {
+                            expence = component.DefaultAmount;
+                        }
+
+                        totalPrice += expence * component.Price;
+                        component.Quantity -= expence;
                     }
-                    
-                    current.Expence = expence;
-                    current.Price = expence * part.Price;
-                    components.Add(current);
-                    consumedRepo.Add(current);
                 }
-                else if (part.HeigthBased)
-                {
-                    expence = (part.DefaultAmount * viewModel.Height) / 1000;
-                    part.Quantity -= expence;
+            }
 
-                    if (part.Quantity < expence)
-                    {
-                        viewModel.ComponentsInStock = false;
-                    }
-                    
-                    current.Expence = expence;
-                    current.Price = expence * part.Price;
-                    components.Add(current);
-                    consumedRepo.Add(current);
-                }
-                else if (part.WidthBased)
-                {
-                    expence = (part.DefaultAmount * viewModel.Width) / 1000;
-                    part.Quantity -= expence;
+            return totalPrice;
+        }
 
-                    if (part.Quantity < expence)
-                    {
-                        viewModel.ComponentsInStock = false;
-                    }
-                    
-                    current.Expence = expence;
-                    current.Price = expence * part.Price;
-                    components.Add(current);
-                    consumedRepo.Add(current);
-                }
-                else
-                {
-                    expence = part.DefaultAmount;
-                    part.Quantity -= expence;
+        private List<SelectListItem> ColorToSelectedListItems(List<ColorProxy> colors)
+        {
+            var result = new List<SelectListItem>();
 
-                    if (part.Quantity < expence)
+            colors.ForEach(c =>
+            {
+                if (!result.Any(r => r.Text == c.ColorName))
+                {
+                    result.Add(new SelectListItem
                     {
-                        viewModel.ComponentsInStock = false;
-                    }
-                    
-                    current.Expence = expence;
-                    current.Price = expence * part.Price;
-                    components.Add(current);
-                    consumedRepo.Add(current);
+                        Text = c.ColorName,
+                        Value = c.Value.ToString()
+                    });
                 }
 
-                repo.SaveChanges();
-                consumedRepo.SaveChanges();
-            }
+            });
 
-            return components;
+            return result;
         }
 
-
-        private decimal DefineBlindPrice(ConsumedMaterials blindPartsExpence)
-        {
-            var bodyCost = blindPartsExpence.FabricAndLamelCost + blindPartsExpence.RailCost;
-            decimal componentsCost = 0;
-
-            foreach (var component in blindPartsExpence.ComponentsExpence)
-            {
-                componentsCost += (component.Price * component.Expence);
-            }
-
-            return bodyCost + componentsCost;
-        }
-
-        private decimal DefineOrderPrice(ICollection<Blind> blinds)
-        {
-            decimal totalCost = 0;
-            foreach (var blind in blinds)
-            {
-                totalCost += blind.Price;
-            }
-            return totalCost;
-        }
-
-        private void CalculateManufactireDays(OrdersModel viewModel)
-        {
-            var squareMeters = ((int)(viewModel.BlindsCount * (viewModel.Height * viewModel.Width) / 1000000));
-            viewModel.ManufactureDays = 2 + 2 + squareMeters / 50;
-
-            if (!viewModel.ComponentsInStock)
-            {
-                viewModel.ManufactureDays += 3;
-            }
-
-            if (!viewModel.RailInStock)
-            {
-                viewModel.ManufactureDays += 5;
-            }
-
-            if (!viewModel.FabricAndLamelInStock)
-            {
-                viewModel.ManufactureDays += 7;
-            }
-        }
     }
 }

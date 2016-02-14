@@ -113,6 +113,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -246,6 +247,10 @@
     <Compile Include="Areas\Public\Models\BlindsModel.cs" />
     <Compile Include="Areas\Public\Models\OrdersModel.cs" />
     <Compile Include="Areas\Public\Models\ProductsModel.cs" />
+    <Compile Include="Areas\Public\Proxies\BlindProxy.cs" />
+    <Compile Include="Areas\Public\Proxies\ColorProxy.cs" />
+    <Compile Include="Areas\Public\Proxies\MaterialProxy.cs" />
+    <Compile Include="Areas\Public\Proxies\OrderProxy.cs" />
     <Compile Include="Infrastructure\Mapping\IMapTo.cs" />
     <Compile Include="Infrastructure\Mapping\QueryableExtensions.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
@@ -282,6 +287,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Administration\Scripts\KendoGridHelpers.js" />
+    <Content Include="Areas\Public\Scripts\Orders\OrdersViewModel.js" />
+    <Content Include="Areas\Public\Scripts\Products\ProductsViewModel.js" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -458,8 +465,7 @@
     <Content Include="Areas\Public\Views\Orders\Index.cshtml" />
     <Content Include="Areas\Public\Views\Shared\_BlindRowsPartial.cshtml" />
     <Content Include="Areas\Public\Views\Blinds\Index.cshtml" />
-    <Content Include="Areas\Public\Views\Shared\EditorTemplates\NewBlindRow.cshtml" />
-    <Content Include="Views\Shared\_NewRowPartial.cshtml" />
+    <Content Include="Areas\Public\Views\Shared\_SizeRowPartial.cshtml" />
     <Content Include="Areas\Public\Views\Shared\EditorTemplates\PublicEnumTemplate.cshtml" />
     <Content Include="Areas\Public\Views\Shared\EditorTemplates\PublicDropDownTemplate.cshtml" />
     <Content Include="Areas\Public\Views\Orders\Details.cshtml" />
@@ -476,12 +482,12 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.11.1.js" />
     <Content Include="Scripts\jquery-ui.min-1.11.1.js" />
     <Content Include="Scripts\jquery.simplemodal.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -851,6 +857,8 @@
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\underscore.js" />
+    <Content Include="Scripts\underscore.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -888,6 +896,7 @@
     <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
     <Content Include="Views\Shared\_MenuPartial.cshtml" />
     <Content Include="Views\Shared\_ProductPartial.cshtml" />
+    <Content Include="Scripts\underscore.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

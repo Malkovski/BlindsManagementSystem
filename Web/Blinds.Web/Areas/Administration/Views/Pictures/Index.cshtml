@@ -23,19 +23,13 @@
     .Columns(columns =>
     {
         columns.Bound(model => model.BlindTypeName);
-        columns.Bound(model => model.Title);
         columns.Bound(model => model.OriginalFileName);
         columns.Bound(model => model.OriginalSize);
-        columns.Bound(model => model.Extension);
         columns.Command(command =>
         {
-            command.Edit()
-                .UpdateText(GlobalConstants.Update)
-                .CancelText(GlobalConstants.Cancel)
-                .Text(GlobalConstants.EditLabel);
             command.Destroy()
                 .Text(GlobalConstants.Delete);
-        }).Width(250);
+        }).Width(125);
     })
     .DataSource(data =>
     {
@@ -44,7 +38,6 @@
             .PageSize(10)
             .ServerOperation(true)
             .Read(r => r.Action("Read", Controller).Data("sendAntiForgery"))
-            .Update(up => up.Action("Save", Controller).Data("sendAntiForgery"))
             .Destroy(del => del.Action("Destroy", Controller).Data("sendAntiForgery"))
             .Create(create => create.Action("Save", Controller).Data("sendAntiForgery"))
             .Events(events => events.Sync("sync_handler").Error("onError"));
@@ -54,7 +47,7 @@
     .Pageable(page => page.Refresh(true))
     .ToolBar(toolbar => toolbar.Create().Text(GlobalConstants.Create))
     .Editable(
-                e => e.Mode(GridEditMode.PopUp).TemplateName("PicturesTemplate").Window(w => w.Title(GlobalConstants.AddEditLabel).Width(450))
+                e => e.Mode(GridEditMode.PopUp).TemplateName("PicturesTemplate").Window(w => w.Title(GlobalConstants.AddEditLabel).Width(450).)
             )
     .Filterable()
     .Resizable(resize => resize.Columns(true))

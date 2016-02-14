@@ -1,6 +1,8 @@
 ﻿namespace Blinds.Web.Areas.Public.Controllers
 {
     using Models;
+    using Proxies;
+    using System.Web;
     using System.Web.Mvc;
     using Web.Controllers;
 
@@ -12,34 +14,55 @@
             return View(model);
         }
 
-        public ActionResult NewBlindRow()
+        public ActionResult NewSizeRow()
         {
-            return PartialView("_NewRowPartial");
+            return PartialView("_SizeRowPartial");
         }
 
         [HttpPost]
-        public ActionResult Create(OrdersModel viewModel)
+        public ActionResult Save(OrderProxy proxy)
         {
-            var error = LoadModel<OrdersModel, bool>(true).Save(viewModel, this.ModelState);
+            var error = LoadModel<OrdersModel, bool>(true).Save(proxy, this.ModelState);
 
             if (error != null)
             {
                 return Json(error);
             }
 
-            return RedirectToAction("Details", new { id = viewModel.Id});
+            return RedirectToAction("Details", new { id = proxy.Id});
         }
 
         public ActionResult Details(int id)
         {
-            var model = this.LoadModel<OrdersModel, bool>(true).GetById(id);
+            var model = this.LoadModel<OrdersModel, bool>(true).GetDetails(id);
             return View(model);
         }
 
         public ActionResult MyOrders(string userId)
         {
-            var result = this.LoadModel<OrdersModel, bool>(true).GetByUserId(userId);
+            var result = this.LoadModel<OrdersModel, bool>(true).GetMyOrders(userId);
             return this.View(result);
+        }
+
+        [HttpGet]
+        public JsonResult GetRailColors(int blindTypeId)
+        {
+            var result = this.LoadModel<OrdersModel, bool>(true).GetRailColors(blindTypeId);
+            return this.Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetFabricAndLamelColors(int blindTypeId)
+        {
+            var result = this.LoadModel<OrdersModel, bool>(true).GetFabricAndLamelColors(blindTypeId);
+            return this.Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public JsonResult GetFabricAndLamelMaterials(int colorId, int blindTypeId)
+        {
+            var result = this.LoadModel<OrdersModel, bool>(true).GetFabricAndLamelMaterials(colorId, blindTypeId);
+            return this.Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

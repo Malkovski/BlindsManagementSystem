@@ -22,12 +22,6 @@
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = GlobalConstants.PictureTitleRequireText)]
-        [MinLength(5, ErrorMessage = GlobalConstants.NameMinLength)]
-        [DisplayName(GlobalConstants.PictureTitleDisplay)]
-        [UIHint("SingleLineTemplate")]
-        public string Title { get; set; }
-
         [DisplayName(GlobalConstants.PictureOriginalFileNameDisplay)]
         [UIHint("SingleLineTemplate")]
         public string OriginalFileName { get; set; }
@@ -36,17 +30,13 @@
         [UIHint("LongTemplate")]
         public int OriginalSize { get; set; }
 
-        [DisplayName(GlobalConstants.PictureExtensionDisplay)]
-        [UIHint("SingleLineTemplate")]
-        public string Extension { get; set; }
-
         public byte[] Content { get; set; }
 
         public bool HasImage { get; set; }
 
         [DisplayName(GlobalConstants.ContentDisplay)]
         [UIHint("PictureUploadTemplate")]
-        public HttpPostedFileBase File { get; set; }
+        public HttpPostedFileBase [] Files { get; set; }
 
         [Required(ErrorMessage = GlobalConstants.BlindTypeRequireText)]
         [DisplayName(GlobalConstants.BlindTypeDisplay)]
@@ -105,50 +95,35 @@
             if (viewModel != null && modelState.IsValid)
             {
                 var repo = this.RepoFactory.Get<PictureRepository>();
-                var entity = repo.GetById(viewModel.Id);
 
-                var exists = repo.GetIfExists(viewModel.Title, viewModel.Id);
+                MemoryStream target = null;
 
-                if (exists)
+                if (viewModel.Files != null)
                 {
-                    return new DataSourceResult
+                    foreach (var file in viewModel.Files)
                     {
-                        Errors = "Picture with this name already exists!"
-                    };
-                }
+                        int fileSizeInBytes = file.ContentLength;
+                        target = new MemoryStream();
+                        file.InputStream.CopyTo(target);
 
-                if (entity == null)
-                {
-                    entity = new Picture();
-                    //repo.Add(entity);
-                }
+                        var entity = new Picture
+                        {
+                            BlindTypeId = viewModel.BlindTypeId,
+                            OriginalFileName = file.FileName,
+                            Extension = file.ContentType,
+                            OriginalSize = file.ContentLength,
+                            Content = target.ToArray()
+                        };
 
-                var config = new MapperConfiguration(cfg =>
-                {
-                    cfg.CreateMap<PicturesModel, Picture>();
-                });
-                var mapper = config.CreateMapper();
-                entity = mapper.Map<PicturesModel, Picture>(viewModel);
-
-
-                if (viewModel.File != null)
-                {
-                    entity.OriginalFileName = viewModel.File.FileName;
-                    entity.Extension = viewModel.File.ContentType;
-                    entity.OriginalSize = viewModel.File.ContentLength;
-
-                    int fileSizeInBytes = viewModel.File.ContentLength;
-                    MemoryStream target = new MemoryStream();
-                    viewModel.File.InputStream.CopyTo(target);
-                    entity.Content = target.ToArray();
+                        repo.Add(entity);
+                    }
                 }
 
                 try
                 {
-                    repo.Add(entity);
                     repo.SaveChanges();
-                    viewModel.Id = entity.Id;
-                    viewModel.File = null;
+                    viewModel.Id = 0;
+                    viewModel.Files = null;
                     return null;
                 }
                 catch (DbEntityValidationException e)

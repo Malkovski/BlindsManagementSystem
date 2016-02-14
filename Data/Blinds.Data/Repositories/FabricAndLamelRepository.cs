@@ -23,9 +23,14 @@
             return this.All().Where(r => r.Deleted == false);
         }
 
-        public bool GetIfExists(int blindTypeId, Color color, int fabricAndLamelsId)
+        public bool GetIfExists(int blindTypeId, Color color, Material material, int fabricAndLamelsId)
         {
-            return this.All().Where(x => x.BlindTypeId == blindTypeId && x.Color == color && x.Id != fabricAndLamelsId).Any();
+            return this.All().Where(x => x.BlindTypeId == blindTypeId && x.Color == color && x.Material == material && x.Id != fabricAndLamelsId).Any();
+        }
+
+        public FabricAndLamel Get(int blindTypeId, Color color, Material material)
+        {
+            return this.All().Where(x => x.BlindTypeId == blindTypeId && x.Color == color && x.Material == material).FirstOrDefault();
         }
     }
 }

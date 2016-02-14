@@ -23,7 +23,20 @@
         {
             if (pictures != null)
             {
-                TempData["UploadedFile"] = pictures.First();
+                var currentFiles = (HttpPostedFileBase[])TempData["UploadedFile"];
+
+                if (currentFiles != null)
+                {
+                    var combinedFiles = new List<HttpPostedFileBase>();
+                    combinedFiles.AddRange(currentFiles);
+                    combinedFiles.AddRange(pictures);
+                    TempData["UploadedFile"] = combinedFiles.ToArray();
+                }
+                else
+                {
+                    TempData["UploadedFile"] = pictures;
+                }
+                
             }
 
             return this.Json(true);
@@ -50,7 +63,8 @@
         {
             if (viewModel.HasImage)
             {
-                viewModel.File = (HttpPostedFileBase)TempData["UploadedFile"];
+                viewModel.Files = (HttpPostedFileBase[])TempData["UploadedFile"];
+                TempData["UploadedFile"] = null;
             }
 
             var error = this.LoadModel<PicturesModel, bool>(false).Save(viewModel, this.ModelState);

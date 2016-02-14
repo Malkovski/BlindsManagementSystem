@@ -10,7 +10,7 @@
     using Kendo.Mvc.UI;
     using System.Web.Mvc;
 
-    public class MenuModel : ManuModel, IModel, IMapFrom<BlindType>
+    public class MenuModel : MainModel, IModel, IMapFrom<BlindType>
     {
         public ICollection<ProductsModel> BlindCategories { get; set; }
 

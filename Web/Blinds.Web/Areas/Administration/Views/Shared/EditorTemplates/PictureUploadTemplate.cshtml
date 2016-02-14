@@ -8,12 +8,13 @@
         @(Html.Kendo().Upload()
               .Name("pictures")
               .Messages(m => m.Select(GlobalConstants.FileUploadText))
-              .Multiple(false)
-              .Async(async => async.Save("UploadPicture", "Pictures")
-              .AutoUpload(true))
-              .Events(e => e
-                    .Upload("onUpload")
-                    .Success("onSuccess")
+              .Multiple(true)
+              .Async(async => async
+                      .Save("UploadPicture", "Pictures")
+                      .AutoUpload(true))
+                      .Events(e => e
+                            .Upload("onUpload")
+                            .Success("onSuccess")
               )
         )
         @Html.ValidationMessageFor(m => m, null, new { @class = "text-danger" })

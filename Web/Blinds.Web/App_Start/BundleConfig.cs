@@ -41,6 +41,11 @@ namespace Blinds.Web
             bundles.Add(new ScriptBundle("~/bundles/jquery-ui").Include(
                 "~/Scripts/jquery-ui.min-1.11.1.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/custom").Include(
+                "~/Scripts/underscore.js",
+                "~/Scripts/jquery.validate.js"
+            ));
+
             bundles.Add(new ScriptBundle("~/bundles/unobtrusive-jquery").Include(
                 "~/Scripts/jquery.unobtrusive-ajax.min.js"));
 

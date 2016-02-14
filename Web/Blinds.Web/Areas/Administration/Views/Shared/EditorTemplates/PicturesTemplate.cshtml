@@ -9,9 +9,8 @@
                 @Html.HiddenFor(m => m.Id)
                 @Html.HiddenFor(m => m.HasImage)
 
-                @Html.EditorFor(m => m.Title)
                 @Html.EditorFor(m => m.BlindTypeId, new { ListItems = ViewBag.BlindTypes })
-                @Html.EditorFor(m => m.File, "PictureUploadTemplate")
+                @Html.EditorFor(m => m.Files, "PictureUploadTemplate")
             </fieldset>
         </div>
     }

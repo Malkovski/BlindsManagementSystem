@@ -14,7 +14,6 @@ function onError(error) {
     popupNotification.show(error.errors, "error");
 }
 
-
 function onSuccess(result) {
     if (result) {
         $('#HasImage').val(true);
