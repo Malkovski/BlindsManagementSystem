@@ -4,11 +4,12 @@
 
     using Blinds.Data.Models;
     using Microsoft.Practices.Unity;
-    
+
     public class ComponentRepository : BaseRepository<Component>
     {
         [InjectionConstructor]
-        public ComponentRepository(IBlindsDbContext context) : base(context)
+        public ComponentRepository(IBlindsDbContext context)
+            : base(context)
         {
         }
 

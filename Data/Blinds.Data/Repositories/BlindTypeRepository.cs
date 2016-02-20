@@ -3,12 +3,13 @@
     using System.Linq;
 
     using Blinds.Data.Models;
-    using Microsoft.Practices.Unity;  
+    using Microsoft.Practices.Unity;
 
     public class BlindTypeRepository : BaseRepository<BlindType>
     {
         [InjectionConstructor]
-        public BlindTypeRepository(IBlindsDbContext context) : base(context)
+        public BlindTypeRepository(IBlindsDbContext context)
+            : base(context)
         {
         }
 

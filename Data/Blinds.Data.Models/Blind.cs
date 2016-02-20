@@ -6,7 +6,6 @@
     using Contracts;
     using Enumerations;
     using Common;
-    using System.ComponentModel.DataAnnotations.Schema;
     using System.Collections.Generic;
 
     public class Blind : IDeletableEntity
@@ -19,10 +18,12 @@
         [Key]
         public int Id { get; set; }
 
-        [Required, Range(1, 5000)]
+        [Required]
+        [Range(1, 5000)]
         public decimal Width { get; set; }
 
-        [Required, Range(1, 6000)]
+        [Required]
+        [Range(1, 6000)]
         public decimal Height { get; set; }
 
         [Required]

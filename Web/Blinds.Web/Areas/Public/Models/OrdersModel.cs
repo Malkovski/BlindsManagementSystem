@@ -15,10 +15,10 @@
     using System.Web;
     using System.ComponentModel.DataAnnotations;
     using System.Data.Entity.Validation;
-    using System.Text;
     using Proxies;
     using System.ComponentModel;
     using System.Transactions;
+
     public class OrdersModel : MenuModel, IModel<bool>
     {
         public OrdersModel()
@@ -28,32 +28,35 @@
 
         public int Id { get; set; }
 
+        [DisplayName(GlobalConstants.BlindTypeDisplay)]
         public int BlindTypeId { get; set; }
 
         [Required( ErrorMessage = GlobalConstants.OrderNumberRequireText)]
         [RegularExpression("^[0-9]+$", ErrorMessage = GlobalConstants.OrderNumberRegex)]
         [MaxLength(40, ErrorMessage = GlobalConstants.OrderNumberMaxLength)]
+        [DisplayName(GlobalConstants.OrderNumberDisplayText)]
         public string Number { get; set; }
 
         public Control Control { get; set; }
 
+        [DisplayName(GlobalConstants.OrdersDetailsInstalation)]
         public InstalationType InstalationType { get; set; }
 
         public virtual ICollection<BlindsModel> Blinds { get; set; }
 
         public IEnumerable<SelectListItem> BlindTypes { get; set; }
 
-        [DisplayName("Цвят на релсата")]
+        [DisplayName(GlobalConstants.OrderRailDisplayText)]
         public Color RailColor { get; set; }
 
         public IEnumerable<SelectListItem> RailColors { get; set; }
 
-        [DisplayName("Цвят на щората")]
+        [DisplayName(GlobalConstants.OrderColorDisplayText)]
         public Color FabricAndLamelColor { get; set; }
 
         public IEnumerable<SelectListItem> FabricAndLamelColors { get; set; }
 
-        [DisplayName("Материал")]
+        [DisplayName(GlobalConstants.OrderMaterialDisplayText)]
         public Material FabricAndLamelMaterial { get; set; }
 
         public IEnumerable<SelectListItem> FabricAndLamelMaterials { get; set; }
@@ -62,7 +65,7 @@
 
         public void Init(bool init)
         {
-            base.Init();
+            this.Init();
 
             if (init)
             {
@@ -72,7 +75,7 @@
                     Text = c.Name
                 }).ToList();
 
-                blindTypes.Insert(0, new SelectListItem { Value = "", Text = "Select one" });
+                blindTypes.Insert(0, new SelectListItem { Value = "", Text = GlobalConstants.OrderTypeDefaultDisplayText });
 
                 this.BlindTypes = blindTypes;
 
@@ -120,7 +123,6 @@
                 Value = (int)v.Material
             }).ToList();
 
-
             var result = new List<SelectListItem>();
 
             materials.ForEach(c =>
@@ -133,7 +135,6 @@
                         Value = c.Value.ToString()
                     });
                 }
-
             });
 
             return result;
@@ -187,7 +188,7 @@
                     var numberPostfix = "__" + loggedUserId.Substring(0, 12);
                     var orderNumber = proxy.OrderNumber + numberPostfix;
 
-                    var numberExist = repo.GetActive().Where(x => x.Number == (orderNumber) && x.UserId == loggedUserId).Any();
+                    var numberExist = repo.GetActive().Where(x => x.Number == orderNumber && x.UserId == loggedUserId).Any();
 
                     if (numberExist)
                     {
@@ -203,7 +204,7 @@
                     {
                         return new DataSourceResult
                         {
-                            Errors = "Rail error"
+                            Errors = GlobalConstants.GeneralRailError
                         };
                     }
 
@@ -213,10 +214,9 @@
                     {
                         return new DataSourceResult
                         {
-                            Errors = "fabricAndLamels error"
+                            Errors = GlobalConstants.GeneralMaterialError
                         };
                     }
-
 
                     Blind newBlind;
                     List<Blind> blinds = new List<Blind>();
@@ -270,8 +270,7 @@
                         fabricAndLamel.Quantity -= totalArea;
                         rail.Quantity -= totalWidth;
 
-
-                        entity.TotalPrice = this.GetComponentPrice(proxy, components) + totalWidth * rail.Price + totalArea * fabricAndLamel.Price;
+                        entity.TotalPrice = this.GetComponentPrice(proxy, components) + (totalWidth * rail.Price) + (totalArea * fabricAndLamel.Price);
                         entity.ExpeditionDate = this.CalculateManufactireDays(components, rail.Quantity, fabricAndLamel.Quantity, totalArea);
                         entity.Blinds = blinds;
 
@@ -279,38 +278,26 @@
 
                         transaction.Complete();
                     }
-
                 }
                 catch (DbEntityValidationException e)
                 {
-                    StringBuilder builder = new StringBuilder();
-
-                    foreach (var eve in e.EntityValidationErrors)
-                    {
-                        builder.AppendLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                            eve.Entry.Entity.GetType().Name, eve.Entry.State));
-                        foreach (var ve in eve.ValidationErrors)
-                        {
-                            builder.AppendLine(string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage));
-                        }
-                    }
-
                     return new DataSourceResult
                     {
-                        Errors = builder.ToString()
+                        Errors = this.HandleDbEntityValidationException(e)
                     };
                 }
+
                 return null;
             }
             else
             {
-                return base.HandleErrors(modelState);
+                return this.HandleErrors(modelState);
             }
         }
 
         private DateTime CalculateManufactireDays(List<Data.Models.Component> components, decimal railQuantity, decimal fabricAndLamelQuantity, decimal totalArea)
         {
-            int totalDays = (int)(2 + 2 + totalArea / 50);
+            int totalDays = (int)(2 + 2 + (totalArea / 50));
 
             if (components.Any(c => c.Quantity <= 0))
             {
@@ -349,7 +336,6 @@
                         else if (component.HeigthBased)
                         {
                             expence = (component.DefaultAmount * blind.Height) / 1000;
-
                         }
                         else if (component.WidthBased)
                         {
@@ -383,11 +369,9 @@
                         Value = c.Value.ToString()
                     });
                 }
-
             });
 
             return result;
         }
-
     }
 }

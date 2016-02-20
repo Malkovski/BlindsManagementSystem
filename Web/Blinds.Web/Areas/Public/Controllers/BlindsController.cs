@@ -8,8 +8,8 @@
     {
         public ActionResult Index()
         {
-            var model = LoadModel<BlindsModel, bool>(true);
-            return View(model);
+            var model = this.LoadModel<BlindsModel, bool>(true);
+            return this.View(model);
         }
     }
 }

@@ -17,7 +17,7 @@
     using Web.Models;
     using Kendo.Mvc.UI;
     using System.Data.Entity.Validation;
-    using System.Text;
+
     public class FabricAndLamelsModel : MenuModel, IMapFrom<FabricAndLamel>, IMapTo<FabricAndLamel>, IHaveCustomMappings, IModel<bool>, IDeletableEntity
     {
         [HiddenInput(DisplayValue = false)]
@@ -82,7 +82,7 @@
 
         public void Init(bool init)
         {
-            base.Init();
+            this.Init();
 
             if (init)
             {
@@ -134,15 +134,9 @@
                 if (entity == null)
                 {
                     entity = new FabricAndLamel();
-                    //repo.Add(entity);
                 }
 
-                var config = new MapperConfiguration(cfg =>
-                {
-                    cfg.CreateMap<FabricAndLamelsModel, FabricAndLamel>();
-                });
-                var mapper = config.CreateMapper();
-                entity = mapper.Map<FabricAndLamelsModel, FabricAndLamel>(viewModel);
+                entity = this.Mapper.Map<FabricAndLamelsModel, FabricAndLamel>(viewModel);
 
                 try
                 {
@@ -153,27 +147,15 @@
                 }
                 catch (DbEntityValidationException e)
                 {
-                    StringBuilder builder = new StringBuilder();
-
-                    foreach (var eve in e.EntityValidationErrors)
-                    {
-                        builder.AppendLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                            eve.Entry.Entity.GetType().Name, eve.Entry.State));
-                        foreach (var ve in eve.ValidationErrors)
-                        {
-                            builder.AppendLine(string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage));
-                        }
-                    }
-
                     return new DataSourceResult
                     {
-                        Errors = builder
+                        Errors = this.HandleDbEntityValidationException(e)
                     };
                 }
             }
             else
             {
-                return base.HandleErrors(modelState);
+                return this.HandleErrors(modelState);
             }
         }
 
@@ -192,14 +174,13 @@
             }
             else
             {
-                return base.HandleErrors(modelState);
+                return this.HandleErrors(modelState);
             }
         }
 
         // Mappings
         public void CreateMappings(IMapperConfiguration configuration)
         {
-
             configuration.CreateMap<FabricAndLamel, FabricAndLamelsModel>()
                 .ForMember(s => s.BlindTypeName, opt => opt.MapFrom(u => u.BlindType.Name));
         }

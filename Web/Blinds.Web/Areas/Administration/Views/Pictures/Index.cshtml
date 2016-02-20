@@ -47,7 +47,7 @@
     .Pageable(page => page.Refresh(true))
     .ToolBar(toolbar => toolbar.Create().Text(GlobalConstants.Create))
     .Editable(
-                e => e.Mode(GridEditMode.PopUp).TemplateName("PicturesTemplate").Window(w => w.Title(GlobalConstants.AddEditLabel).Width(450).)
+                e => e.Mode(GridEditMode.PopUp).TemplateName("PicturesTemplate").Window(w => w.Title(GlobalConstants.AddEditLabel).Width(450))
             )
     .Filterable()
     .Resizable(resize => resize.Columns(true))

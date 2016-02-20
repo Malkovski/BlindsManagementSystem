@@ -6,7 +6,8 @@
 
     using Blinds.Contracts;
 
-    public interface IRepository<T> where T : class, IDeletableEntity
+    public interface IRepository<T>
+        where T : class, IDeletableEntity
     {
         IQueryable<T> All();
 

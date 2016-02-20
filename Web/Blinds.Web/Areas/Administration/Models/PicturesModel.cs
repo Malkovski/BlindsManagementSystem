@@ -17,7 +17,7 @@
     using AutoMapper;
     using System.IO;
     using System.Data.Entity.Validation;
-    using System.Text;
+
     public class PicturesModel : MenuModel, IModel<bool>, IMapFrom<Picture>, IMapTo<Picture>, IHaveCustomMappings, IDeletableEntity
     {
         public int Id { get; set; }
@@ -48,9 +48,13 @@
 
         public IEnumerable<SelectListItem> BlindTypes { get; set; }
 
+        public bool Deleted { get; set; }
+
+        public DateTime? DeletedOn { get; set; }
+
         public void Init(bool init)
         {
-            base.Init();
+            this.Init();
 
             this.BlindTypes = this.RepoFactory.Get<BlindTypeRepository>().GetAll()
                          .Select(c => new SelectListItem
@@ -59,10 +63,6 @@
                              Text = c.Name
                          }).ToList();
         }
-
-        public bool Deleted { get; set; }
-
-        public DateTime? DeletedOn { get; set; }
 
         public IEnumerable<PicturesModel> Get()
         {
@@ -128,27 +128,15 @@
                 }
                 catch (DbEntityValidationException e)
                 {
-                    StringBuilder builder = new StringBuilder();
-
-                    foreach (var eve in e.EntityValidationErrors)
-                    {
-                        builder.AppendLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                            eve.Entry.Entity.GetType().Name, eve.Entry.State));
-                        foreach (var ve in eve.ValidationErrors)
-                        {
-                            builder.AppendLine(string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage));
-                        }
-                    }
-
                     return new DataSourceResult
                     {
-                        Errors = builder
+                        Errors = this.HandleDbEntityValidationException(e)
                     };
                 }
             }
             else
             {
-                return base.HandleErrors(modelState);
+                return this.HandleErrors(modelState);
             }
         }
 
@@ -167,7 +155,7 @@
             }
             else
             {
-                return base.HandleErrors(modelState);
+                return this.HandleErrors(modelState);
             }
         }
 

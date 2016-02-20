@@ -17,7 +17,7 @@
     using Infrastructure.Mapping;
     using Kendo.Mvc.UI;
     using System.Data.Entity.Validation;
-    using System.Text;
+
     public class RailsModel : MenuModel, IModel<bool>, IMapFrom<Rail>, IMapTo<Rail>, IHaveCustomMappings, IDeletableEntity
     {
         public int Id { get; set; }
@@ -65,7 +65,7 @@
 
         public void Init(bool init)
         {
-            base.Init();
+            this.Init();
 
             if (init)
             {
@@ -111,15 +111,9 @@
                 if (entity == null)
                 {
                     entity = new Rail();
-                   // repo.Add(entity);
                 }
 
-                var config = new MapperConfiguration(cfg =>
-                {
-                    cfg.CreateMap<RailsModel, Rail>();
-                });
-                var mapper = config.CreateMapper();
-                entity = mapper.Map<RailsModel, Rail>(viewModel);
+                entity = this.Mapper.Map<RailsModel, Rail>(viewModel);
 
                 try
                 {
@@ -130,27 +124,15 @@
                 }
                 catch (DbEntityValidationException e)
                 {
-                    StringBuilder builder = new StringBuilder();
-
-                    foreach (var eve in e.EntityValidationErrors)
-                    {
-                        builder.AppendLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                            eve.Entry.Entity.GetType().Name, eve.Entry.State));
-                        foreach (var ve in eve.ValidationErrors)
-                        {
-                            builder.AppendLine(string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage));
-                        }
-                    }
-
                     return new DataSourceResult
                     {
-                        Errors = builder
+                        Errors = this.HandleDbEntityValidationException(e)
                     };
                 }
             }
             else
             {
-                return base.HandleErrors(modelState);
+                return this.HandleErrors(modelState);
             }
         }
 
@@ -169,7 +151,7 @@
             }
             else
             {
-                return base.HandleErrors(modelState);
+                return this.HandleErrors(modelState);
             }
         }
 

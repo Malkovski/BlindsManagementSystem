@@ -1,9 +1,36 @@
 ﻿body {
     padding-top: 70px;
 }
+
 textarea {
     resize: vertical;
 }
+
+#scroller {
+    position: relative;
+}
+
+    #scroller .innerScrollArea {
+        overflow: hidden;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    #scroller ul {
+        padding: 0;
+        margin: 0;
+        position: relative;
+    }
+
+    #scroller li {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+        position: absolute;
+    }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
@@ -16,18 +43,18 @@ textarea {
     height: 100%;
 }
 
-.menu-logo img {
-    height: 100px;
-}
+    .menu-logo img {
+        height: 100px;
+    }
 
-.login-logo img {
-    height: 400px;
-}
+    .login-logo img {
+        height: 400px;
+    }
 
-.logo img {
-    margin-top: 30px;
-    height: 450px;
-}
+    .logo img {
+        margin-top: 30px;
+        height: 450px;
+    }
 
 .down {
     margin-top: 15px;
@@ -70,10 +97,10 @@ textarea {
     height: 170px;
 }
 
-.vertical p {
-    display: table-cell; 
-    vertical-align: middle; 
-}
+    .vertical p {
+        display: table-cell;
+        vertical-align: middle;
+    }
 
 .k-edit-form-container .form-control {
     height: 20px;
@@ -96,12 +123,12 @@ textarea {
 }
 
 .actionLink {
-    width : 200px;
+    width: 200px;
 }
 
 .view {
     margin-top: 9px;
-    color: blue; 
+    color: blue;
 }
 
 .sidebar {
@@ -160,3 +187,72 @@ input.validation-error, select.validation-error, div.validation-error-border, te
     border-bottom-right-radius: 0px;
     border: 3px solid #F44444;
 }
+
+div.preview-image-container {
+    float: right;
+}
+
+.preview-image {
+    height: 500px;
+}
+
+.preview-info {
+    padding-left: 40px;
+    padding-right: 40px;
+    text-align: center;
+}
+
+.preview-blindtype-name:first-child {
+    font-family: 'Courier New';
+    font-size: 40px;
+    padding-bottom: 15px;
+    text-align: center;
+}
+
+.preview-description {
+    font-size: 16px;
+    text-align: justify;
+    padding-bottom: 15px;
+    padding-top: 15px;
+    display: inline-block;
+}
+
+.preview-price {
+    font-size: 30px;
+    color: coral;
+    padding-bottom: 25px;
+    padding-top: 25px;
+    display: inline-block;
+    text-align: center;
+}
+
+.galleryItem {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+#scroller {
+    position: relative;
+}
+
+    #scroller .innerScrollArea {
+        overflow: hidden;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    #scroller ul {
+        padding: 0;
+        margin: 0;
+        position: relative;
+    }
+
+    #scroller li {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+        position: absolute;
+    }

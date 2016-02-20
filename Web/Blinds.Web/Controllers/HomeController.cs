@@ -7,8 +7,8 @@
     {
         public ActionResult Index()
         {
-            var model = LoadModel<MenuModel>();
-            return View(model);
+            var model = this.LoadModel<MenuModel>();
+            return this.View(model);
         }
     }
 }

@@ -34,7 +34,8 @@
             return new BlindsDbContext();
         }
 
-        public new IDbSet<T> Set<T>() where T : class
+        public new IDbSet<T> Set<T>()
+            where T : class
         {
             return base.Set<T>();
         }
@@ -48,13 +49,6 @@
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
-
-            //modelBuilder.Entity<Blind>()
-            //    .HasKey(t => t.Id);
-
-            //modelBuilder.Entity<ConsumedMaterials>()
-            //    .HasRequired(t => t.Blind)
-            //    .WithRequiredPrincipal(t => t.ConsumedMaterials);
         }
     }
 }

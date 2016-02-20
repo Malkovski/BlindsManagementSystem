@@ -465,7 +465,6 @@
     <Content Include="Areas\Public\Views\Orders\Index.cshtml" />
     <Content Include="Areas\Public\Views\Shared\_BlindRowsPartial.cshtml" />
     <Content Include="Areas\Public\Views\Blinds\Index.cshtml" />
-    <Content Include="Areas\Public\Views\Shared\_SizeRowPartial.cshtml" />
     <Content Include="Areas\Public\Views\Shared\EditorTemplates\PublicEnumTemplate.cshtml" />
     <Content Include="Areas\Public\Views\Shared\EditorTemplates\PublicDropDownTemplate.cshtml" />
     <Content Include="Areas\Public\Views\Orders\Details.cshtml" />
@@ -479,6 +478,7 @@
     <Content Include="Areas\Administration\Views\Shared\_PicturesByTypePartial.cshtml" />
     <Content Include="Areas\Public\Views\Shared\_DetailedPicturePartial.cshtml" />
     <Content Include="Areas\Public\Views\Orders\MyOrders.cshtml" />
+    <Content Include="Areas\Public\Views\Shared\_SizeRowPartial.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -929,6 +929,11 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\Newtonsoft.Json.dll" />
+    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

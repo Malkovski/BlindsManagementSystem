@@ -12,13 +12,14 @@
     {
         public BlindType()
         {
-            this.Picures = new HashSet<Picture>();
+            this.Pictures = new HashSet<Picture>();
         }
 
         [Key]
         public int Id { get; set; }
 
-        [Required, Index(IsUnique = true)]
+        [Required]
+        [Index(IsUnique = true)]
         [MinLength(5, ErrorMessage = GlobalConstants.NameMinLength)]
         [MaxLength(100, ErrorMessage = GlobalConstants.NameMaxLength)]
         public string Name { get; set; }
@@ -32,7 +33,7 @@
 
         public byte[] Content { get; set; }
 
-        public virtual ICollection<Picture> Picures { get; set; }
+        public virtual ICollection<Picture> Pictures { get; set; }
 
         public bool Deleted { get; set; }
 

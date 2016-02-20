@@ -9,7 +9,9 @@
     using Data.Models;
     using Kendo.Mvc.UI;
     using System.Web.Mvc;
-
+    using Common;
+    using System.Data.Entity.Validation;
+    using System.Text;
     public class MenuModel : MainModel, IModel, IMapFrom<BlindType>
     {
         public ICollection<ProductsModel> BlindCategories { get; set; }
@@ -24,7 +26,7 @@
 
         protected DataSourceResult HandleErrors(ModelStateDictionary modelState)
         {
-            var error = "Грешка с данните";
+            var error = GlobalConstants.GeneralDataError;
 
             foreach (var value in modelState.Values)
             {
@@ -39,6 +41,23 @@
             {
                 Errors = error
             };
+        }
+
+        protected string HandleDbEntityValidationException(DbEntityValidationException e)
+        {
+            StringBuilder builder = new StringBuilder();
+
+            foreach (var eve in e.EntityValidationErrors)
+            {
+                builder.AppendLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    eve.Entry.Entity.GetType().Name, eve.Entry.State));
+                foreach (var ve in eve.ValidationErrors)
+                {
+                    builder.AppendLine(string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage));
+                }
+            }
+
+            return builder.ToString();
         }
     }
 }

@@ -3,7 +3,6 @@
     using Blinds.Common;
     using Blinds.Data.Models.Enumerations;
 
-
     public class ColorProxy
     {
         public Color Color { get; set; }

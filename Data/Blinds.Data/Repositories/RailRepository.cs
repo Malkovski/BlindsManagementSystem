@@ -9,7 +9,8 @@
     public class RailRepository : BaseRepository<Rail>
     {
         [InjectionConstructor]
-        public RailRepository(IBlindsDbContext context) : base(context)
+        public RailRepository(IBlindsDbContext context)
+            : base(context)
         {
         }
 

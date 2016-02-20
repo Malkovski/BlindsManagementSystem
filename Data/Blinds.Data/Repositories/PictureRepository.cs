@@ -7,7 +7,8 @@
     public class PictureRepository : BaseRepository<Picture>
     {
         [InjectionConstructor]
-        public PictureRepository(IBlindsDbContext context) : base(context)
+        public PictureRepository(IBlindsDbContext context)
+            : base(context)
         {
         }
 

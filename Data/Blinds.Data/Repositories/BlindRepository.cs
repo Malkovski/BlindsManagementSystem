@@ -8,7 +8,8 @@
     public class BlindRepository : BaseRepository<Blind>
     {
         [InjectionConstructor]
-        public BlindRepository(IBlindsDbContext context) : base(context)
+        public BlindRepository(IBlindsDbContext context)
+            : base(context)
         {
         }
 

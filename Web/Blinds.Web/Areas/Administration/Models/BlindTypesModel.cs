@@ -8,8 +8,7 @@
     using System.Linq;
     using System.Web;
     using System.Web.Mvc;
-
-    using AutoMapper;
+    
     using Common;
     using Contracts;
     using Data.Models;
@@ -18,7 +17,6 @@
     using Web.Models;
     using Kendo.Mvc.UI;
     using System.Data.Entity.Validation;
-    using System.Text;
 
     public class BlindTypesModel : MenuModel, IMapFrom<BlindType>, IMapTo<BlindType>, IDeletableEntity
     {
@@ -60,8 +58,6 @@
                 .ToList();
         }
 
-
-
         public DataSourceResult Save(BlindTypesModel viewModel, ModelStateDictionary modelState)
         {
             if (viewModel != null && modelState.IsValid)
@@ -83,14 +79,8 @@
                 {
                     entity = new BlindType();
                 }
-                
-                var config = new MapperConfiguration(cfg =>
-                {
-                    cfg.CreateMap<BlindTypesModel, BlindType>();
-                });
-                var mapper = config.CreateMapper();
-                entity = mapper.Map<BlindTypesModel, BlindType>(viewModel);
 
+                entity = this.Mapper.Map<BlindTypesModel, BlindType>(viewModel);
 
                 if (viewModel.File != null)
                 {
@@ -110,27 +100,15 @@
                 }
                 catch (DbEntityValidationException e)
                 {
-                    StringBuilder builder = new StringBuilder();
-
-                    foreach (var eve in e.EntityValidationErrors)
-                    {
-                        builder.AppendLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                            eve.Entry.Entity.GetType().Name, eve.Entry.State));
-                        foreach (var ve in eve.ValidationErrors)
-                        {
-                            builder.AppendLine(string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage));
-                        }
-                    }
-
                     return new DataSourceResult
                     {
-                        Errors = builder
+                        Errors = this.HandleDbEntityValidationException(e)
                     };
                 }
             }
             else
             {
-                return base.HandleErrors(modelState);
+                return this.HandleErrors(modelState);
             }
         }
 
@@ -149,7 +127,7 @@
             }
             else
             {
-                return base.HandleErrors(modelState);
+                return this.HandleErrors(modelState);
             }
         }
     }

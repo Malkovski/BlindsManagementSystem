@@ -9,7 +9,8 @@
     public class FabricAndLamelRepository : BaseRepository<FabricAndLamel>
     {
         [InjectionConstructor]
-        public FabricAndLamelRepository(IBlindsDbContext context) : base(context)
+        public FabricAndLamelRepository(IBlindsDbContext context)
+            : base(context)
         {
         }
 

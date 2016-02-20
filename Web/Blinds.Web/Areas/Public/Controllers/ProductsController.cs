@@ -9,15 +9,15 @@
     {
         public ActionResult Index(int id)
         {
-            var model = LoadModel<ProductsModel, int>(id);
-            return View(model);
+            var model = this.LoadModel<ProductsModel, int>(id);
+            return this.View(model);
         }
 
         public PartialViewResult Details(int id)
         {
 
             var model = this.LoadModel<PicturesModel, bool>(false).GetById(id);
-            return PartialView("_DetailedPicturePartial", model);
+            return this.PartialView("_DetailedPicturePartial", model);
         }
     }
 }

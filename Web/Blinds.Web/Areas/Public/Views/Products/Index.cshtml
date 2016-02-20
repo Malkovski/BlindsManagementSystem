@@ -1,4 +1,5 @@
 ﻿@using Blinds.Web.Areas.Public.Models
+@using Blinds.Common
 
 @model ProductsModel
 
@@ -6,23 +7,44 @@
     <script type="text/javascript" src="@Url.Content("~/Areas/Public/Scripts/Products/ProductsViewModel.js")"></script>
 }
 
-<div class="well text-center">
-    <h3>@Model.Name</h3>
-    <p>@Model.Info</p>
-    <strong class="pull-left">@Model.Price</strong>
-    <div>
-        @if (Model.Content != null)
-        {
-            <img src="data:image/jpeg; base64, @Convert.ToBase64String(Model.Content, Base64FormattingOptions.None)" alt="Image" />
-        }
+<div class="well">
+    <div class="row">
+        <div class="menu-logo pull-left">
+            @Html.Partial("_LogoPartial")
+        </div>
+        <div class="col-lg-10">
+            <h3 class="preview-blindtype-name">@Model.Pictures.Count() @Model.PicturesCount @Model.Name</h3>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-lg-6 preview-info">
+            <p class="preview-description">@Model.Info</p>
+            <strong class="preview-price">@Model.Price</strong>
+            @Html.ActionLink(GlobalConstants.MakeOrderName, "Index", "Orders", null, new { @class = "btn btn-primary btn-lg btn-block" })
+        </div>
+        <div class="col-lg-6 text-center">
+            @if (Model.Content != null)
+            {
+                <img src="data:image/jpeg; base64, @Convert.ToBase64String(Model.Content, Base64FormattingOptions.None)" alt="Image" class="img-rounded preview-image" />
+            }
+        </div>
     </div>
 </div>
-
-<div id="gallery">
-    @foreach (var picture in Model.Pictures)
-    {
-        <img src="data:image/jpeg; base64, @Convert.ToBase64String(picture.Content, Base64FormattingOptions.None)" alt="Image" width="120" class="galleryItem"/>
-    }
+<div hidden data-action="picturesCount" data-pictures-count="@Model.Pictures.Count()"></div>
+<div id="gallery" class="preview-gallery-list text-center">
+    <div id="scroller" style="height: 400px; margin: 0 auto;">
+        <div class="innerScrollArea">
+            <ul>
+                @foreach (var picture in Model.Pictures)
+            {
+                    <li><img src="data:image/jpeg; base64, @Convert.ToBase64String(picture.Content, Base64FormattingOptions.None)" alt="Image" width="120" class="galleryItem" /></li>
+                }
+            </ul>
+        </div>
+        <div class="edge edgeLeft"></div>
+        <div class="edge edgeRight"></div>
+    </div>
 </div>
 
 <div id="previewImage" class="modal modal-pdf-viewer">
@@ -38,3 +60,4 @@
         </div>
     </div>
 </div>
+

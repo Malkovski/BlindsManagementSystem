@@ -8,7 +8,8 @@
     public class OrderRepository : BaseRepository<Order>
     {
         [InjectionConstructor]
-        public OrderRepository(IBlindsDbContext context) : base(context)
+        public OrderRepository(IBlindsDbContext context)
+            : base(context)
         {
         }
 

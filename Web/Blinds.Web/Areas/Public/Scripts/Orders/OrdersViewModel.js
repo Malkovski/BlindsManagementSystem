@@ -31,7 +31,8 @@ OrdersViewModel = {
         var self = OrdersViewModel;
 
         jQuery.extend(jQuery.validator.messages, {
-            required: "Полето е задължително.",
+            required: "Полето е задължително!",
+            min: jQuery.validator.format("Стойностт по-малка от {0} е невалидна!")
         });
 
         self.validator = $(self.form).validate({
@@ -59,19 +60,22 @@ OrdersViewModel = {
 
         $('[name^=Width]').each(function () {
             $(this).rules('add', {
-                required: true
+                required: true,
+                min: 100
             });
         });
 
         $('[name^=Height]').each(function () {
             $(this).rules('add', {
-                required: true
+                required: true,
+                min: 100
             });
         });
 
         $('[name^=BlindsCount]').each(function () {
             $(this).rules('add', {
-                required: true
+                required: true,
+                min: 1
             });
         });
     },

@@ -7,16 +7,17 @@
     using System.Linq.Expressions;
 
     using Blinds.Contracts;
-    using Blinds.Data;  
+    using Blinds.Data;
 
-    public class BaseRepository<T> : IRepository<T> where T : class, IDeletableEntity
+    public class BaseRepository<T> : IRepository<T>
+        where T : class, IDeletableEntity
     {
-        protected readonly IBlindsDbContext Context;
+        private readonly IBlindsDbContext context;
         private readonly IDbSet<T> set;
 
         public BaseRepository(IBlindsDbContext context)
         {
-            this.Context = context;
+            this.context = context;
             this.set = context.Set<T>();
         }
 
@@ -54,7 +55,7 @@
 
         public void Delete(T entity)
         {
-            var entry = this.Context.Entry(entity);
+            var entry = this.context.Entry(entity);
             if (entry.State != EntityState.Deleted)
             {
                 entry.State = EntityState.Deleted;
@@ -68,18 +69,18 @@
 
         public void Detach(T entity)
         {
-            var entry = this.Context.Entry(entity);
+            var entry = this.context.Entry(entity);
             entry.State = EntityState.Detached;
         }
 
         public virtual int SaveChanges()
         {
-            return this.Context.SaveChanges();
+            return this.context.SaveChanges();
         }
 
         private DbEntityEntry AttachIfDetached(T entity)
         {
-            var entry = this.Context.Entry(entity);
+            var entry = this.context.Entry(entity);
             if (entry.State == EntityState.Detached)
             {
                 this.set.Attach(entity);

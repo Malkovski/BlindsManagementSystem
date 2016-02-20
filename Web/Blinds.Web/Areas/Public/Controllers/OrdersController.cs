@@ -2,7 +2,6 @@
 {
     using Models;
     using Proxies;
-    using System.Web;
     using System.Web.Mvc;
     using Web.Controllers;
 
@@ -10,32 +9,32 @@
     {
         public ActionResult Index()
         {
-            var model = LoadModel<OrdersModel, bool>(true);
-            return View(model);
+            var model = this.LoadModel<OrdersModel, bool>(true);
+            return this.View(model);
         }
 
         public ActionResult NewSizeRow()
         {
-            return PartialView("_SizeRowPartial");
+            return this.PartialView("_SizeRowPartial");
         }
 
         [HttpPost]
         public ActionResult Save(OrderProxy proxy)
         {
-            var error = LoadModel<OrdersModel, bool>(true).Save(proxy, this.ModelState);
+            var error = this.LoadModel<OrdersModel, bool>(true).Save(proxy, this.ModelState);
 
             if (error != null)
             {
-                return Json(error);
+                return this.Json(error);
             }
 
-            return RedirectToAction("Details", new { id = proxy.Id});
+            return this.RedirectToAction("Details", new { id = proxy.Id});
         }
 
         public ActionResult Details(int id)
         {
             var model = this.LoadModel<OrdersModel, bool>(true).GetDetails(id);
-            return View(model);
+            return this.View(model);
         }
 
         public ActionResult MyOrders(string userId)

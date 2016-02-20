@@ -4,9 +4,7 @@
     using Kendo.Mvc.Extensions;
     using Kendo.Mvc.UI;
     using Models;
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Web;
     using System.Web.Mvc;
 
@@ -15,28 +13,27 @@
         public ActionResult Index()
         {
             var model = this.LoadModel<PicturesModel, bool>(true);
-            ViewBag.BlindTypes = model.BlindTypes;
-            return View(model);
+            this.ViewBag.BlindTypes = model.BlindTypes;
+            return this.View(model);
         }
 
         public JsonResult UploadPicture(IEnumerable<HttpPostedFileBase> pictures)
         {
             if (pictures != null)
             {
-                var currentFiles = (HttpPostedFileBase[])TempData["UploadedFile"];
+                var currentFiles = (HttpPostedFileBase[])this.TempData["UploadedFile"];
 
                 if (currentFiles != null)
                 {
                     var combinedFiles = new List<HttpPostedFileBase>();
                     combinedFiles.AddRange(currentFiles);
                     combinedFiles.AddRange(pictures);
-                    TempData["UploadedFile"] = combinedFiles.ToArray();
+                    this.TempData["UploadedFile"] = combinedFiles.ToArray();
                 }
                 else
                 {
-                    TempData["UploadedFile"] = pictures;
+                    this.TempData["UploadedFile"] = pictures;
                 }
-                
             }
 
             return this.Json(true);
@@ -45,8 +42,8 @@
         [HttpPost]
         public ActionResult Read([DataSourceRequest]DataSourceRequest request)
         {
-            var result = LoadModel<PicturesModel, bool>(false).Get();
-            var jsonResult = Json(result.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+            var result = this.LoadModel<PicturesModel, bool>(false).Get();
+            var jsonResult = this.Json(result.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }
@@ -54,7 +51,7 @@
         public PartialViewResult ReadByType(int id)
         {
             var result = this.LoadModel<PicturesModel, bool>(false).GetByType(id);
-            return PartialView("_PicturesByTypePartial", result);
+            return this.PartialView("_PicturesByTypePartial", result);
         }
 
         [HttpPost]
@@ -63,15 +60,15 @@
         {
             if (viewModel.HasImage)
             {
-                viewModel.Files = (HttpPostedFileBase[])TempData["UploadedFile"];
-                TempData["UploadedFile"] = null;
+                viewModel.Files = (HttpPostedFileBase[])this.TempData["UploadedFile"];
+                this.TempData["UploadedFile"] = null;
             }
 
             var error = this.LoadModel<PicturesModel, bool>(false).Save(viewModel, this.ModelState);
 
             if (error != null)
             {
-                return Json(error);
+                return this.Json(error);
             }
 
             return this.GridOperation(viewModel, request);
@@ -86,7 +83,7 @@
 
             if (error != null)
             {
-                return Json(error);
+                return this.Json(error);
             }
 
             return this.GridOperation(viewModel, request);

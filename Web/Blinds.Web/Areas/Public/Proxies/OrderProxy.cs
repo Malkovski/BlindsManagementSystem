@@ -1,13 +1,7 @@
-﻿using Blinds.Common;
-using Blinds.Data.Models;
-using Blinds.Data.Models.Enumerations;
-using Blinds.Web.Areas.Public.Models;
-using System;
-using System.Collections.Generic;
-using System.Web.Mvc;
-
-namespace Blinds.Web.Areas.Public.Proxies
+﻿namespace Blinds.Web.Areas.Public.Proxies
 {
+    using System.Collections.Generic;
+
     public class OrderProxy
     {
         public int Id { get; set; }

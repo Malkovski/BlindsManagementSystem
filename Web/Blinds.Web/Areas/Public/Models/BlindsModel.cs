@@ -63,7 +63,7 @@
 
         public void Init(bool init)
         {
-            base.Init();
+            this.Init();
 
             if (init)
             {

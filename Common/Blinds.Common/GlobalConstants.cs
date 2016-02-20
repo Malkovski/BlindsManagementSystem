@@ -42,7 +42,6 @@
         // ViewModels
 
         // Orders
-
         public const string OrdersName = "Поръчки";
         public const string OrdersDetailsTitle = "ПОРЪЧКА №";
         public const string OrdersDetailsDate = "Заявена на";
@@ -55,8 +54,12 @@
         public const string OrderNumberExistsMessage = "Вече съществува Ваша поръчка с този номер!";
         public const string OrderAvailableMaterialsErrorMessage = "В момента този продукт не се поддържа!";
         public const string OrderBlindCountErrorMessage = "Броя щори не може да бъде 0 или отрицателен!";
-
-
+        public const string MakeOrderName = "Поръчай сега!";
+        public const string OrderNumberDisplayText = "Номер на поръчката";
+        public const string OrderRailDisplayText = "Цвят на релсата";
+        public const string OrderColorDisplayText = "Цвят на щората";
+        public const string OrderMaterialDisplayText = "Материал";
+        public const string OrderTypeDefaultDisplayText = "Изберете вид...";
 
         // BlindType
         public const string BlindTypeDisplay = "Вид";
@@ -68,13 +71,11 @@
         public const string ContentDisplay = "Изображение";
 
         // Gallery
-
         public const string PictureTitleDisplay = "Заглавие";
         public const string PictureTitleRequireText = "Заглавието е задължително!";
         public const string PictureOriginalFileNameDisplay = "Име на файл";
         public const string PictureOriginalSizeDisplay = "Размер";
         public const string PictureExtensionDisplay = "Разширение";
-
 
         // Rails
         public const string ColorDisplay = "Цвят";
@@ -120,7 +121,7 @@
         public const string GroupMessage = "Провлачете заглавие на колона тук, за да групирате по нея";
         public const string FileUploadText = "Избери изображение...";
 
-        //Database constraints
+        // Database constraints
         public const string NameMinLength = "Името трябва да е поне 5 символа!";
         public const string NameMaxLength = "Името не може да е повече от 100 символа!";
         public const string ComponentNameMinLength = "Името трябва да е поне 2 символа!";
@@ -131,10 +132,15 @@
         public const string OrderNumberMaxLength = "Номерът не може да е повече от 40 символа!";
         public const string OrderNumberRegex = "Номерът трябва да съдържа само арабски цифри!";
 
-        //Administration error messages
+        // Administration error messages
         public const string BlindTypeExistsMessage = "Типът щора вече съществува!";
         public const string ComponentExistsMessage = "Компонент с това име, за този модел щори, вече съществува!";
         public const string RailExistsMessage = "Вече съществува релса за този вид щори с този цвят!";
         public const string FabricAndLamelsExistsMessage = "Вече съществува текстил/ламели за този вид щори, с този цвят!";
+
+        // General errors
+        public const string GeneralDataError = "Грешка с данните";
+        public const string GeneralRailError = "Грешка с данните за релси";
+        public const string GeneralMaterialError = "Грешка с данните за материал";
     }
 }

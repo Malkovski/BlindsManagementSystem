@@ -54,7 +54,7 @@
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(m => m.InstalationType, "Instalation", new { @class = "control-label col-md-3" })
+            @Html.LabelFor(m => m.InstalationType, new { @class = "control-label col-md-3" })
             <div class="col-md-7">
                 @Html.DropDownListFor(m => m.InstalationType, Model.InstalationTypes, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m, "", new { @class = "text-danger" })
@@ -65,7 +65,7 @@
             @Html.Partial("_BlindRowsPartial")
         </div>
 
-        <button id="addBlindRow" type="button" class="btn btn-primary">Add row</button>
+        <button id="addBlindRow" type="button" class="btn btn-primary">Добави ред</button>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

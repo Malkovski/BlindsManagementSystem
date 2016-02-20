@@ -11,30 +11,28 @@
     {
         public ActionResult Index()
         {
-            var model = LoadModel<RailsModel, bool>(true);
-            ViewBag.Colors = model.Colors;
-            ViewBag.BlindTypes = model.BlindTypes;
+            var model = this.LoadModel<RailsModel, bool>(true);
+            this.ViewBag.Colors = model.Colors;
+            this.ViewBag.BlindTypes = model.BlindTypes;
             return this.View(model);
         }
 
         [HttpPost]
-        public ActionResult Read([DataSourceRequest]
-                                 DataSourceRequest request)
+        public ActionResult Read([DataSourceRequest]DataSourceRequest request)
         {
-            var result = LoadModel<RailsModel, bool>(false).Get();
+            var result = this.LoadModel<RailsModel, bool>(false).Get();
             return this.Json(result.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Save([DataSourceRequest]
-                                   DataSourceRequest request, RailsModel viewModel)
+        public ActionResult Save([DataSourceRequest]DataSourceRequest request, RailsModel viewModel)
         {
-            var error = LoadModel<RailsModel, bool>(false).Save(viewModel, this.ModelState);
+            var error = this.LoadModel<RailsModel, bool>(false).Save(viewModel, this.ModelState);
 
             if (error != null)
             {
-                return Json(error);
+                return this.Json(error);
             }
 
             return this.GridOperation(viewModel, request);
@@ -42,14 +40,13 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Destroy([DataSourceRequest]
-                                    DataSourceRequest request, RailsModel viewModel)
+        public ActionResult Destroy([DataSourceRequest]DataSourceRequest request, RailsModel viewModel)
         {
-            var error = LoadModel<RailsModel, bool>(false).Delete(viewModel, this.ModelState);
+            var error = this.LoadModel<RailsModel, bool>(false).Delete(viewModel, this.ModelState);
 
             if (error != null)
             {
-                return Json(error);
+                return this.Json(error);
             }
 
             return this.GridOperation(viewModel, request);
