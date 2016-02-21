@@ -1,0 +1,87 @@
+﻿@using Blinds.Web.Areas.Public.Models
+@using Blinds.Common
+
+@model DetailsModel
+
+@section scripts {
+    <script type="text/javascript" src="@Url.Content("~/Areas/Public/Scripts/Details/DetailsViewModel.js")"></script>
+}
+
+<div class="well">
+    <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-6">
+            <h2>@GlobalConstants.OrdersDetailsTitle @Model.ViewModel.OrderNumber.Split('_')[0]</h2>
+            <small>@GlobalConstants.OrdersDetailsDate: <i>@Model.ViewModel.OrderDate</i></small>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <button class="btn btn-success pull-right col-lg-offset-1 button-custom" id="emailBtn">Email</button>
+            <button class="btn btn-warning pull-right button-custom">Print</button>
+        </div>
+    </div>
+    
+    <table class="table table-hover table-bordered">
+        <tr>
+            <td class="col-md-3">@Html.LabelFor(m => m.ViewModel.ClientName)</td>
+            <td class="col-md-7">
+                @Html.DisplayFor(m => m.ViewModel.ClientName)
+            </td>
+        </tr>
+        <tr>
+            <td class="col-md-3">@Html.LabelFor(m => m.ViewModel.BlindType)</td>
+            <td class="col-md-7">
+                @Html.DisplayFor(m => m.ViewModel.BlindType)
+            </td>
+        </tr>
+        <tr>
+            <td class="col-md-3">@Html.LabelFor(m => m.ViewModel.RailColor)</td>
+            <td class="col-md-7">
+                @Html.DisplayFor(m => m.ViewModel.RailColor)
+        </tr>
+        <tr>
+            <td class="col-md-3">@Html.LabelFor(m => m.ViewModel.FabricAndLamelMaterial)</td>
+            <td class="col-md-7">
+                @Html.DisplayFor(m => m.ViewModel.FabricAndLamelMaterial)
+        </tr>
+        <tr>
+            <td class="col-md-3">@Html.LabelFor(m => m.ViewModel.FabricAndMaterialColor)</td>
+            <td class="col-md-7">
+                @Html.DisplayFor(m => m.ViewModel.FabricAndMaterialColor)
+        </tr>
+        <tr>
+            <td class="col-md-3">@Html.LabelFor(m => m.ViewModel.Instalation)</td>
+            <td class="col-md-7">
+                @Html.DisplayFor(m => m.ViewModel.Instalation)
+        </tr>
+        <tr>
+            <td class="col-md-3">@Html.LabelFor(m => m.ViewModel.ExpeditionDate)</td>
+            <td class="col-md-7">
+                @Html.DisplayFor(m => m.ViewModel.ExpeditionDate)
+        </tr>
+        <tr>
+            <td class="col-md-3">@Html.LabelFor(m => m.ViewModel.Price)</td>
+            <td class="col-md-7">
+                @Html.DisplayFor(m => m.ViewModel.Price)
+        </tr>
+    </table>
+    <button id="showBlinds" class="btn btn-sm btn-default">@GlobalConstants.OrdersDetailsShowBlindsButton</button>
+    <div id="blindsTable" class="top-buffer div-hidden">
+        @Html.DisplayFor(x => x.ViewModel.Blinds, "BlindDisplayTemplate")
+    </div>
+</div>
+
+<div id="messageModal" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="modal-header-save">Информация</h4>
+            </div>
+            <div class="modal-body">
+                <div id="textMessage" class="alert alert-success"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Затвори</button>
+            </div>
+        </div>
+    </div>
+</div>

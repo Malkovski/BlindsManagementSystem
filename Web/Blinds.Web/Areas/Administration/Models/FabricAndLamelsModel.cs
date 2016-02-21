@@ -17,8 +17,8 @@
     using Web.Models;
     using Kendo.Mvc.UI;
     using System.Data.Entity.Validation;
-
-    public class FabricAndLamelsModel : MenuModel, IMapFrom<FabricAndLamel>, IMapTo<FabricAndLamel>, IHaveCustomMappings, IModel<bool>, IDeletableEntity
+    using AutoMapper.QueryableExtensions;
+    public class FabricAndLamelsModel : AdminModel, IMapFrom<FabricAndLamel>, IHaveCustomMappings, IModel<bool>, IDeletableEntity
     {
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }
@@ -110,7 +110,7 @@
         public IEnumerable<FabricAndLamelsModel> Get()
         {
             return this.RepoFactory.Get<FabricAndLamelRepository>().GetActive()
-                .To<FabricAndLamelsModel>()
+                .Project().To<FabricAndLamelsModel>()
                 .ToList();
         }
 
@@ -134,13 +134,13 @@
                 if (entity == null)
                 {
                     entity = new FabricAndLamel();
+                    repo.Add(entity);
                 }
 
-                entity = this.Mapper.Map<FabricAndLamelsModel, FabricAndLamel>(viewModel);
+                Mapper.Map(viewModel, entity);
 
                 try
                 {
-                    repo.Add(entity);
                     repo.SaveChanges();
                     viewModel.Id = entity.Id;
                     return null;
@@ -179,7 +179,7 @@
         }
 
         // Mappings
-        public void CreateMappings(IMapperConfiguration configuration)
+        public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<FabricAndLamel, FabricAndLamelsModel>()
                 .ForMember(s => s.BlindTypeName, opt => opt.MapFrom(u => u.BlindType.Name));

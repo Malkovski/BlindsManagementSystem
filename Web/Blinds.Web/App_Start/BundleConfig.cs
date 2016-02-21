@@ -42,7 +42,8 @@
 
             bundles.Add(new ScriptBundle("~/bundles/custom").Include(
                 "~/Scripts/underscore.js",
-                "~/Scripts/jquery.validate.js"
+                "~/Scripts/jquery.validate.js",
+                "~/Scripts/JsConstants.js"
             ));
 
             bundles.Add(new ScriptBundle("~/bundles/unobtrusive-jquery").Include(

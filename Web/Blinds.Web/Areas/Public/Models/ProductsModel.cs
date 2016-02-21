@@ -8,7 +8,7 @@
     using System.Linq;
     using AutoMapper;
 
-    public class ProductsModel : MenuModel, IMapFrom<BlindType>, IModel<int>, IHaveCustomMappings
+    public class ProductsModel : PublicModel, IMapFrom<BlindType>, IModel<int>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
@@ -28,14 +28,10 @@
         {
             this.Init();
             var entity = this.RepoFactory.Get<BlindTypeRepository>().GetById(id);
-            this.Info = entity.Info;
-            this.Name = entity.Name;
-            this.Price = entity.Price;
-            this.Pictures = entity.Pictures.Where(p => !p.Deleted).ToList();
-            this.Content = entity.Content;
+            Mapper.Map(entity, this);
         }
 
-        public void CreateMappings(IMapperConfiguration configuration)
+        public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<BlindType, ProductsModel>()
                 .ForMember(x => x.PicturesCount, opt => opt.MapFrom(x => x.Pictures.Count()));

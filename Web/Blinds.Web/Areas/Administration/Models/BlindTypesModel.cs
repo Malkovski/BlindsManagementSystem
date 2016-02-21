@@ -8,17 +8,17 @@
     using System.Linq;
     using System.Web;
     using System.Web.Mvc;
-    
+
     using Common;
     using Contracts;
     using Data.Models;
     using Data.Repositories;
     using Infrastructure.Mapping;
-    using Web.Models;
     using Kendo.Mvc.UI;
     using System.Data.Entity.Validation;
-
-    public class BlindTypesModel : MenuModel, IMapFrom<BlindType>, IMapTo<BlindType>, IDeletableEntity
+    using AutoMapper.QueryableExtensions;
+    using AutoMapper;
+    public class BlindTypesModel : AdminModel, IMapFrom<BlindType>, IDeletableEntity
     {
         [HiddenInput(DisplayValue = false)]
         public int Id { get; set; }
@@ -54,6 +54,7 @@
         public IEnumerable<BlindTypesModel> Get()
         {
             return this.RepoFactory.Get<BlindTypeRepository>().GetActive()
+                .Project()
                 .To<BlindTypesModel>()
                 .ToList();
         }
@@ -78,9 +79,10 @@
                 if (entity == null)
                 {
                     entity = new BlindType();
+                    repo.Add(entity);
                 }
 
-                entity = this.Mapper.Map<BlindTypesModel, BlindType>(viewModel);
+                Mapper.Map(viewModel, entity);
 
                 if (viewModel.File != null)
                 {
@@ -92,7 +94,6 @@
 
                 try
                 {
-                    repo.Add(entity);
                     repo.SaveChanges();
                     viewModel.Id = entity.Id;
                     viewModel.File = null;

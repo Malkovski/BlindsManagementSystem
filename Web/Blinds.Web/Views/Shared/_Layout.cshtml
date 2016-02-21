@@ -5,18 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
 
+    @Styles.Render("~/Content/css")
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jquery-ui")
     @Scripts.Render("~/bundles/custom")
+
     @Styles.Render("~/Content/jquery")
+
     @Styles.Render("~/Content/Kendo")
-
-    @Styles.Render("~/Content/css")
-
-
     @Scripts.Render("~/bundles/kendo")
     @RenderSection("styles", required: false)
     @Styles.Render("~/Content/site-css")
+    @RenderSection("scripts", required: false)
 
 </head>
 <body>
@@ -54,7 +55,5 @@
     @Scripts.Render("~/bundles/unobtrusive-jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
-
-    @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -7,7 +7,6 @@
     <div class="col-md-2">
         @Html.EnumDropDownListFor(x => x.Control, new { @class = "form-control controls" })
     </div>
-<<<<<<< HEAD
     <div class="col-md-4">
         @{
             var rand = new Random();
@@ -26,25 +25,5 @@
             name = "BlindsCount[" + rand.Next(0, int.MaxValue) + "]";
             @Html.TextBox("BlindsCount", 1, new { @class = "form-control counts", @type = "number", @Value = 1, Name = name })
         }
-=======
-    <div class="col-md-3">
-        @{
-            var rand = new Random();
-            string name = "Width[" + rand.Next(0, int.MaxValue) + "]";
-            @Html.TextBox("Width", new { @class = "form-control widths", @type = "number", Name = name })
-        }     
-    </div>
-    <div class="col-md-3">
-        @{
-            name = "Height[" + rand.Next(0, int.MaxValue) + "]";
-            @Html.TextBox("Height", new { @class = "form-control heights", @type = "number", Name = name })
-        }
-    </div>
-    <div class="col-md-1">
-        @{
-            name = "BlindsCount[" + rand.Next(0, int.MaxValue) + "]";
-            @Html.TextBox("BlindsCount", new { @class = "form-control counts", @type = "number", @Value = 1, Name = name })
-        } 
->>>>>>> 4fde653332c3d61702551e8c203f5de59d32d9a4
     </div>
 </div>

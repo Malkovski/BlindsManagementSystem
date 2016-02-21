@@ -17,8 +17,8 @@
     using Infrastructure.Mapping;
     using Kendo.Mvc.UI;
     using System.Data.Entity.Validation;
-
-    public class RailsModel : MenuModel, IModel<bool>, IMapFrom<Rail>, IMapTo<Rail>, IHaveCustomMappings, IDeletableEntity
+    using AutoMapper.QueryableExtensions;
+    public class RailsModel : AdminModel, IModel<bool>, IMapFrom<Rail>, IHaveCustomMappings, IDeletableEntity
     {
         public int Id { get; set; }
 
@@ -87,6 +87,7 @@
         public IEnumerable<RailsModel> Get()
         {
             return this.RepoFactory.Get<RailRepository>().GetActive()
+                .Project()
                 .To<RailsModel>()
                 .ToList();
         }
@@ -111,16 +112,15 @@
                 if (entity == null)
                 {
                     entity = new Rail();
+                    repo.Add(entity);
                 }
 
-                entity = this.Mapper.Map<RailsModel, Rail>(viewModel);
+                Mapper.Map(viewModel, entity);
 
                 try
                 {
-                    repo.Add(entity);
                     repo.SaveChanges();
                     viewModel.Id = entity.Id;
-                    return null;
                 }
                 catch (DbEntityValidationException e)
                 {
@@ -129,6 +129,8 @@
                         Errors = this.HandleDbEntityValidationException(e)
                     };
                 }
+
+                return null;
             }
             else
             {
@@ -156,7 +158,7 @@
         }
 
         // Mappings
-        public void CreateMappings(IMapperConfiguration configuration)
+        public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<Rail, RailsModel>()
                 .ForMember(s => s.BlindTypeName, opt => opt.MapFrom(u => u.BlindType.Name));

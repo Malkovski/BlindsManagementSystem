@@ -13,7 +13,7 @@
             @Html.Partial("_LogoPartial")
         </div>
         <div class="col-lg-10">
-            <h3 class="preview-blindtype-name">@Model.Pictures.Count() @Model.PicturesCount @Model.Name</h3>
+            <h3 class="preview-blindtype-name">@Model.Name</h3>
         </div>
     </div>
     <hr />
@@ -33,11 +33,11 @@
 </div>
 <div hidden data-action="picturesCount" data-pictures-count="@Model.Pictures.Count()"></div>
 <div id="gallery" class="preview-gallery-list text-center">
-    <div id="scroller" style="height: 400px; margin: 0 auto;">
-        <div class="innerScrollArea">
+    <div id="scroller" class="text-center">
+        <div class="innerScrollArea hidden">
             <ul>
                 @foreach (var picture in Model.Pictures)
-            {
+                {
                     <li><img src="data:image/jpeg; base64, @Convert.ToBase64String(picture.Content, Base64FormattingOptions.None)" alt="Image" width="120" class="galleryItem" /></li>
                 }
             </ul>

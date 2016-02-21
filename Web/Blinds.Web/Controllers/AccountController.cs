@@ -245,7 +245,13 @@
         {
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = model.UserName };
+                var user = new User {
+                    UserName = model.UserName,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Address = model.Address
+                };
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

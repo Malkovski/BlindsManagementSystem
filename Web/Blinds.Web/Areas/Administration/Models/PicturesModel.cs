@@ -17,8 +17,8 @@
     using AutoMapper;
     using System.IO;
     using System.Data.Entity.Validation;
-
-    public class PicturesModel : MenuModel, IModel<bool>, IMapFrom<Picture>, IMapTo<Picture>, IHaveCustomMappings, IDeletableEntity
+    using AutoMapper.QueryableExtensions;
+    public class PicturesModel : AdminModel, IModel<bool>, IMapFrom<Picture>, IHaveCustomMappings, IDeletableEntity
     {
         public int Id { get; set; }
 
@@ -68,6 +68,7 @@
         {
             return this.RepoFactory.Get<PictureRepository>()
                 .All()
+                .Project()
                 .To<PicturesModel>()
                 .ToList();
         }
@@ -77,6 +78,7 @@
             return this.RepoFactory.Get<PictureRepository>()
                 .All()
                 .Where(x => x.BlindTypeId == id)
+                .Project()
                 .To<PicturesModel>()
                 .ToList();
         }
@@ -86,6 +88,7 @@
             return this.RepoFactory.Get<PictureRepository>()
                 .All()
                 .Where(x => x.Id == id)
+                .Project()
                 .To<PicturesModel>()
                 .FirstOrDefault();
         }
@@ -160,7 +163,7 @@
         }
 
         // Mappings
-        public void CreateMappings(IMapperConfiguration configuration)
+        public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<Picture, PicturesModel>()
                 .ForMember(s => s.BlindTypeName, opt => opt.MapFrom(u => u.BlindType.Name));

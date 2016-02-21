@@ -18,5 +18,17 @@ namespace Blinds.Web.Models
         [Display(Name = "Потвърдете паролата")]
         [Compare("Password", ErrorMessage = "Паролите не съвпадат.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Име")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Фамилия")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Адрес")]
+        public string Address { get; set; }
     }
 }

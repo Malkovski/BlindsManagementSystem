@@ -22,5 +22,10 @@
         {
             return this.All().Where(r => r.Deleted == false);
         }
+
+        public IQueryable<Order> GetByUserId(string userId)
+        {
+            return this.GetActive().Where(o => o.UserId == userId);
+        }
     }
 }

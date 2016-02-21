@@ -6,32 +6,6 @@ textarea {
     resize: vertical;
 }
 
-#scroller {
-    position: relative;
-}
-
-    #scroller .innerScrollArea {
-        overflow: hidden;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-    }
-
-    #scroller ul {
-        padding: 0;
-        margin: 0;
-        position: relative;
-    }
-
-    #scroller li {
-        padding: 0;
-        margin: 0;
-        list-style-type: none;
-        position: absolute;
-    }
-
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -193,7 +167,7 @@ div.preview-image-container {
 }
 
 .preview-image {
-    height: 500px;
+    width: 500px;
 }
 
 .preview-info {
@@ -233,6 +207,8 @@ div.preview-image-container {
 
 #scroller {
     position: relative;
+    height: 400px; 
+    margin: 0 auto;
 }
 
     #scroller .innerScrollArea {
@@ -256,3 +232,17 @@ div.preview-image-container {
         list-style-type: none;
         position: absolute;
     }
+
+.top-buffer {
+    margin-top: 20px;
+}
+
+.div-hidden {
+    display: none;
+    overflow-y: scroll;
+    max-height: 294px;
+}
+
+.button-custom {
+    width: 100px;
+}

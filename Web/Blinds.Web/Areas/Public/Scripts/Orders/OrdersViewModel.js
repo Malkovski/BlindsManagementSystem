@@ -25,6 +25,7 @@ OrdersViewModel = {
         self.getRailColorsUrl = $('#getRailColors');
         self.getFabricAndLamelColorsUrl = $('#getFabricAndLamelColors');
         self.getFabricAndLamelMaterialsUrl = $('#getFabricAndLamelMaterials');
+        self.detailsUrl = $('#detailsUrl');
     },
 
     initValidation: function () {
@@ -174,7 +175,8 @@ OrdersViewModel = {
             heights,
             controls,
             counts,
-            onSuccess;
+            onSuccess,
+            onFail;
 
         if ($(self.form).valid()) {
             heights = _.map($('.heights'), function (item) {
@@ -214,15 +216,24 @@ OrdersViewModel = {
                 Blinds: blinds
             };
 
-            onSuccess = function (error) {
-                if (error) {
-                    alert(error);
+            onSuccess = function (result) {
+                if (result && result.Id) {
+                    window.location.href = self.detailsUrl.val() + '/' + result.Id;
+                } else {
+                    self.showError(result);
                 }
-                alert('saved');
             }
 
             self.model.save(url, params, onSuccess);
         }
+    },
+
+    showError: function (text) {
+        var $modalView = $('#errorModal'),
+            textMessage = $('#textMessage');
+
+        textMessage.text(text);
+        $modalView.modal();
     }
 };
 

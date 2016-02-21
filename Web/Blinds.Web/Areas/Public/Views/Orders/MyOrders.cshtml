@@ -1,1 +1,11 @@
-﻿
+﻿@using Blinds.Web.Areas.Public.Models;
+
+@model OrdersModel
+
+<h2>My orders</h2>
+
+
+@foreach (var order in Model.MyOrders)
+{
+    @Html.ActionLink(order.OrderNumber, "Index", "Details", new { id = order.Id }, null)
+}

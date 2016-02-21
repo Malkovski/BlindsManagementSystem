@@ -5,7 +5,9 @@
     using Kendo.Mvc.Extensions;
     using Kendo.Mvc.UI;
     using Web.Controllers;
+    using Common;
 
+    [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     public abstract class AdminController : BaseController
     {
         public AdminController()

@@ -10,6 +10,7 @@
 @Html.Hidden("getRailColors", @Url.Action("GetRailColors", "Orders"))
 @Html.Hidden("getFabricAndLamelColors", @Url.Action("GetFabricAndLamelColors", "Orders"))
 @Html.Hidden("getFabricAndLamelMaterials", @Url.Action("GetFabricAndLamelMaterials", "Orders"))
+@Html.Hidden("detailsUrl", @Url.Action("Index", "Details"))
 
 <form id="orderForm" data-save-url="@Url.Action("Save", "Orders")">
     @Html.AntiForgeryToken()
@@ -74,3 +75,20 @@
         </div>
     </div>
 </form>
+
+<div id="errorModal" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="modal-header-save">Грешка</h4>
+            </div>
+            <div class="modal-body">
+                <div id="textMessage" class="alert alert-warning"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Затвори</button>
+            </div>
+        </div>
+    </div>
+</div>

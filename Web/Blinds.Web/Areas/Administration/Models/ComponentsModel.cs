@@ -15,8 +15,9 @@
     using Infrastructure.Mapping;
     using Kendo.Mvc.UI;
     using System.Data.Entity.Validation;
+    using AutoMapper.QueryableExtensions;
 
-    public class ComponentsModel : MenuModel, IModel<bool>, IMapFrom<Component>, IMapTo<Component>,  IHaveCustomMappings, IDeletableEntity
+    public class ComponentsModel : AdminModel, IModel<bool>, IMapFrom<Data.Models.Component>, IHaveCustomMappings, IDeletableEntity
     {
         public int Id { get; set; }
 
@@ -80,7 +81,7 @@
         public IEnumerable<ComponentsModel> Get()
         {
             return this.RepoFactory.Get<ComponentRepository>().GetActive()
-                .To<ComponentsModel>()
+                .Project().To<ComponentsModel>()
                 .ToList();
         }
 
@@ -104,13 +105,13 @@
                 if (entity == null)
                 {
                     entity = new Data.Models.Component();
+                    repo.Add(entity);
                 }
 
-                entity = this.Mapper.Map<ComponentsModel, Data.Models.Component>(viewModel);
+                Mapper.Map(viewModel, entity);
 
                 try
                 {
-                    repo.Add(entity);
                     repo.SaveChanges();
                     viewModel.Id = entity.Id;
                     return null;
@@ -149,7 +150,7 @@
         }
 
         // Mappings
-        public void CreateMappings(IMapperConfiguration configuration)
+        public void CreateMappings(IConfiguration configuration)
         {
             configuration.CreateMap<Data.Models.Component, ComponentsModel>()
                 .ForMember(s => s.BlindTypeName, opt => opt.MapFrom(u => u.BlindType.Name));

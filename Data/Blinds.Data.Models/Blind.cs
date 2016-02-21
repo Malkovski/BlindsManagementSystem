@@ -12,7 +12,6 @@
     {
         public Blind()
         {
-            this.Components = new HashSet<Component>();
         }
 
         [Key]
@@ -28,8 +27,6 @@
 
         [Required]
         public Control Control { get; set; }
-
-        public IEnumerable<Component> Components { get; set; }
 
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = GlobalConstants.PriceMinValue)]

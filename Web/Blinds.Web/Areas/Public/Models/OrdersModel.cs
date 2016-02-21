@@ -10,7 +10,6 @@
     using System.Web.Mvc;
     using Data.Models.Enumerations;
     using Common;
-    using Kendo.Mvc.UI;
     using Microsoft.AspNet.Identity;
     using System.Web;
     using System.ComponentModel.DataAnnotations;
@@ -18,14 +17,9 @@
     using Proxies;
     using System.ComponentModel;
     using System.Transactions;
-
-    public class OrdersModel : MenuModel, IModel<bool>
+    using AutoMapper.QueryableExtensions;
+    public class OrdersModel : PublicModel, IModel<bool>
     {
-        public OrdersModel()
-        {
-            this.Blinds = new HashSet<BlindsModel>();
-        }
-
         public int Id { get; set; }
 
         [DisplayName(GlobalConstants.BlindTypeDisplay)]
@@ -41,8 +35,6 @@
 
         [DisplayName(GlobalConstants.OrdersDetailsInstalation)]
         public InstalationType InstalationType { get; set; }
-
-        public virtual ICollection<BlindsModel> Blinds { get; set; }
 
         public IEnumerable<SelectListItem> BlindTypes { get; set; }
 
@@ -62,6 +54,8 @@
         public IEnumerable<SelectListItem> FabricAndLamelMaterials { get; set; }
 
         public IEnumerable<SelectListItem> InstalationTypes { get; set; }
+
+        public IEnumerable<OrderProxy> MyOrders { get; set; }
 
         public void Init(bool init)
         {
@@ -140,22 +134,7 @@
             return result;
         }
 
-        public OrdersModel GetDetails(int id)
-        {
-            var repo = this.RepoFactory.Get<OrderRepository>();
-            var model = repo.GetActive()
-                .To<OrdersModel>()
-                .FirstOrDefault(x => x.Id == id);
-
-            model.BlindCategories = this.RepoFactory.Get<BlindTypeRepository>()
-                .GetActive()
-                .To<ProductsModel>()
-                .ToList();
-
-            return model;
-        }
-
-        public IEnumerable<OrdersModel> GetMyOrders(string userId)
+        public OrdersModel GetMyOrders(string userId)
         {
             if (userId == null)
             {
@@ -163,20 +142,21 @@
             }
 
             var repo = this.RepoFactory.Get<OrderRepository>();
-            return repo.GetActive()
-                .Where(x => x.UserId == userId)
-                .To<OrdersModel>()
+            this.MyOrders = repo.GetByUserId(userId)
+                .Project()
+                .To<OrderProxy>()
                 .ToList();
+
+            return this;
         }
 
-        public DataSourceResult Save(OrderProxy proxy, ModelStateDictionary modelState)
+        public object Save(OrderProxy proxy, ModelStateDictionary modelState)
         {
+            int entityId;
+
             if (proxy.Blinds.Any(b => b.Count == 0))
             {
-                return new DataSourceResult
-                {
-                    Errors = GlobalConstants.OrderBlindCountErrorMessage
-                };
+                return GlobalConstants.OrderBlindCountErrorMessage;
             }
 
             if (proxy != null && modelState.IsValid)
@@ -192,30 +172,21 @@
 
                     if (numberExist)
                     {
-                        return new DataSourceResult
-                        {
-                            Errors = GlobalConstants.OrderNumberExistsMessage
-                        };
+                        return GlobalConstants.OrderNumberExistsMessage;
                     }
 
                     var rail = this.RepoFactory.Get<RailRepository>().Get(proxy.BlindTypeId, (Color)proxy.RailColorId);
 
                     if (rail == null)
                     {
-                        return new DataSourceResult
-                        {
-                            Errors = GlobalConstants.GeneralRailError
-                        };
+                        return GlobalConstants.GeneralRailError;
                     }
 
                     var fabricAndLamel = this.RepoFactory.Get<FabricAndLamelRepository>().Get(proxy.BlindTypeId, (Color)proxy.FabricAndLamelColorId, (Material)proxy.FabricAndLamelMaterialId);
 
                     if (fabricAndLamel == null)
                     {
-                        return new DataSourceResult
-                        {
-                            Errors = GlobalConstants.GeneralMaterialError
-                        };
+                        return GlobalConstants.GeneralMaterialError;
                     }
 
                     Blind newBlind;
@@ -260,7 +231,6 @@
                                 totalArea += blind.Width * blind.Height / 1000000;
 
                                 blinds.Add(newBlind);
-                                blindrepo.Add(newBlind);
                                 blindrepo.SaveChanges();
                             }
                         }
@@ -275,19 +245,19 @@
                         entity.Blinds = blinds;
 
                         repo.SaveChanges();
-
+                        entityId = entity.Id;
                         transaction.Complete();
                     }
                 }
                 catch (DbEntityValidationException e)
                 {
-                    return new DataSourceResult
-                    {
-                        Errors = this.HandleDbEntityValidationException(e)
-                    };
+                    return this.HandleDbEntityValidationException(e);
                 }
 
-                return null;
+                return new
+                {
+                    Id = entityId
+                };
             }
             else
             {

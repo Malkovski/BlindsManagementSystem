@@ -5,6 +5,7 @@
     using System.Web.Mvc;
     using Web.Controllers;
 
+    [Authorize]
     public class OrdersController : BaseController
     {
         public ActionResult Index()
@@ -19,28 +20,17 @@
         }
 
         [HttpPost]
-        public ActionResult Save(OrderProxy proxy)
+        public JsonResult Save(OrderProxy proxy)
         {
-            var error = this.LoadModel<OrdersModel, bool>(true).Save(proxy, this.ModelState);
+            var result = this.LoadModel<OrdersModel, bool>(true).Save(proxy, this.ModelState);
 
-            if (error != null)
-            {
-                return this.Json(error);
-            }
-
-            return this.RedirectToAction("Details", new { id = proxy.Id});
-        }
-
-        public ActionResult Details(int id)
-        {
-            var model = this.LoadModel<OrdersModel, bool>(true).GetDetails(id);
-            return this.View(model);
+            return this.Json(result);
         }
 
         public ActionResult MyOrders(string userId)
         {
-            var result = this.LoadModel<OrdersModel, bool>(true).GetMyOrders(userId);
-            return this.View(result);
+            var model = this.LoadModel<OrdersModel, bool>(true).GetMyOrders(userId);
+            return this.View(model);
         }
 
         [HttpGet]

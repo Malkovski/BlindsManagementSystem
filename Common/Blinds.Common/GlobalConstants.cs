@@ -48,7 +48,6 @@
         public const string OrdersDetailsOwner = "Контрагент";
         public const string OrdersDetailsInstalation = "Тип монтаж";
         public const string OrdersDetailsShowBlindsButton = "Покажи размерите";
-        public const string OrdersDetailsHideBlindsButton = "Скрий  размерите";
         public const string OrdersDetailsExpeditionDate = "Дата на експедиция";
         public const string OrderNumberRequireText = "Номер е задължителен!";
         public const string OrderNumberExistsMessage = "Вече съществува Ваша поръчка с този номер!";

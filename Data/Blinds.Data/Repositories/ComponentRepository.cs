@@ -4,7 +4,7 @@
 
     using Blinds.Data.Models;
     using Microsoft.Practices.Unity;
-
+    using System.Collections.Generic;
     public class ComponentRepository : BaseRepository<Component>
     {
         [InjectionConstructor]
