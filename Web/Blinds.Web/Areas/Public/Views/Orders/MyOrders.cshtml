@@ -1,11 +1,45 @@
 ﻿@using Blinds.Web.Areas.Public.Models;
+@using Blinds.Common
+@using Kendo.Mvc.UI
 
-@model OrdersModel
+@model UserOrdersModel
 
-<h2>My orders</h2>
-
-
-@foreach (var order in Model.MyOrders)
-{
-    @Html.ActionLink(order.OrderNumber, "Index", "Details", new { id = order.Id }, null)
+@{
+    const string Controller = "Orders";
 }
+
+@section scripts {
+    <script type="text/javascript" src="@Url.Content("~/Areas/Public/Scripts/Orders/OrdersViewModel.js")"></script>
+}
+
+@Html.Hidden("detailsUrl", @Url.Action("Index", "Details"))
+
+@(Html.Kendo().Grid<UserOrdersModel>()
+    .Name("grid-my-orders")
+    .Columns(columns =>
+    {
+        columns.Bound(model => model.Number);
+        columns.Bound(model => model.BlindTypeName);
+        columns.Bound(model => model.ColorName);
+        columns.Bound(model => model.BlindCount);
+        columns.Command(command => 
+        command.Custom(GlobalConstants.ShowDetails)
+        .Click("showDetails"))
+        .Width(140);
+    })
+    .DataSource(data =>
+    {
+        data.Ajax()
+            .Model(m => m.Id(h => h.Id))
+            .PageSize(10)
+            .ServerOperation(true)
+            .Read(r => r.Action("Read", Controller));
+    }
+    )
+    .Sortable()
+    .Pageable(page => page.Refresh(true))
+    .Filterable()
+    .Groupable()
+    .Resizable(resize => resize.Columns(true)) 
+    .Selectable()
+)

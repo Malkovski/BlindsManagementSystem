@@ -253,6 +253,7 @@
     <Compile Include="Areas\Public\Models\OrdersModel.cs" />
     <Compile Include="Areas\Public\Models\ProductsModel.cs" />
     <Compile Include="Areas\Public\Models\PublicModel.cs" />
+    <Compile Include="Areas\Public\Models\UserOrdersModel.cs" />
     <Compile Include="Areas\Public\Proxies\BlindProxy.cs" />
     <Compile Include="Areas\Public\Proxies\ColorProxy.cs" />
     <Compile Include="Areas\Public\Proxies\DetailsProxy.cs" />
@@ -293,6 +294,7 @@
   <ItemGroup>
     <Content Include="Areas\Administration\Scripts\KendoGridHelpers.js" />
     <Content Include="Areas\Public\Scripts\Details\DetailsViewModel.js" />
+    <Content Include="Areas\Public\Scripts\Listing\ListOrdersModel.js" />
     <Content Include="Areas\Public\Scripts\Orders\OrdersViewModel.js" />
     <Content Include="Areas\Public\Scripts\Products\ProductsViewModel.js" />
     <Content Include="Content\bootstrap-datetimepicker.css" />

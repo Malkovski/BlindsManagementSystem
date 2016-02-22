@@ -18,6 +18,7 @@
     using System.Data.Entity.Validation;
     using AutoMapper.QueryableExtensions;
     using AutoMapper;
+
     public class BlindTypesModel : AdminModel, IMapFrom<BlindType>, IDeletableEntity
     {
         [HiddenInput(DisplayValue = false)]

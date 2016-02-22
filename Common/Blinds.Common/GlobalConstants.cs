@@ -119,6 +119,7 @@
         public const string Cancel = "Отказ";
         public const string GroupMessage = "Провлачете заглавие на колона тук, за да групирате по нея";
         public const string FileUploadText = "Избери изображение...";
+        public const string ShowDetails = "Преглед";
 
         // Database constraints
         public const string NameMinLength = "Името трябва да е поне 5 символа!";

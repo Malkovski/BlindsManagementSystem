@@ -1,7 +1,6 @@
 ﻿namespace Blinds.Web.Areas.Public.Models
 {
     using Data.Models;
-    using Infrastructure.Mapping;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -18,6 +17,9 @@
     using System.ComponentModel;
     using System.Transactions;
     using AutoMapper.QueryableExtensions;
+    using Infrastructure.Mapping;
+    using AutoMapper;
+
     public class OrdersModel : PublicModel, IModel<bool>
     {
         public int Id { get; set; }

@@ -1,5 +1,7 @@
 ﻿namespace Blinds.Web.Areas.Public.Controllers
 {
+    using Kendo.Mvc.Extensions;
+    using Kendo.Mvc.UI;
     using Models;
     using Proxies;
     using System.Web.Mvc;
@@ -20,6 +22,19 @@
         }
 
         [HttpPost]
+        public ActionResult Read([DataSourceRequest]DataSourceRequest request)
+        {
+            var result = this.LoadModel<UserOrdersModel, bool>(false).GetMine();
+            return this.Json(result.ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult ShowDetails([DataSourceRequest]DataSourceRequest request, UserOrdersModel model)
+        {
+            return this.RedirectToAction("Index", "Details", new { id = model.Id });
+        }
+
+        [HttpPost]
         public JsonResult Save(OrderProxy proxy)
         {
             var result = this.LoadModel<OrdersModel, bool>(true).Save(proxy, this.ModelState);
@@ -29,7 +44,7 @@
 
         public ActionResult MyOrders(string userId)
         {
-            var model = this.LoadModel<OrdersModel, bool>(true).GetMyOrders(userId);
+            var model = this.LoadModel<UserOrdersModel, bool>(true);
             return this.View(model);
         }
 
