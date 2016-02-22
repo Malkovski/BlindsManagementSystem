@@ -71,7 +71,7 @@
                     Text = c.Name
                 }).ToList();
 
-                blindTypes.Insert(0, new SelectListItem { Value = "", Text = GlobalConstants.OrderTypeDefaultDisplayText });
+                blindTypes.Insert(0, new SelectListItem { Value = string.Empty, Text = GlobalConstants.OrderTypeDefaultDisplayText });
 
                 this.BlindTypes = blindTypes;
 

@@ -242,9 +242,11 @@
     <Compile Include="Areas\Administration\Controllers\MenuController.cs" />
     <Compile Include="Areas\Administration\Controllers\FabricAndLamelsController.cs" />
     <Compile Include="Areas\Administration\Controllers\ComponentsController.cs" />
+    <Compile Include="Areas\Administration\Controllers\OrderController.cs" />
     <Compile Include="Areas\Administration\Controllers\PicturesController.cs" />
     <Compile Include="Areas\Administration\Controllers\RailsController.cs" />
     <Compile Include="Areas\Administration\Models\AdminModel.cs" />
+    <Compile Include="Areas\Administration\Models\OrderModel.cs" />
     <Compile Include="Areas\Administration\Models\PicturesModel.cs" />
     <Compile Include="Areas\Public\Controllers\DetailsController.cs" />
     <Compile Include="Areas\Public\Controllers\OrdersController.cs" />
@@ -259,6 +261,8 @@
     <Compile Include="Areas\Public\Proxies\DetailsProxy.cs" />
     <Compile Include="Areas\Public\Proxies\MaterialProxy.cs" />
     <Compile Include="Areas\Public\Proxies\OrderProxy.cs" />
+    <Compile Include="Infrastructure\Caching\HttpCacheService.cs" />
+    <Compile Include="Infrastructure\Caching\ICacheService.cs" />
     <Compile Include="Models\Base\BaseModel.cs" />
     <Compile Include="Areas\Administration\Models\FabricAndLamelsModel.cs" />
     <Compile Include="Areas\Administration\Models\BlindTypesModel.cs" />
@@ -486,6 +490,7 @@
     <Content Include="Areas\Public\Views\Orders\MyOrders.cshtml" />
     <Content Include="Areas\Public\Views\Shared\_SizeRowPartial.cshtml" />
     <Content Include="Areas\Public\Views\Details\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Order\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

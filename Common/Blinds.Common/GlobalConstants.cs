@@ -25,6 +25,7 @@
         public const string ComponentsControllerTitle = "Компоненти";
         public const string PicturesControllerTitle = "Галерия";
         public const string BlindTypesControllerTitle = "Видове щори";
+        public const string BlindsControllerTitle = "Щори";
 
         // User
         public const string Login = "Вход";
@@ -59,6 +60,10 @@
         public const string OrderColorDisplayText = "Цвят на щората";
         public const string OrderMaterialDisplayText = "Материал";
         public const string OrderTypeDefaultDisplayText = "Изберете вид...";
+        public const string MyOrdersTitleText = "Моите поръчки";
+        public const string OrderBlindCountText = "Брой щори";
+        public const string AddRowsText = "Добави ред";
+        public const string CreateNewOrder = "Запиши поръчката";
 
         // BlindType
         public const string BlindTypeDisplay = "Вид";

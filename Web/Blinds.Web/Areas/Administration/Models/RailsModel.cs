@@ -18,6 +18,7 @@
     using Kendo.Mvc.UI;
     using System.Data.Entity.Validation;
     using AutoMapper.QueryableExtensions;
+
     public class RailsModel : AdminModel, IModel<bool>, IMapFrom<Rail>, IHaveCustomMappings, IDeletableEntity
     {
         public int Id { get; set; }

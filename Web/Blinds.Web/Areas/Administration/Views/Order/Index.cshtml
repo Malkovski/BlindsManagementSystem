@@ -2,10 +2,10 @@
 @using Blinds.Common
 @using Kendo.Mvc.UI
 
-@model RailsModel
+@model OrderModel
 
 @{
-    const string Controller = "Rails";
+    const string Controller = "Order";
 }
 
 @section scripts {
@@ -14,27 +14,25 @@
 
 @Html.Partial("_AdminLinksPartial")
 
-<h2>@GlobalConstants.RailsControllerTitle</h2>
+<h2>@GlobalConstants.OrdersName</h2>
 
 @Html.AntiForgeryToken()
 
-@(Html.Kendo().Grid<RailsModel>()
+@(Html.Kendo().Grid<OrderModel>()
     .Name("grid-rails")
     .Columns(columns =>
     {
-        columns.Bound(model => model.BlindTypeName);
-        columns.Bound(model => model.ColorName);
-        columns.Bound(model => model.Quantity);
-        columns.Bound(model => model.Price);
+        columns.Bound(model => model.UserName);
+        columns.Bound(model => model.Number);
+        columns.Bound(model => model.OrderDate);
+        columns.Bound(model => model.ExpeditionDate);
+        columns.Bound(model => model.TotalPrice);
+        columns.Bound(model => model.BlindsCount);
         columns.Command(command =>
         {
-            command.Edit()
-                .UpdateText(GlobalConstants.Update)
-                .CancelText(GlobalConstants.Cancel)
-                .Text(GlobalConstants.EditLabel);
             command.Destroy()
                 .Text(GlobalConstants.Delete);
-        }).Width(240);
+        }).Width(150);
     })
     .DataSource(data =>
     {
@@ -43,18 +41,12 @@
             .PageSize(10)
             .ServerOperation(true)
             .Read(r => r.Action("Read", Controller).Data("sendAntiForgery"))
-            .Update(up => up.Action("Save", Controller).Data("sendAntiForgery"))
             .Destroy(del => del.Action("Destroy", Controller).Data("sendAntiForgery"))
-            .Create(create => create.Action("Save", Controller).Data("sendAntiForgery"))
             .Events(events => events.Sync("sync_handler").Error("onError"));
     }
     )
     .Sortable()
     .Pageable(page => page.Refresh(true))
-    .ToolBar(toolbar => toolbar.Create().Text(GlobalConstants.Create))
-    .Editable(
-                e => e.Mode(GridEditMode.PopUp).TemplateName("RailsTemplate").Window(w => w.Title(GlobalConstants.AddEditLabel).Width(450))
-            )
     .Filterable()
     .Groupable(g => g.Messages(x => x.Empty(GlobalConstants.GroupMessage)))
     .Resizable(resize => resize.Columns(true))

@@ -5,6 +5,7 @@ namespace Blinds.Web.App_Start
     using Microsoft.Practices.Unity.Configuration;
     using Blinds.Data.RepoFactory;
     using Blinds.Data;
+    using Infrastructure.Caching;
 
     /// <summary>
     /// Specifies the Unity configuration for the main container.
@@ -41,6 +42,7 @@ namespace Blinds.Web.App_Start
 
             container.RegisterType<IRepoFactory, MvcRepoFactory>();
             container.RegisterType<IBlindsDbContext, BlindsDbContext>();
+            container.RegisterType<ICacheService, HttpCacheService>();
         }
     }
 }

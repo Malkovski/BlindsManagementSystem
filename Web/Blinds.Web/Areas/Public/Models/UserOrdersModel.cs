@@ -18,8 +18,16 @@
     {
         public int Id { get; set; }
 
-        [DisplayName(GlobalConstants.OrderNumberDisplayText)]
         public string Number { get; set; }
+
+        [DisplayName(GlobalConstants.OrderNumberDisplayText)]
+        public string OrderNumber
+        {
+            get
+            {
+                return this.Number.Split('_')[0];
+            }
+        }
 
         public Color Color { get; set; }
 

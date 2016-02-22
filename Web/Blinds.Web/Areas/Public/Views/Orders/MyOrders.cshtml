@@ -14,11 +14,13 @@
 
 @Html.Hidden("detailsUrl", @Url.Action("Index", "Details"))
 
+<h2>@GlobalConstants.MyOrdersTitleText</h2>
+
 @(Html.Kendo().Grid<UserOrdersModel>()
     .Name("grid-my-orders")
     .Columns(columns =>
     {
-        columns.Bound(model => model.Number);
+        columns.Bound(model => model.OrderNumber);
         columns.Bound(model => model.BlindTypeName);
         columns.Bound(model => model.ColorName);
         columns.Bound(model => model.BlindCount);
@@ -38,8 +40,11 @@
     )
     .Sortable()
     .Pageable(page => page.Refresh(true))
-    .Filterable()
-    .Groupable()
+    .Filterable(f => f.Messages(x => x.And("И")))
+    .Filterable(f => f.Messages(x => x.Or("Или")))
+    .Filterable(f => f.Messages(x => x.Filter("Филтър")))
+    .Filterable(f => f.Messages(x => x.Clear("Отказ")))
+    .Groupable(g => g.Messages(x => x.Empty(GlobalConstants.GroupMessage)))
     .Resizable(resize => resize.Columns(true)) 
     .Selectable()
 )

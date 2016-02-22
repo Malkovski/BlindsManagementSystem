@@ -65,6 +65,7 @@
     </table>
     <button id="showBlinds" class="btn btn-sm btn-default">@GlobalConstants.OrdersDetailsShowBlindsButton</button>
     <div id="blindsTable" class="top-buffer div-hidden">
+        @Html.Partial("_BlindRowsPartial")
         @Html.DisplayFor(x => x.ViewModel.Blinds, "BlindDisplayTemplate")
     </div>
 </div>

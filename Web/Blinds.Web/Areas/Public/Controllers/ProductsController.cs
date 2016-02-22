@@ -15,7 +15,6 @@
 
         public PartialViewResult Details(int id)
         {
-
             var model = this.LoadModel<PicturesModel, bool>(false).GetById(id);
             return this.PartialView("_DetailedPicturePartial", model);
         }

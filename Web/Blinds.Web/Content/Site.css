@@ -168,6 +168,7 @@ div.preview-image-container {
 
 .preview-image {
     width: 500px;
+    height: 500px;
 }
 
 .preview-info {
@@ -207,7 +208,7 @@ div.preview-image-container {
 
 #scroller {
     position: relative;
-    height: 400px; 
+    height: 120px; 
     margin: 0 auto;
 }
 

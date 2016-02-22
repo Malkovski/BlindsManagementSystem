@@ -27,5 +27,10 @@
         {
             return this.GetActive().Where(o => o.UserId == userId);
         }
+
+        public bool GetIfExists(int id)
+        {
+            return this.GetActive().Where(o => o.Id == id).Any();
+        }
     }
 }

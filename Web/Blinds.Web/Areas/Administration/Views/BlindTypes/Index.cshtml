@@ -56,6 +56,7 @@
                 e => e.Mode(GridEditMode.PopUp).TemplateName("BlindTypesTemplate").Window(w => w.Title(GlobalConstants.AddEditLabel).Width(450))
             )
     .Filterable()
+    .Groupable(g => g.Messages(x => x.Empty(GlobalConstants.GroupMessage)))
     .Resizable(resize => resize.Columns(true))
     .Selectable()
 )

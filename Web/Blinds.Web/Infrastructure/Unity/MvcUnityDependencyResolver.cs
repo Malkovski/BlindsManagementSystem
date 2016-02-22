@@ -17,12 +17,14 @@
             this.unity = unity;
         }
 
-        public TModel LoadModel<TModel>() where TModel : IModel
+        public TModel LoadModel<TModel>()
+            where TModel : IModel
         {
             return this.unity.Resolve<TModel>();
         }
 
-        public TModel LoadModel<TModel, TData>() where TModel : IModel<TData>
+        public TModel LoadModel<TModel, TData>()
+            where TModel : IModel<TData>
         {
             return this.unity.Resolve<TModel>();
         }
@@ -34,7 +36,7 @@
 
         public void Dispose()
         {
-            unity.Registrations.Where(r => r.LifetimeManager is IDisposable)
+            this.unity.Registrations.Where(r => r.LifetimeManager is IDisposable)
                 .Select(r => r.LifetimeManager).OfType<IDisposable>().ToList().ForEach(m => m.Dispose());
         }
 

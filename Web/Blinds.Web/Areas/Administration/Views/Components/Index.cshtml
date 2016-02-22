@@ -37,7 +37,7 @@
                 .Text(GlobalConstants.EditLabel);
             command.Destroy()
                 .Text(GlobalConstants.Delete);
-        }).Width(500);
+        }).Width(240);
     })
     .DataSource(data =>
     {
@@ -53,13 +53,13 @@
     }
     )
     .Sortable()
-    .Groupable()
     .Pageable(page => page.Refresh(true))
     .ToolBar(toolbar => toolbar.Create().Text(GlobalConstants.Create))
     .Editable(
                 e => e.Mode(GridEditMode.PopUp).TemplateName("ComponentsTemplate").Window(w => w.Title(GlobalConstants.AddEditLabel).Width(450))
             )
     .Filterable()
+    .Groupable(g => g.Messages(x => x.Empty(GlobalConstants.GroupMessage)))
     .Resizable(resize => resize.Columns(true))
     .Selectable()
 )

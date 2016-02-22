@@ -1,4 +1,5 @@
 ﻿@using Blinds.Web.Areas.Public.Models
+@using Blinds.Common
 
 @model OrdersModel
 
@@ -63,14 +64,17 @@
         </div>
 
         <div id="sizesContainer">
+            <h4>Въведете размер</h4>
+            <hr />
             @Html.Partial("_BlindRowsPartial")
+            @Html.Partial("_SizeRowPartial")
         </div>
 
-        <button id="addBlindRow" type="button" class="btn btn-primary">Добави ред</button>
+        <button id="addBlindRow" type="button" class="btn btn-primary">@GlobalConstants.AddRowsText</button>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="Запиши поръчката" id="saveBtn" class="btn btn-default pull-right" />
+                <input type="button" value="@GlobalConstants.CreateNewOrder" id="saveBtn" class="btn btn-default pull-right" />
             </div>
         </div>
     </div>

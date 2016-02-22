@@ -18,6 +18,7 @@
     using System.IO;
     using System.Data.Entity.Validation;
     using AutoMapper.QueryableExtensions;
+
     public class PicturesModel : AdminModel, IModel<bool>, IMapFrom<Picture>, IHaveCustomMappings, IDeletableEntity
     {
         public int Id { get; set; }
@@ -75,12 +76,15 @@
 
         public IEnumerable<PicturesModel> GetByType(int id)
         {
-            return this.RepoFactory.Get<PictureRepository>()
+           return this.Cache.Get(
+           "Pictures_For_Type_" + id,
+           () => this.RepoFactory.Get<PictureRepository>()
                 .All()
                 .Where(x => x.BlindTypeId == id)
                 .Project()
                 .To<PicturesModel>()
-                .ToList();
+                .ToList(),
+            30);
         }
 
         public PicturesModel GetById(int id)

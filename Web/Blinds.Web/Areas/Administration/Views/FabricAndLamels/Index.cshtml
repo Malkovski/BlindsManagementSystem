@@ -35,7 +35,7 @@
                 .Text(GlobalConstants.EditLabel);
             command.Destroy()
                 .Text(GlobalConstants.Delete);
-        }).Width(250);
+        }).Width(240);
     })
     .DataSource(data =>
     {
@@ -57,6 +57,7 @@
                 e => e.Mode(GridEditMode.PopUp).TemplateName("FabricAndLamelsTemplate").Window(w => w.Title(GlobalConstants.AddEditLabel).Width(450))
             )
     .Filterable()
+    .Groupable(g => g.Messages(x => x.Empty(GlobalConstants.GroupMessage)))
     .Resizable(resize => resize.Columns(true))
     .Selectable()
 )
