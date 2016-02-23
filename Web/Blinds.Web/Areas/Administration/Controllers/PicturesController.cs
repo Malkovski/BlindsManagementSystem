@@ -48,12 +48,6 @@
             return jsonResult;
         }
 
-        public PartialViewResult ReadByType(int id)
-        {
-            var result = this.LoadModel<PicturesModel, bool>(false).GetByType(id);
-            return this.PartialView("_PicturesByTypePartial", result);
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Save([DataSourceRequest]DataSourceRequest request, PicturesModel viewModel)

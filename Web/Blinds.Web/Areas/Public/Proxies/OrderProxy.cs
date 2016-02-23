@@ -12,6 +12,8 @@
     {
         public int Id { get; set; }
 
+        public bool HasAgreedTerms { get; set; }
+
         public string OrderNumber { get; set; }
 
         public int BlindTypeId { get; set; }

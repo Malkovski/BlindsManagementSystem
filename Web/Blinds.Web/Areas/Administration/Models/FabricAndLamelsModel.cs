@@ -18,6 +18,7 @@
     using Kendo.Mvc.UI;
     using System.Data.Entity.Validation;
     using AutoMapper.QueryableExtensions;
+
     public class FabricAndLamelsModel : AdminModel, IMapFrom<FabricAndLamel>, IHaveCustomMappings, IModel<bool>, IDeletableEntity
     {
         [HiddenInput(DisplayValue = false)]

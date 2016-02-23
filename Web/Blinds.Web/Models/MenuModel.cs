@@ -27,8 +27,10 @@
 
             foreach (var eve in e.EntityValidationErrors)
             {
-                builder.AppendLine(string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                    eve.Entry.Entity.GetType().Name, eve.Entry.State));
+                builder.AppendLine(string.Format(
+                    "Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                    eve.Entry.Entity.GetType().Name,
+                    eve.Entry.State));
                 foreach (var ve in eve.ValidationErrors)
                 {
                     builder.AppendLine(string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage));

@@ -30,6 +30,10 @@ textarea {
         height: 450px;
     }
 
+    .logo-home img {
+        height: 500px;
+    }
+
 .down {
     margin-top: 15px;
 }
@@ -59,6 +63,10 @@ textarea {
 
 .menu a.galleryIcon {
     background: url(Images/GalleryIcon.jpg) no-repeat top;
+}
+
+.menu a.ordersIcon {
+    background: url(Images/OrdersIcon.jpg) no-repeat top;
 }
 
 .menu a.link {
@@ -246,4 +254,13 @@ div.preview-image-container {
 
 .button-custom {
     width: 100px;
+}
+
+.company-name {
+    font-family: xscale;
+    font-size: 70px;
+}
+
+.term-agree {
+    margin-top: 10px;
 }

@@ -71,11 +71,21 @@
         </div>
 
         <button id="addBlindRow" type="button" class="btn btn-primary">@GlobalConstants.AddRowsText</button>
+        <button id ="removeBlindRow" type="button" class="btn btn-danger">X</button>
+     
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="@GlobalConstants.CreateNewOrder" id="saveBtn" class="btn btn-default pull-right" />
+            <div class="row">
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-4 text-right term-agree">
+                    Прочетох, и съм съгласен/а с @Html.ActionLink(GlobalConstants.AgreeTermsText, "Terms", "Orders", null, null) @Html.CheckBoxFor(m => m.HasAgreedTerms)
+                </div>
+                <div class="col-md-2 pull-right">
+                    <input type="button" value="@GlobalConstants.CreateNewOrder" id="saveBtn" class="btn btn-default pull-right" />
+                </div>
             </div>
+            
         </div>
     </div>
 </form>

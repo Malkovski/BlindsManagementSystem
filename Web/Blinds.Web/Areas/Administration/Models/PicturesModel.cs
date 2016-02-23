@@ -67,34 +67,27 @@
 
         public IEnumerable<PicturesModel> Get()
         {
-            return this.RepoFactory.Get<PictureRepository>()
-                .All()
-                .Project()
-                .To<PicturesModel>()
-                .ToList();
-        }
-
-        public IEnumerable<PicturesModel> GetByType(int id)
-        {
-           return this.Cache.Get(
-           "Pictures_For_Type_" + id,
+            return this.Cache.Get(
+           "PicturesGallery",
            () => this.RepoFactory.Get<PictureRepository>()
                 .All()
-                .Where(x => x.BlindTypeId == id)
                 .Project()
                 .To<PicturesModel>()
                 .ToList(),
-            30);
+           30);
         }
 
         public PicturesModel GetById(int id)
         {
-            return this.RepoFactory.Get<PictureRepository>()
+            return this.Cache.Get(
+           "Picture_For_Type_" + id,
+           () => this.RepoFactory.Get<PictureRepository>()
                 .All()
                 .Where(x => x.Id == id)
                 .Project()
                 .To<PicturesModel>()
-                .FirstOrDefault();
+                .FirstOrDefault(),
+           30);
         }
 
         public DataSourceResult Save(PicturesModel viewModel, ModelStateDictionary modelState)

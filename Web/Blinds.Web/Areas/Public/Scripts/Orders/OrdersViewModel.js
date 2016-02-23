@@ -21,6 +21,7 @@ OrdersViewModel = {
 
         self.form = $('#orderForm');
         self.addButton = $('#addBlindRow');
+        self.removeButton = $('#removeBlindRow');
         self.saveButton = $('#saveBtn');
         self.sizesContainer = $('#sizesContainer');
         self.blindType = $('#BlindTypeId');
@@ -32,6 +33,7 @@ OrdersViewModel = {
         self.getFabricAndLamelColorsUrl = $('#getFabricAndLamelColors');
         self.getFabricAndLamelMaterialsUrl = $('#getFabricAndLamelMaterials');
         self.detailsUrl = $('#detailsUrl');
+        self.agreedTerms = $('#HasAgreedTerms');
     },
 
     initValidation: function () {
@@ -58,7 +60,7 @@ OrdersViewModel = {
         self.addCommonValidation();
     },
 
-    addCommonValidation: function() {
+    addCommonValidation: function () {
         $('[name^=Control]').each(function () {
             $(this).rules('add', {
                 required: true
@@ -85,6 +87,10 @@ OrdersViewModel = {
                 min: 1
             });
         });
+
+        $('#HasAgreedTerms').rules('add', {
+            required: true
+        });
     },
 
     initEvents: function () {
@@ -94,6 +100,10 @@ OrdersViewModel = {
             onSuccess;
 
         self.addButton.on('click', self.addNewRow);
+
+        self.removeButton.on('click', function () {
+            self.sizesContainer.children().last().remove();
+        })
 
         self.blindType.on('change', function () {
             self.loadRailColors($(this).val());
@@ -131,7 +141,9 @@ OrdersViewModel = {
         url = self.getRailColorsUrl.val();
 
         if (blindTypeId) {
-            self.model.get(url, { blindTypeId: blindTypeId }, function (response) {
+            self.model.get(url, {
+                blindTypeId: blindTypeId
+            }, function (response) {
                 self.railColors.empty();
                 $.each(response, function (index, element) {
                     self.railColors.append('<option value="' + element.Value + '">' + element.Text + '</option>');
@@ -146,14 +158,16 @@ OrdersViewModel = {
         url = self.getFabricAndLamelColorsUrl.val();
 
         if (blindTypeId) {
-            self.model.get(url, { blindTypeId: blindTypeId }, function (response) {
+            self.model.get(url, {
+                blindTypeId: blindTypeId
+            }, function (response) {
                 self.fabricAndLamelColors.empty();
                 $.each(response, function (index, element) {
                     self.fabricAndLamelColors.append('<option value="' + element.Value + '">' + element.Text + '</option>');
                 });
 
                 self.fabricAndLamelColors.trigger('change');
-            }); 
+            });
         }
     },
 
@@ -163,7 +177,9 @@ OrdersViewModel = {
         url = self.getFabricAndLamelMaterialsUrl.val();
 
         if (blindTypeId && colorId) {
-            self.model.get(url, { colorId: colorId, blindTypeId: blindTypeId }, function (response) {
+            self.model.get(url, {
+                colorId: colorId, blindTypeId: blindTypeId
+            }, function (response) {
                 self.fabricAndLamelMaterials.empty();
                 $.each(response, function (index, element) {
                     self.fabricAndLamelMaterials.append('<option value="' + element.Value + '">' + element.Text + '</option>');
@@ -182,7 +198,7 @@ OrdersViewModel = {
             controls,
             counts,
             onSuccess,
-            onFail;
+        onFail;
 
         if ($(self.form).valid()) {
             heights = _.map($('.heights'), function (item) {
@@ -260,7 +276,7 @@ OrdersModel = {
         $.ajax({ url: url, data: JSON.stringify(params), type: 'POST', contentType: 'application/json', dataType: 'json' })
             .done(onSuccessFunc)
             .fail(function () {
-                 alert('Грешка');
+                alert('Грешка');
             });
     },
 };

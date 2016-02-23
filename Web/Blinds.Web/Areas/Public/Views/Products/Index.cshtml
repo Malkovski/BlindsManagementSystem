@@ -30,13 +30,16 @@
             }
         </div>
     </div>
+    <div class="row">
+        <small>@Html.ActionLink(GlobalConstants.DownloadInstructionText, "DownloadInstruction", "Products", new { filename = "instruction.pdf"}, null)</small>
+    </div>
 </div>
 <div hidden data-action="picturesCount" data-pictures-count="@Model.Pictures.Count()"></div>
 <div id="gallery" class="preview-gallery-list text-center">
     <div id="scroller" class="text-center">
         <div class="innerScrollArea hidden">
             <ul>
-                @foreach (var picture in Model.Pictures)
+                @foreach (var picture in Model.AllPictures)
                 {
                     <li><img src="data:image/jpeg; base64, @Convert.ToBase64String(picture.Content, Base64FormattingOptions.None)" alt="Image" width="120" class="galleryItem" /></li>
                 }

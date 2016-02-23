@@ -1,9 +1,0 @@
-﻿@model IEnumerable<Blinds.Web.Areas.Administration.Models.PicturesModel>
-@using Blinds.Common
-
-<div>
-    @foreach (var model in Model)
-    {
-        @Html.ActionImage("Details", new { id = model.Id, area = "Public" }, "data:image/jpeg; base64," + Convert.ToBase64String(model.Content, Base64FormattingOptions.None), "Image", "120")
-    }
-</div>

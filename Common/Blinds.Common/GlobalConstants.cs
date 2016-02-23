@@ -64,6 +64,13 @@
         public const string OrderBlindCountText = "Брой щори";
         public const string AddRowsText = "Добави ред";
         public const string CreateNewOrder = "Запиши поръчката";
+        public const string AgreeTermsText = "Общите условия!";
+
+        // Products
+        public const string DownloadInstructionText = "Инструкция за употреба";
+        public const string BlindControlSideText = "Управление";
+        public const string BlindWidthText = "Хоризонтален размер (в мм.)";
+        public const string BlindHeigthText = "Вертикален размер (в мм.)";
 
         // BlindType
         public const string BlindTypeDisplay = "Вид";
@@ -147,5 +154,8 @@
         public const string GeneralDataError = "Грешка с данните";
         public const string GeneralRailError = "Грешка с данните за релси";
         public const string GeneralMaterialError = "Грешка с данните за материал";
+
+        // Others
+        public const string AboutUsText = "Blind Manufacture and Supply е създадена през 2015г. като търговска фирма, а година по-късно е подписан лицензен договор с световния лидер в областта на слънцезащитата - фирма Blind Depot. Съгласно договора Blind Manufacture and Supply получава правата да произвежда щори с материали машини и по технологиите на Blind Depot, както и да използва запазените и марки. Blind Manufacture and Supply продава своите продукти чрез собствените си магазини в София, Пловдив, Варна, Бургас и Смолян и в още 40 града чрез 85 представителства. Персоналът на фирмата е високо квалифициран и е преминал специално обучение в Blind Depo. Дългогодишният опит и отдаденост е основа за постигането на висок професионализъм в производството.В резултат на постоянния стремеж на екипа към постигане на най-високо качество при производството на щори, през 2016г.е внедрена система за управление на качеството съгласно международния стандарт ISO 9001:2000. Системата за качесво на Blind Manufacture and Supply е одобрена от международно признатата одиторска компания World Quality Assurance. През 2016г. фирмата е сертифицирана и по международния стандарт за Системи на управление на околната среда ISO 14001:2004 за производство на слънцезащитни прозоречни изделия.";
     }
 }

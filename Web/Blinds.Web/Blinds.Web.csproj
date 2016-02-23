@@ -298,7 +298,7 @@
   <ItemGroup>
     <Content Include="Areas\Administration\Scripts\KendoGridHelpers.js" />
     <Content Include="Areas\Public\Scripts\Details\DetailsViewModel.js" />
-    <Content Include="Areas\Public\Scripts\Listing\ListOrdersModel.js" />
+    <Content Include="Areas\Public\Scripts\Orders\MyOrdersHelper.js" />
     <Content Include="Areas\Public\Scripts\Orders\OrdersViewModel.js" />
     <Content Include="Areas\Public\Scripts\Products\ProductsViewModel.js" />
     <Content Include="Content\bootstrap-datetimepicker.css" />
@@ -309,11 +309,14 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.spacelab.css" />
     <Content Include="Content\bootstrap.spacelab.min.css" />
+    <Content Include="Content\images\BlindPackage.jpg" />
     <Content Include="Content\images\Components.jpg" />
     <Content Include="Content\images\Fabric.jpg" />
     <Content Include="Content\images\gallery.png" />
     <Content Include="Content\images\GalleryIcon.jpg" />
     <Content Include="Content\images\Logo.png" />
+    <Content Include="Content\images\Orders.jpg" />
+    <Content Include="Content\images\OrdersIcon.jpg" />
     <Content Include="Content\images\Rail.jpg" />
     <Content Include="Content\images\RailTypes.jpg" />
     <Content Include="Content\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
@@ -485,12 +488,16 @@
     <Content Include="Areas\Administration\Views\Shared\EditorTemplates\PicturesTemplate.cshtml" />
     <Content Include="Areas\Administration\Views\Shared\EditorTemplates\PictureUploadTemplate.cshtml" />
     <Content Include="Areas\Public\Views\Shared\_ProductGalleryPartial.cshtml" />
-    <Content Include="Areas\Administration\Views\Shared\_PicturesByTypePartial.cshtml" />
     <Content Include="Areas\Public\Views\Shared\_DetailedPicturePartial.cshtml" />
     <Content Include="Areas\Public\Views\Orders\MyOrders.cshtml" />
     <Content Include="Areas\Public\Views\Shared\_SizeRowPartial.cshtml" />
     <Content Include="Areas\Public\Views\Details\Index.cshtml" />
     <Content Include="Areas\Administration\Views\Order\Index.cshtml" />
+    <Content Include="Areas\Public\Files\instruction.pdf" />
+    <Content Include="Areas\Public\Views\Orders\Terms.cshtml" />
+    <Content Include="Areas\Public\Views\Shared\_BlindDetailPartial.cshtml" />
+    <None Include="Properties\PublishProfiles\BlindsManagementSystem - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\BlindsManagementSystem - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

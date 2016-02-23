@@ -24,6 +24,8 @@
 
         public ICollection<Picture> Pictures { get; set; }
 
+        public ICollection<Picture> AllPictures { get { return this.Pictures.Where(x => x.Deleted == false).ToList(); } }
+
         public void Init(int id)
         {
             this.Init();

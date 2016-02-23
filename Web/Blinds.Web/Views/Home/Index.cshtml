@@ -1,4 +1,77 @@
-﻿@{
+﻿@using Blinds.Common
+
+@{
     ViewBag.Title = "Home Page";
 }
 
+@helper EmailTextBox(string email, string title)
+{
+    <a href="mailto:@email">@title</a>
+}
+
+<div class="row text-center">
+    <h1 class="company-name">Blinds Manufacture & Supply&reg;</h1>
+</div>
+<div class="row text-center logo-home">
+    <div class="col-lg-4">
+        <p><i>официален представител на:</i></p>
+    </div>
+    <div class="col-lg-8">
+        @Html.Partial("_LogoPartial")
+    </div>
+</div>
+<div class="row">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#aboutUs" data-toggle="tab">За нас</a></li>
+        <li><a href="#contactUs" data-toggle="tab">Контакти</a></li>
+        <li><a href="#partners" data-toggle="tab">Партньори</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade active in" id="aboutUs">
+            <div class="row">
+                <div class="col-lg-11">
+                    @GlobalConstants.AboutUsText
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="contactUs">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div>София</div>
+                    <div>бул. Васил Левски 100</div>
+                    <div>Тел: 02 / 999 88 77</div>
+                    <div>Факс: 02 / 999 22 22</div>
+                    <div>Email: @EmailTextBox("sofia@bms.bg", "sofia@bms.bg")</div>
+                </div>
+                <div class="col-lg-3">
+                    <div>Пловдив</div>
+                    <div>бул. Христо Ботев 100</div>
+                    <div>Тел: 032 / 666 88 77</div>
+                    <div>Факс: 032 / 666 22 22</div>
+                    <div>Email: @EmailTextBox("plovdiv@bms.bg", "plovdiv@bms.bg")</div>
+                </div>
+                <div class="col-lg-3">
+                    <div>Варна</div>
+                    <div>бул. Иван Вазов 100</div>
+                    <div>Тел: 052 / 444 88 77</div>
+                    <div>Факс: 052 / 444 22 22</div>
+                    <div>Email: @EmailTextBox("varna@bms.bg", "varna@bms.bg")</div>
+                </div>
+                <div class="col-lg-3">
+                    <div>Бургас</div>
+                    <div>бул. Гео Милев 100</div>
+                    <div>Тел: 056 / 111 88 77</div>
+                    <div>Факс: 056 / 111 22 22</div>
+                    <div>Email: @EmailTextBox("bourgas@bms.bg", "bourgas@bms.bg")</div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="partners">
+            <p><a href="http://areximgarden.bg">areximgarden.bg</a></p>
+            <p><a href="http://kamax.bg">kamax.bg</a></p>
+            <p><a href="http://solis-bg.com">solis-bg.com</a></p>
+            <p><a href="http://rollplast.com">rollplast.com</a></p>
+            <p><a href="http://gershmanbg.com">gershmanbg.com</a></p>
+        </div>
+    </div>
+</div>

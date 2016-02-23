@@ -34,6 +34,12 @@
             return this.RedirectToAction("Index", "Details", new { id = model.Id });
         }
 
+        public ActionResult Terms()
+        {
+            var model = this.LoadModel<OrdersModel, bool>(true);
+            return this.View(model);
+        }
+
         [HttpPost]
         public JsonResult Save(OrderProxy proxy)
         {

@@ -33,6 +33,8 @@
         [DisplayName(GlobalConstants.OrderNumberDisplayText)]
         public string Number { get; set; }
 
+        public bool HasAgreedTerms { get; set; }
+
         public Control Control { get; set; }
 
         [DisplayName(GlobalConstants.OrdersDetailsInstalation)]
