@@ -1,24 +1,23 @@
 ﻿namespace Blinds.Web.Areas.Public.Models
 {
-    using Data.Models;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using Web.Models;
-    using Data.Repositories;
-    using System.Web.Mvc;
-    using Data.Models.Enumerations;
-    using Common;
-    using Microsoft.AspNet.Identity;
-    using System.Web;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.Data.Entity.Validation;
-    using Proxies;
-    using System.ComponentModel;
+    using System.Linq;
     using System.Transactions;
+    using System.Web;
+    using System.Web.Mvc;
+
     using AutoMapper.QueryableExtensions;
-    using Infrastructure.Mapping;
-    using AutoMapper;
+    using Common;
+    using Data.Models;
+    using Data.Models.Enumerations;
+    using Data.Repositories;
+    using Microsoft.AspNet.Identity;
+    using Proxies;
+    using Web.Models;
 
     public class OrdersModel : PublicModel, IModel<bool>
     {
@@ -168,6 +167,10 @@
                 try
                 {
                     var repo = this.RepoFactory.Get<OrderRepository>();
+                    var railRepo = this.RepoFactory.Get<RailRepository>();
+                    var fabricRepo = this.RepoFactory.Get<FabricAndLamelRepository>();
+                    var componentRepo = this.RepoFactory.Get<ComponentRepository>();
+
                     var loggedUserId = HttpContext.Current.User.Identity.GetUserId();
                     var numberPostfix = "__" + loggedUserId.Substring(0, 12);
                     var orderNumber = proxy.OrderNumber + numberPostfix;
@@ -179,14 +182,14 @@
                         return GlobalConstants.OrderNumberExistsMessage;
                     }
 
-                    var rail = this.RepoFactory.Get<RailRepository>().Get(proxy.BlindTypeId, (Color)proxy.RailColorId);
+                    var rail = railRepo.Get(proxy.BlindTypeId, (Color)proxy.RailColorId);
 
                     if (rail == null)
                     {
                         return GlobalConstants.GeneralRailError;
                     }
 
-                    var fabricAndLamel = this.RepoFactory.Get<FabricAndLamelRepository>().Get(proxy.BlindTypeId, (Color)proxy.FabricAndLamelColorId, (Material)proxy.FabricAndLamelMaterialId);
+                    var fabricAndLamel = fabricRepo.Get(proxy.BlindTypeId, (Color)proxy.FabricAndLamelColorId, (Material)proxy.FabricAndLamelMaterialId);
 
                     if (fabricAndLamel == null)
                     {
@@ -232,14 +235,14 @@
                                 };
 
                                 totalWidth += blind.Width / 1000;
-                                totalArea += blind.Width * blind.Height / 1000000;
+                                totalArea += (blind.Width * blind.Height) / 1000000;
 
                                 blinds.Add(newBlind);
                                 blindrepo.SaveChanges();
                             }
                         }
 
-                        var components = this.RepoFactory.Get<ComponentRepository>().GetByBlindType(proxy.BlindTypeId).ToList();
+                        var components = componentRepo.GetByBlindType(proxy.BlindTypeId).ToList();
 
                         fabricAndLamel.Quantity -= totalArea;
                         rail.Quantity -= totalWidth;
@@ -249,6 +252,9 @@
                         entity.Blinds = blinds;
 
                         repo.SaveChanges();
+                        railRepo.SaveChanges();
+                        fabricRepo.SaveChanges();
+                        componentRepo.SaveChanges();
                         entityId = entity.Id;
                         transaction.Complete();
                     }
@@ -304,8 +310,8 @@
                     {
                         if (component.HeigthBased && component.WidthBased)
                         {
-                            var wide = blind.Width < 1000 ? 1000 : (blind.Width / 1000);
-                            expence = (blind.Height * (component.DefaultAmount * wide)) / 1000;
+                            var wide = blind.Width < 1000 ? 1000 : blind.Width;
+                            expence = component.DefaultAmount * ((blind.Height * wide) / 1000000);
                         }
                         else if (component.HeigthBased)
                         {

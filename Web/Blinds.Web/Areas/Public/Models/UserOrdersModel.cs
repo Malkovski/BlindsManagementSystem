@@ -1,17 +1,18 @@
 ﻿namespace Blinds.Web.Areas.Public.Models
 {
-    using Blinds.Data.Models;
-    using Blinds.Web.Infrastructure.Mapping;
-    using Data.Models.Enumerations;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Web;
+
     using AutoMapper;
-    using Common;
-    using System.ComponentModel;
-    using Microsoft.AspNet.Identity;
-    using Data.Repositories;
     using AutoMapper.QueryableExtensions;
+    using Blinds.Data.Models;
+    using Blinds.Web.Infrastructure.Mapping;
+    using Common;
+    using Data.Models.Enumerations;
+    using Data.Repositories;
+    using Microsoft.AspNet.Identity;
     using Web.Models;
 
     public class UserOrdersModel : PublicModel, IModel<bool>, IMapFrom<Order>, IHaveCustomMappings
@@ -43,7 +44,7 @@
         [DisplayName(GlobalConstants.BlindTypeDisplay)]
         public string BlindTypeName { get; set; }
 
-        [DisplayName("Брой щори")]
+        [DisplayName(GlobalConstants.OrderBlindCountText)]
         public int BlindCount { get; set; }
 
         public void Init(bool data)

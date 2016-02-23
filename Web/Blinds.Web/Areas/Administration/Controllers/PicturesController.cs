@@ -1,12 +1,13 @@
 ﻿namespace Blinds.Web.Areas.Administration.Controllers
 {
+    using System.Collections.Generic;
+    using System.Web;
+    using System.Web.Mvc;
+
     using Base;
     using Kendo.Mvc.Extensions;
     using Kendo.Mvc.UI;
     using Models;
-    using System.Collections.Generic;
-    using System.Web;
-    using System.Web.Mvc;
 
     public class PicturesController : AdminController
     {

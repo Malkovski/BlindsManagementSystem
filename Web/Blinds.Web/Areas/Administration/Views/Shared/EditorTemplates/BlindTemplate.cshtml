@@ -1,0 +1,18 @@
+﻿@using Blinds.Web.Areas.Administration.Models
+@using Kendo.Mvc.UI
+
+@model BlindsModel
+
+<div class="kendo-form">
+    @using (Html.BeginForm())
+    {
+        <div class="form-horizontal">
+            <fieldset>
+                @Html.EditorFor(m => m.Control, new { ListItems = ViewBag.Controls })
+                @Html.EditorFor(m => m.Width)
+                @Html.EditorFor(m => m.Height)
+                @Html.EditorFor(m => m.OrderId)
+            </fieldset>
+        </div>
+    }
+</div>

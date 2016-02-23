@@ -17,8 +17,7 @@
             context.MapRoute(
                 "Administration_default",
                 "Administration/{controller}/{action}/{id}",
-                new { controller = "Menu", action = "Index", id = UrlParameter.Optional }
-            );
+                new { controller = "Menu", action = "Index", id = UrlParameter.Optional });
         }
     }
 }

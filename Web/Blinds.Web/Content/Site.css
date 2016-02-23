@@ -69,6 +69,10 @@ textarea {
     background: url(Images/OrdersIcon.jpg) no-repeat top;
 }
 
+.menu a.blindsIcon {
+    background: url(Images/BlindPackage.jpg) no-repeat top;
+}
+
 .menu a.link {
     text-decoration: none;
     color: black;

@@ -1,10 +1,11 @@
 ﻿namespace Blinds.Web.Areas.Administration.Controllers
 {
+    using System.Web.Mvc;
+
     using Base;
     using Kendo.Mvc.Extensions;
     using Kendo.Mvc.UI;
     using Models;
-    using System.Web.Mvc;
 
     public class OrderController : AdminController
     {

@@ -1,11 +1,10 @@
 ﻿namespace Blinds.Web.Areas.Public.Models
 {
     using System.Linq;
+    using System.Web.Mvc;
 
     using Blinds.Web.Models;
     using Common;
-
-    using System.Web.Mvc;
 
     public class PublicModel : MenuModel
     {

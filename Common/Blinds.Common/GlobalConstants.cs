@@ -39,6 +39,19 @@
         public const string ChangePassword = "Смяна на парола";
         public const string InvalidLoginAttempt = "Грешно потребителско име или парола";
         public const string CreateNewAccount = "Нов потребител";
+        public const string SignInNameText = "Потребител";
+        public const string UserNickText = "Потребителско име";
+        public const string Password = "Парола";
+        public const string CurrentPassword = "Текуща арола";
+        public const string NewPassword = "Нова парола";
+        public const string RememberMeText = "Запомни ме?";
+        public const string UserNameText = "Име";
+        public const string UserRepeatPassword = "Потвърдете паролата";
+        public const string UserRepeatNewPassword = "Потвърдете новата парола";
+        public const string UserPasswordNotmatchErrorMessage = "Паролите не съвпадат!";
+        public const string UserAddressText = "Адрес";
+        public const string UserLastNameText = "Фамилия";
+        public const string UserPasswordLengthErrorMessage = "Паролата трябва да бъде поне {2} символа.";
 
         // ViewModels
 
@@ -65,12 +78,16 @@
         public const string AddRowsText = "Добави ред";
         public const string CreateNewOrder = "Запиши поръчката";
         public const string AgreeTermsText = "Общите условия!";
+        public const string NewOrdersText = "Нова поръчка";
+        public const string MyOrdersText = "Моите поръчки";
 
         // Products
         public const string DownloadInstructionText = "Инструкция за употреба";
         public const string BlindControlSideText = "Управление";
         public const string BlindWidthText = "Хоризонтален размер (в мм.)";
         public const string BlindHeigthText = "Вертикален размер (в мм.)";
+        public const string BlindWidth = "Хоризонтал";
+        public const string BlindHeigth = "Вертикал";
 
         // BlindType
         public const string BlindTypeDisplay = "Вид";

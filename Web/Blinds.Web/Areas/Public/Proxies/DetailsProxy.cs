@@ -1,9 +1,10 @@
 ﻿namespace Blinds.Web.Areas.Public.Proxies
 {
-    using Common;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+
+    using Common;
 
     public class DetailsProxy
     {

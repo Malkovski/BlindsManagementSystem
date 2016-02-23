@@ -1,15 +1,16 @@
 ﻿namespace Blinds.Web.Models
 {
     using System.Collections.Generic;
-    using System.Linq;
-    using Base;
-    using Data.Repositories;
-    using Areas.Public.Models;
-    using Infrastructure.Mapping;
-    using Data.Models;
     using System.Data.Entity.Validation;
+    using System.Linq;
     using System.Text;
+
+    using Areas.Public.Models;
     using AutoMapper.QueryableExtensions;
+    using Base;
+    using Data.Models;
+    using Data.Repositories;
+    using Infrastructure.Mapping;
 
     public class MenuModel : BaseModel, IModel, IMapFrom<BlindType>
     {

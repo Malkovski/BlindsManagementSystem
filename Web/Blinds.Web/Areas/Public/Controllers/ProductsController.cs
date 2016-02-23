@@ -1,10 +1,12 @@
 ﻿namespace Blinds.Web.Areas.Public.Controllers
 {
-    using Web.Controllers;
-    using System.Web.Mvc;
-    using Models;
-    using Administration.Models;
     using System.IO;
+    using System.Web.Mvc;
+
+    using Administration.Models;
+    using Models;
+    using Web.Controllers;
+
     public class ProductsController : BaseController
     {
         public ActionResult Index(int id)

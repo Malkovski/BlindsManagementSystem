@@ -1,6 +1,7 @@
 ﻿namespace Blinds.Web.Areas.Public.Proxies
 {
     using System;
+
     using AutoMapper;
     using Blinds.Data.Models;
     using Blinds.Web.Infrastructure.Mapping;

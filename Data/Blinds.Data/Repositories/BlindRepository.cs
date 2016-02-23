@@ -23,5 +23,10 @@
             return this.All().Where(r => r.Deleted == false);
 
         }
+
+        public bool GetIfExists(int id)
+        {
+            return this.All().Any(x => x.Id == id);
+        }
     }
 }

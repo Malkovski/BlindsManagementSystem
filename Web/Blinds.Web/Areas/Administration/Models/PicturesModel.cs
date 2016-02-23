@@ -1,23 +1,24 @@
 ﻿namespace Blinds.Web.Areas.Administration.Models
 {
     using System;
-    using Blinds.Web.Models;
-    using Blinds.Contracts;
-    using Blinds.Web.Infrastructure.Mapping;
-    using Blinds.Data.Models;
-    using System.ComponentModel;
-    using Common;
-    using System.ComponentModel.DataAnnotations;
     using System.Collections.Generic;
-    using System.Web.Mvc;
-    using Data.Repositories;
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+    using System.Data.Entity.Validation;
+    using System.IO;
     using System.Linq;
     using System.Web;
-    using Kendo.Mvc.UI;
+    using System.Web.Mvc;
+
     using AutoMapper;
-    using System.IO;
-    using System.Data.Entity.Validation;
     using AutoMapper.QueryableExtensions;
+    using Blinds.Contracts;
+    using Blinds.Data.Models;
+    using Blinds.Web.Infrastructure.Mapping;
+    using Blinds.Web.Models;
+    using Common;
+    using Data.Repositories;
+    using Kendo.Mvc.UI;
 
     public class PicturesModel : AdminModel, IModel<bool>, IMapFrom<Picture>, IHaveCustomMappings, IDeletableEntity
     {

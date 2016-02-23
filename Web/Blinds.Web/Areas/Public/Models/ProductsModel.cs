@@ -1,12 +1,13 @@
 ﻿namespace Blinds.Web.Areas.Public.Models
 {
-    using Data.Models;
-    using Infrastructure.Mapping;
-    using Web.Models;
-    using Data.Repositories;
     using System.Collections.Generic;
     using System.Linq;
+
     using AutoMapper;
+    using Data.Models;
+    using Data.Repositories;
+    using Infrastructure.Mapping;
+    using Web.Models;
 
     public class ProductsModel : PublicModel, IMapFrom<BlindType>, IModel<int>, IHaveCustomMappings
     {

@@ -1,21 +1,22 @@
 ﻿namespace Blinds.Web.Areas.Administration.Models
 {
-    using Data.Models;
-    using Infrastructure.Mapping;
     using System;
     using System.Collections.Generic;
-    using Web.Models;
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Web.Mvc;
+
     using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+    using Common;
     using Contracts;
+    using Data.Models;
     using Data.Models.Enumerations;
     using Data.Repositories;
-    using System.Web.Mvc;
-    using System.Linq;
-    using Common;
-    using AutoMapper.QueryableExtensions;
+    using Infrastructure.Mapping;
     using Kendo.Mvc.UI;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel;
+    using Web.Models;
 
     public class OrderModel : AdminModel, IModel<bool>, IMapFrom<Order>, IHaveCustomMappings, IDeletableEntity
     {
@@ -25,11 +26,9 @@
         public string Number { get; set; }
 
         [DisplayName(GlobalConstants.OrdersDetailsDate)]
-        [UIHint("DateTime")]
         public DateTime OrderDate { get; set; }
 
         [DisplayName(GlobalConstants.OrdersDetailsExpeditionDate)]
-        [UIHint("DateTime")]
         public DateTime ExpeditionDate { get; set; }
 
         [DisplayName(GlobalConstants.OrdersDetailsInstalation)]

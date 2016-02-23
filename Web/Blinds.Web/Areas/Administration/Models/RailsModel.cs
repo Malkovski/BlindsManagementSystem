@@ -4,10 +4,12 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
+    using System.Data.Entity.Validation;
     using System.Linq;
     using System.Web.Mvc;
 
     using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using Blinds.Web.Models;
     using Common;
     using Contracts;
@@ -16,8 +18,6 @@
     using Data.Repositories;
     using Infrastructure.Mapping;
     using Kendo.Mvc.UI;
-    using System.Data.Entity.Validation;
-    using AutoMapper.QueryableExtensions;
 
     public class RailsModel : AdminModel, IModel<bool>, IMapFrom<Rail>, IHaveCustomMappings, IDeletableEntity
     {

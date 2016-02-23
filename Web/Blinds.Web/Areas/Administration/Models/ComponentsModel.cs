@@ -4,18 +4,18 @@
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
+    using System.Data.Entity.Validation;
     using System.Linq;
     using System.Web.Mvc;
 
     using AutoMapper;
-    using Web.Models;
+    using AutoMapper.QueryableExtensions;
     using Common;
     using Contracts;
     using Data.Repositories;
     using Infrastructure.Mapping;
     using Kendo.Mvc.UI;
-    using System.Data.Entity.Validation;
-    using AutoMapper.QueryableExtensions;
+    using Web.Models;
 
     public class ComponentsModel : AdminModel, IModel<bool>, IMapFrom<Data.Models.Component>, IHaveCustomMappings, IDeletableEntity
     {

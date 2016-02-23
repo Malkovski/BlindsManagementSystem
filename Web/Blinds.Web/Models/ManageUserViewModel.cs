@@ -1,23 +1,24 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Blinds.Web.Models
+﻿namespace Blinds.Web.Models
 {
+    using Blinds.Common;
+    using System.ComponentModel.DataAnnotations;
+
     public class ManageUserViewModel : MenuModel
     {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Текуща парола")]
+        [Display(Name = GlobalConstants.CurrentPassword)]
         public string OldPassword { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "Паролата трябва да бъде поне {2} символа", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = GlobalConstants.UserPasswordLengthErrorMessage, MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Нова парола")]
+        [Display(Name = GlobalConstants.NewPassword)]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Потвърдете новата парола")]
-        [Compare("NewPassword", ErrorMessage = "Паролите не съвпадат!")]
+        [Display(Name = GlobalConstants.UserRepeatNewPassword)]
+        [Compare("NewPassword", ErrorMessage = GlobalConstants.UserPasswordNotmatchErrorMessage)]
         public string ConfirmPassword { get; set; }
     }
 }

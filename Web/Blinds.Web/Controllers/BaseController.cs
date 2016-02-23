@@ -1,8 +1,9 @@
 ﻿namespace Blinds.Web.Controllers
 {
+    using System.Web.Mvc;
+
     using Infrastructure.Unity;
     using Models;
-    using System.Web.Mvc;
 
     public abstract class BaseController : Controller
     {

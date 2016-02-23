@@ -1,12 +1,12 @@
-﻿using System.Web.Mvc;
-
-namespace Blinds.Web.Areas.Public
+﻿namespace Blinds.Web.Areas.Public
 {
-    public class PublicAreaRegistration : AreaRegistration 
+    using System.Web.Mvc;
+
+    public class PublicAreaRegistration : AreaRegistration
     {
-        public override string AreaName 
+        public override string AreaName
         {
-            get 
+            get
             {
                 return "Public";
             }
@@ -17,14 +17,12 @@ namespace Blinds.Web.Areas.Public
             context.MapRoute(
                 name: "Details",
                 url: "Public/Details/{id}",
-                defaults: new { controller = "Details", action = "Index" }
-            );
+                defaults: new { controller = "Details", action = "Index" });
 
             context.MapRoute(
                 "Public_default",
                 "Public/{controller}/{action}/{id}",
-                new { action = "Index", id = UrlParameter.Optional }
-            );
+                new { action = "Index", id = UrlParameter.Optional });
         }
     }
 }

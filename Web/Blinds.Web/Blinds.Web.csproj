@@ -238,6 +238,7 @@
     <Compile Include="App_Start\ViewEnginesConfiguration.cs" />
     <Compile Include="Areas\Administration\AdministrationAreaRegistration.cs" />
     <Compile Include="Areas\Administration\Controllers\Base\AdminController.cs" />
+    <Compile Include="Areas\Administration\Controllers\BlindsController.cs" />
     <Compile Include="Areas\Administration\Controllers\BlindTypesController.cs" />
     <Compile Include="Areas\Administration\Controllers\MenuController.cs" />
     <Compile Include="Areas\Administration\Controllers\FabricAndLamelsController.cs" />
@@ -246,6 +247,7 @@
     <Compile Include="Areas\Administration\Controllers\PicturesController.cs" />
     <Compile Include="Areas\Administration\Controllers\RailsController.cs" />
     <Compile Include="Areas\Administration\Models\AdminModel.cs" />
+    <Compile Include="Areas\Administration\Models\BlindsModel.cs" />
     <Compile Include="Areas\Administration\Models\OrderModel.cs" />
     <Compile Include="Areas\Administration\Models\PicturesModel.cs" />
     <Compile Include="Areas\Public\Controllers\DetailsController.cs" />
@@ -496,6 +498,9 @@
     <Content Include="Areas\Public\Files\instruction.pdf" />
     <Content Include="Areas\Public\Views\Orders\Terms.cshtml" />
     <Content Include="Areas\Public\Views\Shared\_BlindDetailPartial.cshtml" />
+    <Content Include="Areas\Administration\Views\Blinds\Index.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\BlindTemplate.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\IntTemplate.cshtml" />
     <None Include="Properties\PublishProfiles\BlindsManagementSystem - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\BlindsManagementSystem - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -917,6 +922,12 @@
     <Content Include="Views\Shared\_MenuPartial.cshtml" />
     <Content Include="Views\Shared\_ProductPartial.cshtml" />
     <Content Include="Scripts\underscore.min.map" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

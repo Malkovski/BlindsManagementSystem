@@ -1,12 +1,13 @@
 ﻿namespace Blinds.Web.Areas.Public.Proxies
 {
-    using Data.Models;
-    using Infrastructure.Mapping;
     using System.Collections.Generic;
+    using System.ComponentModel;
+
     using AutoMapper;
     using Common;
-    using System.ComponentModel;
+    using Data.Models;
     using Data.Models.Enumerations;
+    using Infrastructure.Mapping;
 
     public class OrderProxy : IMapFrom<Order>, IHaveCustomMappings
     {

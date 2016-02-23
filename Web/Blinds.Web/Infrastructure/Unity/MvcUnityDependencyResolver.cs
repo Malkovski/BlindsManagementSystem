@@ -1,12 +1,13 @@
 ﻿namespace Blinds.Web.Infrastructure.Unity
 {
-    using Models;
-    using Microsoft.Practices.Unity;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
     using System.Web.Mvc.Async;
+
+    using Microsoft.Practices.Unity;
+    using Models;
 
     public class MvcUnityDependencyResolver : IDependencyResolver, IDisposable
     {

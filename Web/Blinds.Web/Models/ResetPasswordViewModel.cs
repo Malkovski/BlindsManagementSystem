@@ -1,22 +1,23 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace Blinds.Web.Models
 {
+    using Blinds.Common;
+    using System.ComponentModel.DataAnnotations;
+
     public class ResetPasswordViewModel
     {
         [Required]
-        [Display(Name = "Потребител")]
+        [Display(Name = GlobalConstants.SignInNameText)]
         public string UserName { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "Паролата трябва да бъде поне {2} символа", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = GlobalConstants.UserPasswordLengthErrorMessage, MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Парола")]
+        [Display(Name = GlobalConstants.Password)]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Потвърдете паролата")]
-        [Compare("Password", ErrorMessage = "Паролите не съвпадат")]
+        [Display(Name = GlobalConstants.UserRepeatPassword)]
+        [Compare("Password", ErrorMessage = GlobalConstants.UserPasswordNotmatchErrorMessage)]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

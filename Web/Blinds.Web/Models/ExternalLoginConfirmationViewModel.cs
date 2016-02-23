@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Blinds.Web.Models
+﻿namespace Blinds.Web.Models
 {
+    using Blinds.Common;
+    using System.ComponentModel.DataAnnotations;
+
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Потребител")]
+        [Display(Name = GlobalConstants.UserNameText)]
         public string UserName { get; set; }
     }
 }

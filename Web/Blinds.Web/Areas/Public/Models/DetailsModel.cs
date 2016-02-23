@@ -1,13 +1,13 @@
 ﻿namespace Blinds.Web.Areas.Public.Models
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Common;
+    using Data.Models;
     using Data.Repositories;
     using Proxies;
-    using Common;
     using Web.Models;
-    using System.Linq;
-    using Data.Models;
-    using System;
-    using System.Collections.Generic;
 
     public class DetailsModel : PublicModel, IModel<int>
     {
@@ -70,7 +70,7 @@
         private decimal GetPrice(Blind blind, decimal railPrice, decimal materialPrice, List<Component> components)
         {
             var railCost = railPrice * (blind.Width / 1000);
-            var materialCost = materialPrice * (blind.Width * blind.Height / 1000000);
+            var materialCost = materialPrice * ((blind.Width * blind.Height) / 1000000);
 
             decimal componentCost = 0;
             decimal expence = 0;
@@ -79,8 +79,8 @@
             {
                 if (component.HeigthBased && component.WidthBased)
                 {
-                    var wide = blind.Width < 1000 ? 1000 : (blind.Width / 1000);
-                    expence = (blind.Height * (component.DefaultAmount * wide)) / 1000;
+                    var wide = blind.Width < 1000 ? 1000 : blind.Width;
+                    expence = component.DefaultAmount * ((blind.Height * wide) / 1000000);
                 }
                 else if (component.HeigthBased)
                 {
@@ -99,7 +99,6 @@
             }
 
             var total = railCost + materialCost + componentCost;
-
 
             return total;
         }

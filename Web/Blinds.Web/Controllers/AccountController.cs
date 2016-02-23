@@ -7,12 +7,13 @@
     using System.Threading.Tasks;
     using System.Web;
     using System.Web.Mvc;
+
+    using Blinds.Common;
+    using Blinds.Data.Models;
+    using Blinds.Web.Models;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin.Security;
-    using Blinds.Web.Models;
-    using Blinds.Data.Models;
-    using Blinds.Common;
 
     [Authorize]
     public class AccountController : BaseController

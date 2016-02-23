@@ -5,8 +5,6 @@
 
     using Contracts;
     using Enumerations;
-    using Common;
-    using System.Collections.Generic;
 
     public class Blind : IDeletableEntity
     {
@@ -27,10 +25,6 @@
 
         [Required]
         public Control Control { get; set; }
-
-        [Required]
-        [Range(0, int.MaxValue, ErrorMessage = GlobalConstants.PriceMinValue)]
-        public decimal Price { get; set; }
 
         [Required]
         public int OrderId { get; set; }
