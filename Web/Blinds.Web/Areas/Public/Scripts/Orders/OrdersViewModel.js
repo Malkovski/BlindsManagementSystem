@@ -51,7 +51,8 @@ OrdersViewModel = {
                 RailColor: { required: true },
                 FabricAndLamelColor: { required: true },
                 FabricAndLamelMaterial: { required: true },
-                InstalationType: { required: true }
+                InstalationType: { required: true },
+                SizesRow: { required: true }
             },
             errorElement: 'div',
             errorClass: 'validation-error'
@@ -101,9 +102,7 @@ OrdersViewModel = {
 
         self.addButton.on('click', self.addNewRow);
 
-        self.removeButton.on('click', function () {
-            self.sizesContainer.children().last().remove();
-        })
+        self.removeButton.on('click', self.removeLastRow);
 
         self.blindType.on('change', function () {
             self.loadRailColors($(this).val());
@@ -133,6 +132,12 @@ OrdersViewModel = {
         };
 
         self.model.addNewRow(params, onSuccess);
+    },
+
+    removeLastRow: function () {
+        var self = OrdersViewModel;
+
+        self.sizesContainer.children('.sizesRow').last().remove();
     },
 
     loadRailColors: function (blindTypeId) {

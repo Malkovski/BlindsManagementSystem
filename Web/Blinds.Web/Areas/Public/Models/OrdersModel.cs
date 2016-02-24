@@ -157,19 +157,16 @@
         {
             int entityId;
 
-            if (proxy.Blinds.Any(b => b.Count == 0))
-            {
-                return GlobalConstants.OrderBlindCountErrorMessage;
-            }
-
             if (proxy != null && modelState.IsValid)
             {
                 try
                 {
+                    if (proxy.Blinds == null || proxy.Blinds.Any(b => b.Count == 0))
+                    {
+                        return GlobalConstants.OrderBlindCountErrorMessage;
+                    }
+
                     var repo = this.RepoFactory.Get<OrderRepository>();
-                    var railRepo = this.RepoFactory.Get<RailRepository>();
-                    var fabricRepo = this.RepoFactory.Get<FabricAndLamelRepository>();
-                    var componentRepo = this.RepoFactory.Get<ComponentRepository>();
 
                     var loggedUserId = HttpContext.Current.User.Identity.GetUserId();
                     var numberPostfix = "__" + loggedUserId.Substring(0, 12);
@@ -182,6 +179,7 @@
                         return GlobalConstants.OrderNumberExistsMessage;
                     }
 
+                    var railRepo = this.RepoFactory.Get<RailRepository>();
                     var rail = railRepo.Get(proxy.BlindTypeId, (Color)proxy.RailColorId);
 
                     if (rail == null)
@@ -189,6 +187,7 @@
                         return GlobalConstants.GeneralRailError;
                     }
 
+                    var fabricRepo = this.RepoFactory.Get<FabricAndLamelRepository>();
                     var fabricAndLamel = fabricRepo.Get(proxy.BlindTypeId, (Color)proxy.FabricAndLamelColorId, (Material)proxy.FabricAndLamelMaterialId);
 
                     if (fabricAndLamel == null)
@@ -242,6 +241,7 @@
                             }
                         }
 
+                        var componentRepo = this.RepoFactory.Get<ComponentRepository>();
                         var components = componentRepo.GetByBlindType(proxy.BlindTypeId).ToList();
 
                         fabricAndLamel.Quantity -= totalArea;
