@@ -20,22 +20,22 @@ Create, update, delete components for blind type.
 Create, update, delete already created blinds.
 ##Project architecture
 1. Web – based on MVC architecture
-* App_Start – configuration classes
-* Areas – Public and Administration
-* Content – CSS files used in project
-* Controllers – account and home controllers
-* Infrastructure – Mapping, Caching, IoC
-* Libraries – outer libraries used
-* Models – model classes for user functionality
-* Scripts – scripts used in the project
-* Views – Razor views
+	* App_Start – configuration classes
+	* Areas – Public and Administration
+	* Content – CSS files used in project
+	* Controllers – account and home controllers
+	* Infrastructure – Mapping, Caching, IoC
+	* Libraries – outer libraries used
+	* Models – model classes for user functionality
+	* Scripts – scripts used in the project
+	* Views – Razor views
 2. Data
-* Contracts – Holding Interfaces
-* Data – Holding the Repositories and Context classes and interfaces
-* Models – Holding classes for the database models
+	* Contracts – Holding Interfaces
+	* Data – Holding the Repositories and Context classes and interfaces
+	* Models – Holding classes for the database models
 3. Common
-* ExtensionMetods – methods helping the project workflow
-* GlobalConstants – string constants in Bulgarian
+	* ExtensionMetods – methods helping the project workflow
+	* GlobalConstants – string constants in Bulgarian
 
 
 
