@@ -240,7 +240,8 @@ OrdersViewModel = {
                 FabricAndLamelColorId: $('#FabricAndLamelColor').val(),
                 FabricAndLamelMaterialId: $('#FabricAndLamelMaterial').val(),
                 InstalationTypeId: $('#InstalationType').val(),
-                Blinds: blinds
+                Blinds: blinds,
+                __RequestVerificationToken: $('input[name=__RequestVerificationToken]').val()
             };
 
             onSuccess = function (result) {
