@@ -58,7 +58,7 @@
             }
             catch (ResolutionFailedException)
             {
-                System.Diagnostics.Debug.WriteLine(String.Format("Failed to resolve type: {0}", serviceType.FullName));
+                System.Diagnostics.Debug.WriteLine(string.Format("Failed to resolve type: {0}", serviceType.FullName));
                 // By definition of IDependencyResolver contract, this should return null if it cannot be found.
                 return null;
             }
