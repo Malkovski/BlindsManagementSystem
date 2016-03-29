@@ -39,6 +39,7 @@ namespace Blinds.Web.App_Start
             // container.LoadConfiguration();
 
             // TODO: Register your types here
+
             container.RegisterType<IRepoFactory, MvcRepoFactory>();
             container.RegisterType<IBlindsDbContext, BlindsDbContext>();
             container.RegisterType<ICacheService, HttpCacheService>();
