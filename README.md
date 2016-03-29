@@ -1,6 +1,6 @@
 #BlindsManagementSystem
 
-Live demo :http://http://blindsmanagementsystem.azurewebsites.net
+Live demo :http://employeesandpartnerssystem.apphb.com
 
 ####ASP.NET MVC project for small blinds manufacturer. 
 The project is designed to act as public website, advertising the products and provide option for selling them. It also manages the manufacture process to a certain level - calculating exact prices based on materials used, updating the amounts in stock and control the supplies available. The system automatically calculates material expense used and manufacture days needed for any order made.
